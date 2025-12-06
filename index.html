@@ -11,14 +11,14 @@ body {
   color:#e5e7eb;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   margin:0;
-  padding:16px;
+  padding:8px;
   display:flex;
   justify-content:center;
 }
 
 .calendar {
   width:100%;
-  max-width:900px;
+  max-width:850px;
 }
 
 /* HEADER ROW */
@@ -26,13 +26,13 @@ body {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  margin-bottom:4px;
+  gap:8px;
+  margin-bottom:2px;
 }
 
 .calendarSide {
-  width:160px;
-  font-size:11px;
+  width:150px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.16em;
   color:#9ca3af;
@@ -46,7 +46,7 @@ body {
 .calendarTitle {
   flex:1;
   text-align:center;
-  font-size:20px;              /* smaller header style */
+  font-size:18px;
   font-weight:600;
   letter-spacing:.18em;
   text-transform:uppercase;
@@ -56,10 +56,10 @@ body {
 /* MONTH BADGE ON RIGHT */
 .monthBadge {
   display:inline-block;
-  font-size:11px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.18em;
-  padding:4px 10px;
+  padding:3px 9px;
   border-radius:999px;
   background:rgba(250,204,21,0.18);
   border:1px solid rgba(250,204,21,0.7);
@@ -68,30 +68,30 @@ body {
 
 /* SUBTEXT UNDER HEADER */
 .calendarSub {
-  font-size:12px;
-  color:#9ca3af;
-  text-align:center;
-  margin-bottom:4px;
-}
-.calendarNote {
   font-size:11px;
   color:#9ca3af;
   text-align:center;
-  margin-bottom:10px;
+  margin-bottom:2px;
+}
+.calendarNote {
+  font-size:10px;
+  color:#9ca3af;
+  text-align:center;
+  margin-bottom:6px;
 }
 
 /* HEDASH INPUT BAR */
 .configBar {
   background:#020617;
-  border-radius:10px;
+  border-radius:8px;
   border:1px solid #111827;
-  padding:8px 10px;
-  margin-bottom:12px;
+  padding:6px 8px;
+  margin-bottom:8px;
   display:flex;
   flex-wrap:wrap;
   align-items:center;
-  gap:8px;
-  font-size:12px;
+  gap:6px;
+  font-size:11px;
 }
 .configLabel {
   color:#e5e7eb;
@@ -100,46 +100,46 @@ body {
   background:#020617;
   border:1px solid #1f2937;
   border-radius:6px;
-  padding:4px 6px;
+  padding:3px 5px;
   color:#e5e7eb;
-  font-size:12px;
+  font-size:11px;
 }
 .configHint {
-  font-size:11px;
+  font-size:10px;
   color:#9ca3af;
 }
 
 /* HEDASH PHOTO UPLOADER */
 .hedashUpload {
   background:#020617;
-  border-radius:10px;
+  border-radius:8px;
   border:1px solid #111827;
-  padding:10px 10px 8px;
-  margin-bottom:12px;
-  font-size:12px;
+  padding:8px 8px 6px;
+  margin-bottom:8px;
+  font-size:11px;
 }
 .hedashUpload-header {
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
-  gap:8px;
-  margin-bottom:6px;
+  gap:6px;
+  margin-bottom:4px;
 }
 .hedashUpload-title {
   font-weight:600;
 }
 .hedashUpload-hint {
-  font-size:11px;
+  font-size:10px;
   color:#9ca3af;
 }
 .uploadButton {
   display:inline-flex;
   align-items:center;
   gap:6px;
-  padding:5px 10px;
+  padding:4px 9px;
   border-radius:999px;
   border:1px solid rgba(148,163,184,0.8);
-  font-size:11px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.12em;
   cursor:pointer;
@@ -148,21 +148,21 @@ body {
   display:none;
 }
 .thumbGrid {
-  margin-top:8px;
+  margin-top:6px;
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:6px;
 }
 .thumbGrid .thumb {
   border:none;
   padding:0;
   background:transparent;
   cursor:pointer;
-  border-radius:8px;
+  border-radius:6px;
   overflow:hidden;
   border:1px solid #1f2937;
-  width:72px;
-  height:72px;
+  width:64px;
+  height:64px;
 }
 .thumbGrid .thumb img {
   width:100%;
@@ -194,10 +194,10 @@ body {
 .todayBanner {
   background:#0b1120;
   border:1px solid #1f2937;
-  border-radius:12px;
-  padding:10px 14px;
-  margin:0 auto 8px auto;
-  font-size:14px;
+  border-radius:10px;
+  padding:8px 10px;
+  margin:0 auto 6px auto;
+  font-size:13px;
   max-width:700px;
   text-align:center;
 }
@@ -205,9 +205,9 @@ body {
   font-weight:600;
 }
 .todayBanner-sub {
-  font-size:12px;
+  font-size:11px;
   color:#9ca3af;
-  margin-top:3px;
+  margin-top:2px;
 }
 .pillHighlight {
   display:inline-block;
@@ -216,7 +216,7 @@ body {
   background:rgba(250,204,21,0.2);
   border:1px solid rgba(250,204,21,0.7);
   color:#facc15;
-  font-size:11px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.08em;
 }
@@ -226,26 +226,26 @@ body {
   display:flex;
   justify-content:center;
   max-width:700px;
-  margin:0 auto 12px auto;
+  margin:0 auto 8px auto;
 }
 .speak-btn {
   border-radius:999px;
   border:1px solid rgba(56,189,248,0.7);
   background:radial-gradient(circle at top,rgba(56,189,248,0.2) 0%,#020617 80%);
   color:#e0f2fe;
-  font-size:12px;
-  padding:6px 14px;
+  font-size:11px;
+  padding:5px 13px;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   gap:6px;
 }
 .speak-btn span.icon {
-  width:10px;
-  height:10px;
+  width:9px;
+  height:9px;
   border-radius:999px;
   background:#38bdf8;
-  box-shadow:0 0 8px rgba(56,189,248,0.9);
+  box-shadow:0 0 6px rgba(56,189,248,0.9);
 }
 .speak-btn:disabled {
   opacity:.45;
@@ -257,24 +257,24 @@ body {
 /* HEDASH ROW */
 .hedashRow {
   background:#020617;
-  border-radius:10px;
+  border-radius:8px;
   border:1px solid #111827;
-  padding:10px;
-  margin-bottom:10px;
+  padding:8px;
+  margin-bottom:8px;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:10px;
+  gap:8px;
 }
 .hedashIcon {
-  font-size:26px;
+  font-size:24px;
 }
 .hedashText-main {
-  font-size:13px;
+  font-size:12px;
   font-weight:600;
 }
 .hedashText-sub {
-  font-size:11px;
+  font-size:10px;
   color:#9ca3af;
 }
 
@@ -282,11 +282,11 @@ body {
 .weekRow {
   display:flex;
   align-items:center;
-  gap:6px;
-  margin:8px 0;
+  gap:4px;
+  margin:6px 0;
   background:#020617;
-  padding:6px 8px;
-  border-radius:10px;
+  padding:4px 6px;
+  border-radius:8px;
   border:1px solid #111827;
 }
 
@@ -299,8 +299,8 @@ body {
 
 /* left week label column */
 .weekLabel {
-  width:70px;
-  font-size:11px;
+  width:60px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.12em;
   color:#9ca3af;
@@ -309,37 +309,37 @@ body {
 
 /* phase icons left/right */
 .phaseIcon {
-  width:32px;
+  width:26px;
   text-align:center;
-  font-size:20px;
+  font-size:18px;
 }
 
 /* day boxes */
 .dayRow {
   display:flex;
   flex:1;
-  gap:4px;
+  gap:3px;
 }
 
 .dayBox {
   flex:1;
   background:#111827;
-  border-radius:7px;
-  padding:6px 2px;
+  border-radius:6px;
+  padding:4px 1px;
   border:1px solid #1f2937;
-  font-size:11px;
+  font-size:10px;
   text-align:center;
   display:flex;
   flex-direction:column;
-  gap:2px;
+  gap:1px;
 }
 
 .dayLabel {
   font-weight:500;
-  font-size:11px;
+  font-size:10px;
 }
 .daySub {
-  font-size:10px;
+  font-size:9px;
   color:#9ca3af;
 }
 
@@ -363,24 +363,43 @@ body {
   color:#fef3c7;
 }
 
-/* LEGEND */
+/* LEGEND (inside collapsible) */
+.legendDetails {
+  margin-top:8px;
+  font-size:12px;
+}
+.legendDetails summary {
+  cursor:pointer;
+  list-style:none;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid #1f2937;
+  display:inline-block;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#e5e7eb;
+}
+.legendDetails summary::-webkit-details-marker {
+  display:none;
+}
 .legend {
-  margin-top:22px;
-  font-size:13px;
+  margin-top:8px;
+  font-size:12px;
   text-align:center;
 }
 
 .legendRow {
   display:inline-flex;
   flex-wrap:wrap;
-  gap:12px;
+  gap:10px;
   align-items:center;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .legendColor {
-  width:12px;
-  height:12px;
+  width:10px;
+  height:10px;
   border-radius:3px;
   border:1px solid #1f2937;
 }
@@ -395,18 +414,18 @@ body {
 
 /* moon phase legend row */
 .phaseLegendTitle {
-  font-size:11px;
+  font-size:10px;
   text-transform:uppercase;
   letter-spacing:.16em;
   color:#9ca3af;
-  margin-bottom:4px;
-  margin-top:4px;
+  margin-bottom:3px;
+  margin-top:3px;
 }
 
 .phaseLegendRow {
   display:flex;
   justify-content:space-between;
-  gap:6px;
+  gap:4px;
 }
 
 .phaseItem {
@@ -415,17 +434,17 @@ body {
 }
 
 .phaseItemIcon {
-  font-size:22px;
+  font-size:20px;
 }
 
 .phaseItemText {
-  font-size:11px;
+  font-size:10px;
   color:#9ca3af;
 }
 
 .calendarNoteBottom {
-  margin-top:8px;
-  font-size:11px;
+  margin-top:6px;
+  font-size:10px;
   color:#9ca3af;
 }
 
@@ -440,12 +459,12 @@ body {
     width:auto;
     white-space:normal;
   }
-  .weekRow { padding:6px 4px; gap:4px; }
-  .weekLabel { width:56px; font-size:10px; }
-  .dayBox { font-size:10px; padding:6px 1px; }
-  .dayLabel { font-size:10px; }
-  .daySub { font-size:9px; }
-  .phaseItemText { font-size:10px; }
+  .weekRow { padding:4px 3px; gap:3px; }
+  .weekLabel { width:52px; font-size:9px; }
+  .dayBox { font-size:9px; padding:4px 1px; }
+  .dayLabel { font-size:9px; }
+  .daySub { font-size:8px; }
+  .phaseItemText { font-size:9px; }
 }
 </style>
 </head>
@@ -464,21 +483,21 @@ body {
 
   <div class="calendarSub">Work Days &amp; Shabats According to the Path of Years</div>
   <div class="calendarNote">
-    Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle shown here runs from Day 1 (HEDASH) through the last Shabat.
+    Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
   </div>
 
   <!-- CONFIG BAR – HEDASH DATE INPUT -->
   <div class="configBar">
     <span class="configLabel">Confirmed HEDASH Date (Gregorian):</span>
     <input type="date" id="hedash-input" />
-    <span class="configHint">(Set the Renewed Moon sighting date. The calendar will calculate today’s week, work day, and Shabat.)</span>
+    <span class="configHint">(Set the Renewed Moon sighting date to activate the calendar.)</span>
   </div>
 
   <!-- HEDASH PHOTO UPLOADER -->
   <div class="hedashUpload">
     <div class="hedashUpload-header">
       <div class="hedashUpload-title">HEDASH Sighting Photos (Optional)</div>
-      <div class="hedashUpload-hint">Upload tonight’s Renewed Moon photo and click a thumbnail to enlarge.</div>
+      <div class="hedashUpload-hint">Upload tonight’s Renewed Moon and tap a thumbnail to enlarge.</div>
     </div>
     <label class="uploadButton">
       <span>Upload Photo(s)</span>
@@ -661,46 +680,49 @@ body {
         <div class="daySub">Day 29</div>
       </div>
     </div>
-    <!-- CHANGED: half moon → dark moon -->
+    <!-- Dark moon after Day 29 -->
     <div class="phaseIcon">🌑</div>
   </div>
 
-  <!-- LEGEND -->
-  <div class="legend">
-    <div class="legendRow">
-      <div class="legendColor work"></div><span>Work Day</span>
-      <div class="legendColor shabat"></div><span>Shabat</span>
-      <span>🌅 Sunset Boundary — Shabat from evening to evening</span>
-    </div>
+  <!-- LEGEND & NOTES (COLLAPSIBLE) -->
+  <details class="legendDetails">
+    <summary>Legend &amp; Notes</summary>
+    <div class="legend">
+      <div class="legendRow">
+        <div class="legendColor work"></div><span>Work Day</span>
+        <div class="legendColor shabat"></div><span>Shabat</span>
+        <span>🌅 Sunset Boundary — Shabat from evening to evening</span>
+      </div>
 
-    <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
-    <div class="phaseLegendRow">
-      <div class="phaseItem">
-        <div class="phaseItemIcon">🌒</div>
-        <div class="phaseItemText">HEDASH – Day 1</div>
+      <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
+      <div class="phaseLegendRow">
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌒</div>
+          <div class="phaseItemText">HEDASH – Day 1</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌓</div>
+          <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌕</div>
+          <div class="phaseItemText">Full Moon – 2nd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌗</div>
+          <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌘</div>
+          <div class="phaseItemText">Waning Crescent – 4th Week</div>
+        </div>
       </div>
-      <div class="phaseItem">
-        <div class="phaseItemIcon">🌓</div>
-        <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
-      </div>
-      <div class="phaseItem">
-        <div class="phaseItemIcon">🌕</div>
-        <div class="phaseItemText">Full Moon – 2nd Week</div>
-      </div>
-      <div class="phaseItem">
-        <div class="phaseItemIcon">🌗</div>
-        <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
-      </div>
-      <div class="phaseItem">
-        <div class="phaseItemIcon">🌘</div>
-        <div class="phaseItemText">Waning Crescent – 4th Week</div>
-      </div>
-    </div>
 
-    <div class="calendarNoteBottom">
-      In a 29-day month, HEDASH appears after the last Shabat (Day 29). In a 30-day month, the extra day is a waiting day until the Renewed Moon is seen.
+      <div class="calendarNoteBottom">
+        In a 29-day month HEDASH appears after the last Shabat (Day 29). In a 30-day month, the extra day is a waiting day until the Renewed Moon is seen.
+      </div>
     </div>
-  </div>
+  </details>
 
 </div>
 
@@ -902,13 +924,12 @@ speakBtn.addEventListener("click", () => {
     const text = parts[index];
 
     const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.9;   // a bit faster than before
-    utter.pitch = 0.95; // slightly deeper
+    utter.rate = 0.9;
+    utter.pitch = 0.95;
     utter.lang = "en-US";
 
     utter.onend = () => {
       index++;
-      // slightly shorter pause between phrases
       setTimeout(speakNext, 200);
     };
 
