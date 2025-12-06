@@ -1,1 +1,16 @@
+{
+  "name": "Kingdom Calendar – Path of Years",
+  "short_name": "Kingdom Calendar",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}
 
