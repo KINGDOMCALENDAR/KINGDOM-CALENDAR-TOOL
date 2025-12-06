@@ -98,7 +98,8 @@
   .configLabel {
     color:#e5e7eb;
   }
-  .configBar input[type="date"] {
+  .configBar input[type="date"],
+  .configBar select {
     background:#020617;
     border:1px solid #1f2937;
     border-radius:6px;
@@ -407,11 +408,26 @@
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
   </div>
 
-  <!-- CONFIG BAR – HEDASH DATE INPUT -->
+  <!-- CONFIG BAR – HEDASH DATE INPUT + MONTH SELECT -->
   <div class="configBar">
     <span class="configLabel">Confirmed HEDASH Date (Gregorian):</span>
     <input type="date" id="hedash-input" />
-    <span class="configHint">(Set the Renewed Moon sighting date to activate the calendar.)</span>
+    <span class="configLabel">Month:</span>
+    <select id="month-select">
+      <option value="1">1st – Abayab</option>
+      <option value="2">2nd Month</option>
+      <option value="3">3rd Month</option>
+      <option value="4">4th Month</option>
+      <option value="5">5th Month</option>
+      <option value="6">6th Month</option>
+      <option value="7">7th Month</option>
+      <option value="8">8th Month</option>
+      <option value="9">9th Month</option>
+      <option value="10">10th Month</option>
+      <option value="11">11th Month</option>
+      <option value="12" selected>12th Month</option>
+    </select>
+    <span class="configHint">(Set the Renewed Moon sighting date and which month this is.)</span>
   </div>
 
   <!-- HEDASH = DAY 1 OF MONTH -->
@@ -635,7 +651,38 @@
 </div>
 
 <script>
-  // ---- Utility: Ordinal word mapping ----
+  // ---- Month names & labels ----
+  const monthNameDisplay = {
+    1: "YAHUAH’S FIRST MONTH — ABAYAB",
+    2: "YAHUAH’S SECOND MONTH",
+    3: "YAHUAH’S THIRD MONTH",
+    4: "YAHUAH’S FOURTH MONTH",
+    5: "YAHUAH’S FIFTH MONTH",
+    6: "YAHUAH’S SIXTH MONTH",
+    7: "YAHUAH’S SEVENTH MONTH",
+    8: "YAHUAH’S EIGHTH MONTH",
+    9: "YAHUAH’S NINTH MONTH",
+    10:"YAHUAH’S TENTH MONTH",
+    11:"YAHUAH’S ELEVENTH MONTH",
+    12:"YAHUAH’S TWELFTH MONTH"
+  };
+
+  const monthBadgeLabels = {
+    1: "1st Month — Abayab",
+    2: "2nd Month",
+    3: "3rd Month",
+    4: "4th Month",
+    5: "5th Month",
+    6: "6th Month",
+    7: "7th Month",
+    8: "8th Month",
+    9: "9th Month",
+    10:"10th Month",
+    11:"11th Month",
+    12:"12th Month"
+  };
+
+  // Ordinal word mapping
   const ordinalWeekWords = {
     1: "FIRST",
     2: "SECOND",
@@ -660,24 +707,50 @@
     27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
   };
 
-  // ---- Get elements ----
+  // DOM elements
   const hedashInput = document.getElementById("hedash-input");
+  const monthSelect = document.getElementById("month-select");
   const todayMain = document.getElementById("today-main");
   const todaySub = document.getElementById("today-sub");
   const speakBtn = document.getElementById("speakBtn");
+  const monthBadgeEl = document.getElementById("month-badge");
 
   let lastVoiceText = "";
 
-  // restore saved hedash date if present
+  // Restore saved settings
   const savedHedash = localStorage.getItem("hedashDate");
-  if (savedHedash) {
-    hedashInput.value = savedHedash;
+  if (savedHedash) hedashInput.value = savedHedash;
+
+  const savedMonth = localStorage.getItem("kingdomMonthNumber");
+  if (savedMonth) {
+    monthSelect.value = savedMonth;
   }
 
+  function getCurrentMonthNumber() {
+    const n = parseInt(monthSelect.value, 10);
+    return (!isNaN(n) && n >= 1 && n <= 12) ? n : 12;
+  }
+
+  function updateMonthBadge() {
+    const monthNum = getCurrentMonthNumber();
+    monthBadgeEl.textContent = monthBadgeLabels[monthNum] || "Month";
+  }
+  updateMonthBadge();
+
+  // Event handlers
   hedashInput.addEventListener("change", () => {
     if (hedashInput.value) {
       localStorage.setItem("hedashDate", hedashInput.value);
+    } else {
+      localStorage.removeItem("hedashDate");
     }
+    updateCalendar();
+  });
+
+  monthSelect.addEventListener("change", () => {
+    const monthNum = getCurrentMonthNumber();
+    localStorage.setItem("kingdomMonthNumber", String(monthNum));
+    updateMonthBadge();
     updateCalendar();
   });
 
@@ -695,58 +768,70 @@
     speakBtn.disabled = !lastVoiceText;
   }
 
-  // Convert display text into phonetic text for speech only
-  function toPhonetic(text) {
-    let t = text;
+ function toPhonetic(text) {
+  let t = text;
 
-    // Handle possessive forms first (both curly and straight apostrophes)
-    t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
-    t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+  // Handle possessive forms first (both curly and straight apostrophes)
+  t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
+  t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
 
-    // Plain Name
-    t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+  // Plain Name
+  t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
 
-    // Shabat pronunciation -> SHABOT
-    t = t.replace(/SHABAT/gi, "SHABOT");
+  // Abayab -> AbbayoB (spoken)
+  t = t.replace(/ABAYAB/gi, "ABA YOB");
 
-    return t;
-  }
+  // Shabat pronunciation -> SHABOT
+  t = t.replace(/SHABAT/gi, "SHABOT");
 
-  // ---- Main update function ----
+  return t;
+}
+
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
 
     const hedashValue = hedashInput.value;
+    const currentMonth = getCurrentMonthNumber();
+    const monthName = monthNameDisplay[currentMonth] || "YAHUAH’S MONTH";
+
     if (!hedashValue) {
-      todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
-      todaySub.textContent = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
+      todayMain.textContent =
+        "Set the HEDASH date above to activate the Kingdom Calendar.";
+      todaySub.textContent =
+        "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
       return;
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
     const now = new Date();
+
     const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
-    const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // Preview future HEDASH as Day 1
+    if (todayMid < hedashMid) {
+      todayMid = hedashMid;
+    }
+
     const diffMs = todayMid - hedashMid;
     const dayOffset = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
 
-    if (dayOfMonth < 1) {
-      todayMain.textContent = "Today is before the selected HEDASH date.";
-      todaySub.textContent = "Adjust the Renewed Moon date if needed.";
-      return;
-    }
     if (dayOfMonth > 30) {
-      todayMain.textContent = "Today is beyond the 30th day from the selected HEDASH.";
-      todaySub.textContent = "Confirm the next HEDASH to begin the new month.";
+      todayMain.textContent =
+        `TODAY IS BEYOND THE THIRTIETH DAY FROM THIS HEDASH — CONFIRM THE NEXT HEDASH TO BEGIN ${monthName}.`;
+      todaySub.textContent =
+        "Once the next Renewed Moon is confirmed, enter that date above to begin the new month.";
       return;
     }
 
     if (dayOfMonth === 1) {
-      const mainText = "TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S MONTH, ACCORDING TO THE PATH OF YEARS.";
+      const mainText =
+        `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
       todayMain.textContent = mainText;
-      todaySub.innerHTML = '<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.';
+      todaySub.innerHTML =
+        `<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for ${monthName}.`;
       setVoiceText(mainText);
       return;
     }
@@ -755,15 +840,12 @@
     const weekNumber = Math.floor(offsetFromDay2 / 7) + 1;
     const positionInWeek = offsetFromDay2 % 7;
     const isShabat = (positionInWeek === 6);
+
     const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
-    if (weekRow) {
-      weekRow.classList.add("highlight-week");
-    }
+    if (weekRow) weekRow.classList.add("highlight-week");
 
     const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
-    if (dayBox) {
-      dayBox.classList.add("highlight-day");
-    }
+    if (dayBox) dayBox.classList.add("highlight-day");
 
     const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
     const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
@@ -776,7 +858,8 @@
         ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
         : null;
       const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
-      mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+      mainText =
+        `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
         `<span class="pillHighlight">${weekWord} Week</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
@@ -784,7 +867,8 @@
     } else {
       const workDayNumber = positionInWeek + 1;
       const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
-      mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+      mainText =
+        `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
         `<span class="pillHighlight">${weekWord} Week</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
@@ -796,7 +880,6 @@
     setVoiceText(mainText);
   }
 
-  // Voice button handler
   speakBtn.addEventListener("click", () => {
     if (!lastVoiceText) return;
     if (!("speechSynthesis" in window)) {
