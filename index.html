@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kingdom Calendar – Path of Years</title>
+
+<style>
+body {
+  background:#020617;
+  color:#e5e7eb;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  margin:0;
+  padding:16px;
+  display:flex;
+  justify-content:center;
+}
+
+.calendar {
+  width:100%;
+  max-width:900px;
+}
+
+/* HEADER ROW */
+.calendarHeader {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:4px;
+}
+
+.calendarSide {
+  width:160px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:#9ca3af;
+  white-space:nowrap;
+}
+
+.calendarRef {
+  text-align:left;
+}
+
+.calendarTitle {
+  flex:1;
+  text-align:center;
+  font-size:20px;              /* smaller header style */
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#fef9c3;
+}
+
+/* MONTH BADGE ON RIGHT */
+.monthBadge {
+  display:inline-block;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(250,204,21,0.18);
+  border:1px solid rgba(250,204,21,0.7);
+  color:#facc15;
+}
+
+/* SUBTEXT UNDER HEADER */
+.calendarSub {
+  font-size:12px;
+  color:#9ca3af;
+  text-align:center;
+  margin-bottom:4px;
+}
+.calendarNote {
+  font-size:11px;
+  color:#9ca3af;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+/* HEDASH INPUT BAR */
+.configBar {
+  background:#020617;
+  border-radius:10px;
+  border:1px solid #111827;
+  padding:8px 10px;
+  margin-bottom:12px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+}
+.configLabel {
+  color:#e5e7eb;
+}
+.configBar input[type="date"] {
+  background:#020617;
+  border:1px solid #1f2937;
+  border-radius:6px;
+  padding:4px 6px;
+  color:#e5e7eb;
+  font-size:12px;
+}
+.configHint {
+  font-size:11px;
+  color:#9ca3af;
+}
+
+/* HEDASH PHOTO UPLOADER */
+.hedashUpload {
+  background:#020617;
+  border-radius:10px;
+  border:1px solid #111827;
+  padding:10px 10px 8px;
+  margin-bottom:12px;
+  font-size:12px;
+}
+.hedashUpload-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:8px;
+  margin-bottom:6px;
+}
+.hedashUpload-title {
+  font-weight:600;
+}
+.hedashUpload-hint {
+  font-size:11px;
+  color:#9ca3af;
+}
+.uploadButton {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(148,163,184,0.8);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  cursor:pointer;
+}
+.uploadButton input[type="file"] {
+  display:none;
+}
+.thumbGrid {
+  margin-top:8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.thumbGrid .thumb {
+  border:none;
+  padding:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid #1f2937;
+  width:72px;
+  height:72px;
+}
+.thumbGrid .thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ENLARGED IMAGE MODAL */
+.imageModal {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+.imageModal.show {
+  display:flex;
+}
+.imageModal img {
+  max-width:90%;
+  max-height:90%;
+  border-radius:14px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.8);
+}
+
+/* TODAY BANNER */
+.todayBanner {
+  background:#0b1120;
+  border:1px solid #1f2937;
+  border-radius:12px;
+  padding:10px 14px;
+  margin:0 auto 8px auto;
+  font-size:14px;
+  max-width:700px;
+  text-align:center;
+}
+.todayBanner-main {
+  font-weight:600;
+}
+.todayBanner-sub {
+  font-size:12px;
+  color:#9ca3af;
+  margin-top:3px;
+}
+.pillHighlight {
+  display:inline-block;
+  padding:1px 6px;
+  border-radius:999px;
+  background:rgba(250,204,21,0.2);
+  border:1px solid rgba(250,204,21,0.7);
+  color:#facc15;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* VOICE BUTTON ROW */
+.voiceRow {
+  display:flex;
+  justify-content:center;
+  max-width:700px;
+  margin:0 auto 12px auto;
+}
+.speak-btn {
+  border-radius:999px;
+  border:1px solid rgba(56,189,248,0.7);
+  background:radial-gradient(circle at top,rgba(56,189,248,0.2) 0%,#020617 80%);
+  color:#e0f2fe;
+  font-size:12px;
+  padding:6px 14px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.speak-btn span.icon {
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:#38bdf8;
+  box-shadow:0 0 8px rgba(56,189,248,0.9);
+}
+.speak-btn:disabled {
+  opacity:.45;
+  cursor:not-allowed;
+  border-style:dashed;
+  box-shadow:none;
+}
+
+/* HEDASH ROW */
+.hedashRow {
+  background:#020617;
+  border-radius:10px;
+  border:1px solid #111827;
+  padding:10px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.hedashIcon {
+  font-size:26px;
+}
+.hedashText-main {
+  font-size:13px;
+  font-weight:600;
+}
+.hedashText-sub {
+  font-size:11px;
+  color:#9ca3af;
+}
+
+/* WEEK ROWS */
+.weekRow {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:8px 0;
+  background:#020617;
+  padding:6px 8px;
+  border-radius:10px;
+  border:1px solid #111827;
+}
+
+/* highlighted current week */
+.highlight-week {
+  background:linear-gradient(90deg, rgba(250,204,21,0.12), #020617);
+  border-color:rgba(250,204,21,0.55);
+  box-shadow:0 0 0 1px rgba(250,204,21,0.2);
+}
+
+/* left week label column */
+.weekLabel {
+  width:70px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#9ca3af;
+  text-align:center;
+}
+
+/* phase icons left/right */
+.phaseIcon {
+  width:32px;
+  text-align:center;
+  font-size:20px;
+}
+
+/* day boxes */
+.dayRow {
+  display:flex;
+  flex:1;
+  gap:4px;
+}
+
+.dayBox {
+  flex:1;
+  background:#111827;
+  border-radius:7px;
+  padding:6px 2px;
+  border:1px solid #1f2937;
+  font-size:11px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.dayLabel {
+  font-weight:500;
+  font-size:11px;
+}
+.daySub {
+  font-size:10px;
+  color:#9ca3af;
+}
+
+.shabat {
+  background:#1e293b;
+  border-color:#facc15;
+  color:#facc15;
+  font-weight:600;
+}
+
+/* highlighted current day */
+.highlight-day {
+  background:rgba(250,204,21,0.25);
+  border-color:rgba(250,204,21,0.85);
+  box-shadow:0 0 0 1px rgba(250,204,21,0.35);
+}
+.highlight-day .dayLabel {
+  color:#fef9c3;
+}
+.highlight-day .daySub {
+  color:#fef3c7;
+}
+
+/* LEGEND */
+.legend {
+  margin-top:22px;
+  font-size:13px;
+  text-align:center;
+}
+
+.legendRow {
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.legendColor {
+  width:12px;
+  height:12px;
+  border-radius:3px;
+  border:1px solid #1f2937;
+}
+
+.legendColor.work {
+  background:#111827;
+}
+.legendColor.shabat {
+  background:#1e293b;
+  border-color:#facc15;
+}
+
+/* moon phase legend row */
+.phaseLegendTitle {
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:#9ca3af;
+  margin-bottom:4px;
+  margin-top:4px;
+}
+
+.phaseLegendRow {
+  display:flex;
+  justify-content:space-between;
+  gap:6px;
+}
+
+.phaseItem {
+  flex:1;
+  text-align:center;
+}
+
+.phaseItemIcon {
+  font-size:22px;
+}
+
+.phaseItemText {
+  font-size:11px;
+  color:#9ca3af;
+}
+
+.calendarNoteBottom {
+  margin-top:8px;
+  font-size:11px;
+  color:#9ca3af;
+}
+
+/* MOBILE */
+@media (max-width:640px){
+  .calendarHeader {
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  .calendarSide {
+    width:auto;
+    white-space:normal;
+  }
+  .weekRow { padding:6px 4px; gap:4px; }
+  .weekLabel { width:56px; font-size:10px; }
+  .dayBox { font-size:10px; padding:6px 1px; }
+  .dayLabel { font-size:10px; }
+  .daySub { font-size:9px; }
+  .phaseItemText { font-size:10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="calendar">
+
+  <!-- HEADER ROW: left ref, centered title, right month badge -->
+  <div class="calendarHeader">
+    <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
+    <div class="calendarTitle">THE KINGDOM CALENDAR</div>
+    <div class="calendarSide" style="text-align:right;">
+      <span class="monthBadge" id="month-badge">12th Month</span>
+    </div>
+  </div>
+
+  <div class="calendarSub">Work Days &amp; Shabats According to the Path of Years</div>
+  <div class="calendarNote">
+    Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle shown here runs from Day 1 (HEDASH) through the last Shabat.
+  </div>
+
+  <!-- CONFIG BAR – HEDASH DATE INPUT -->
+  <div class="configBar">
+    <span class="configLabel">Confirmed HEDASH Date (Gregorian):</span>
+    <input type="date" id="hedash-input" />
+    <span class="configHint">(Set the Renewed Moon sighting date. The calendar will calculate today’s week, work day, and Shabat.)</span>
+  </div>
+
+  <!-- HEDASH PHOTO UPLOADER -->
+  <div class="hedashUpload">
+    <div class="hedashUpload-header">
+      <div class="hedashUpload-title">HEDASH Sighting Photos (Optional)</div>
+      <div class="hedashUpload-hint">Upload tonight’s Renewed Moon photo and click a thumbnail to enlarge.</div>
+    </div>
+    <label class="uploadButton">
+      <span>Upload Photo(s)</span>
+      <input type="file" id="hedash-photos" accept="image/*" multiple>
+    </label>
+    <div id="hedash-thumbs" class="thumbGrid"></div>
+  </div>
+
+  <!-- TODAY BANNER – TEXT INJECTED BY JS -->
+  <div class="todayBanner">
+    <div class="todayBanner-main" id="today-main">
+      Set the HEDASH date above to activate the Kingdom Calendar.
+    </div>
+    <div class="todayBanner-sub" id="today-sub">
+      The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.
+    </div>
+  </div>
+
+  <!-- VOICE BUTTON -->
+  <div class="voiceRow">
+    <button id="speakBtn" type="button" class="speak-btn" disabled>
+      <span class="icon"></span>
+      Play Voice Announcement
+    </button>
+  </div>
+
+  <!-- HEDASH = DAY 1 OF MONTH -->
+  <div class="hedashRow">
+    <div class="hedashIcon">🌒</div>
+    <div>
+      <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
+      <div class="hedashText-sub">
+        Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 1 – Half Moon Waxing (Days 2–8) -->
+  <div class="weekRow" data-week="1">
+    <div class="weekLabel">1st Week</div>
+    <div class="phaseIcon">🌓</div>
+    <div class="dayRow">
+      <div class="dayBox" data-day="2">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 2</div>
+      </div>
+      <div class="dayBox" data-day="3">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 3</div>
+      </div>
+      <div class="dayBox" data-day="4">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 4</div>
+      </div>
+      <div class="dayBox" data-day="5">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 5</div>
+      </div>
+      <div class="dayBox" data-day="6">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 6</div>
+      </div>
+      <div class="dayBox" data-day="7">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 7</div>
+      </div>
+      <div class="dayBox shabat" data-day="8" data-shabat-number="1">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 8</div>
+      </div>
+    </div>
+    <div class="phaseIcon">🌕</div>
+  </div>
+
+  <!-- WEEK 2 – Full Moon (Days 9–15) -->
+  <div class="weekRow" data-week="2">
+    <div class="weekLabel">2nd Week</div>
+    <div class="phaseIcon">🌕</div>
+    <div class="dayRow">
+      <div class="dayBox" data-day="9">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 9</div>
+      </div>
+      <div class="dayBox" data-day="10">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 10</div>
+      </div>
+      <div class="dayBox" data-day="11">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 11</div>
+      </div>
+      <div class="dayBox" data-day="12">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 12</div>
+      </div>
+      <div class="dayBox" data-day="13">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 13</div>
+      </div>
+      <div class="dayBox" data-day="14">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 14</div>
+      </div>
+      <div class="dayBox shabat" data-day="15" data-shabat-number="2">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 15</div>
+      </div>
+    </div>
+    <div class="phaseIcon">🌗</div>
+  </div>
+
+  <!-- WEEK 3 – Half Moon Waning (Days 16–22) -->
+  <div class="weekRow" data-week="3">
+    <div class="weekLabel">3rd Week</div>
+    <div class="phaseIcon">🌗</div>
+    <div class="dayRow">
+      <div class="dayBox" data-day="16">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 16</div>
+      </div>
+      <div class="dayBox" data-day="17">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 17</div>
+      </div>
+      <div class="dayBox" data-day="18">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 18</div>
+      </div>
+      <div class="dayBox" data-day="19">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 19</div>
+      </div>
+      <div class="dayBox" data-day="20">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 20</div>
+      </div>
+      <div class="dayBox" data-day="21">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 21</div>
+      </div>
+      <div class="dayBox shabat" data-day="22" data-shabat-number="3">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 22</div>
+      </div>
+    </div>
+    <div class="phaseIcon">🌘</div>
+  </div>
+
+  <!-- WEEK 4 – Waning Crescent (Days 23–29) -->
+  <div class="weekRow" data-week="4">
+    <div class="weekLabel">4th Week</div>
+    <div class="phaseIcon">🌘</div>
+    <div class="dayRow">
+      <div class="dayBox" data-day="23">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 23</div>
+      </div>
+      <div class="dayBox" data-day="24">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 24</div>
+      </div>
+      <div class="dayBox" data-day="25">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 25</div>
+      </div>
+      <div class="dayBox" data-day="26">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 26</div>
+      </div>
+      <div class="dayBox" data-day="27">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 27</div>
+      </div>
+      <div class="dayBox" data-day="28">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 28</div>
+      </div>
+      <div class="dayBox shabat" data-day="29" data-shabat-number="4">
+        <div class="dayLabel">Last Shabat</div>
+        <div class="daySub">Day 29</div>
+      </div>
+    </div>
+    <div class="phaseIcon">🌓</div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legendRow">
+      <div class="legendColor work"></div><span>Work Day</span>
+      <div class="legendColor shabat"></div><span>Shabat</span>
+      <span>🌅 Sunset Boundary — Shabat from evening to evening</span>
+    </div>
+
+    <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
+    <div class="phaseLegendRow">
+      <div class="phaseItem">
+        <div class="phaseItemIcon">🌒</div>
+        <div class="phaseItemText">HEDASH – Day 1</div>
+      </div>
+      <div class="phaseItem">
+        <div class="phaseItemIcon">🌓</div>
+        <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
+      </div>
+      <div class="phaseItem">
+        <div class="phaseItemIcon">🌕</div>
+        <div class="phaseItemText">Full Moon – 2nd Week</div>
+      </div>
+      <div class="phaseItem">
+        <div class="phaseItemIcon">🌗</div>
+        <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
+      </div>
+      <div class="phaseItem">
+        <div class="phaseItemIcon">🌘</div>
+        <div class="phaseItemText">Waning Crescent – 4th Week</div>
+      </div>
+    </div>
+
+    <div class="calendarNoteBottom">
+      In a 29-day month, HEDASH appears after the last Shabat (Day 29). In a 30-day month, the extra day is a waiting day until the Renewed Moon is seen.
+    </div>
+  </div>
+
+</div>
+
+<!-- IMAGE MODAL -->
+<div id="image-modal" class="imageModal">
+  <img id="modal-image" src="" alt="Hedash sighting enlarged">
+</div>
+
+<script>
+// ---- Utility: Ordinal word mapping ----
+const ordinalWeekWords = {
+  1: "FIRST",
+  2: "SECOND",
+  3: "THIRD",
+  4: "FOURTH"
+};
+
+const ordinalShabatWords = {
+  1: "FIRST",
+  2: "SECOND",
+  3: "THIRD",
+  4: "FOURTH"
+};
+
+const ordinalDayWords = {
+  1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
+  6:"SIXTH", 7:"SEVENTH", 8:"EIGHTH", 9:"NINTH", 10:"TENTH",
+  11:"ELEVENTH", 12:"TWELFTH", 13:"THIRTEENTH", 14:"FOURTEENTH",
+  15:"FIFTEENTH", 16:"SIXTEENTH", 17:"SEVENTEENTH", 18:"EIGHTEENTH",
+  19:"NINETEENTH", 20:"TWENTIETH", 21:"TWENTY-FIRST", 22:"TWENTY-SECOND",
+  23:"TWENTY-THIRD", 24:"TWENTY-FOURTH", 25:"TWENTY-FIFTH", 26:"TWENTY-SIXTH",
+  27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
+};
+
+// ---- Get elements ----
+const hedashInput = document.getElementById("hedash-input");
+const todayMain = document.getElementById("today-main");
+const todaySub = document.getElementById("today-sub");
+const speakBtn = document.getElementById("speakBtn");
+
+const photoInput = document.getElementById("hedash-photos");
+const thumbGrid = document.getElementById("hedash-thumbs");
+const imageModal = document.getElementById("image-modal");
+const modalImage = document.getElementById("modal-image");
+
+let lastVoiceText = "";
+
+// restore saved hedash date if present
+const savedHedash = localStorage.getItem("hedashDate");
+if (savedHedash) {
+  hedashInput.value = savedHedash;
+}
+
+hedashInput.addEventListener("change", () => {
+  if (hedashInput.value) {
+    localStorage.setItem("hedashDate", hedashInput.value);
+  }
+  updateCalendar();
+});
+
+function clearHighlights() {
+  document.querySelectorAll(".weekRow").forEach(row => {
+    row.classList.remove("highlight-week");
+  });
+  document.querySelectorAll(".dayBox").forEach(box => {
+    box.classList.remove("highlight-day");
+  });
+}
+
+function setVoiceText(text) {
+  lastVoiceText = text || "";
+  speakBtn.disabled = !lastVoiceText;
+}
+
+// Convert display text into phonetic text for speech only
+function toPhonetic(text) {
+  let t = text;
+
+  // Handle possessive forms first (both curly and straight apostrophes)
+  t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
+  t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+
+  // Plain Name
+  t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+
+  // Shabat pronunciation -> SHABOT
+  t = t.replace(/SHABAT/gi, "SHABOT");
+
+  return t;
+}
+
+// ---- Main update function ----
+function updateCalendar() {
+  clearHighlights();
+  setVoiceText("");
+
+  const hedashValue = hedashInput.value;
+  if (!hedashValue) {
+    todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
+    todaySub.textContent = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
+    return;
+  }
+
+  const hedashDate = new Date(hedashValue + "T00:00:00");
+  const now = new Date();
+  // normalize to midnight for both
+  const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
+  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffMs = todayMid - hedashMid;
+  const dayOffset = Math.floor(diffMs / (24*60*60*1000)); // days since Hedash
+  const dayOfMonth = dayOffset + 1; // Hedash is Day 1
+
+  if (dayOfMonth < 1) {
+    todayMain.textContent = "Today is before the selected HEDASH date.";
+    todaySub.textContent = "Adjust the Renewed Moon date if needed.";
+    return;
+  }
+  if (dayOfMonth > 30) {
+    todayMain.textContent = "Today is beyond the 30th day from the selected HEDASH.";
+    todaySub.textContent = "Confirm the next HEDASH to begin the new month.";
+    return;
+  }
+
+  // HEDASH itself
+  if (dayOfMonth === 1) {
+    const mainText = "TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S MONTH, ACCORDING TO THE PATH OF YEARS.";
+    todayMain.textContent = mainText;
+    todaySub.innerHTML = '<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.';
+    setVoiceText(mainText);
+    return;
+  }
+
+  // Days 2–29 (and optional 30)
+  const offsetFromDay2 = dayOfMonth - 2; // 0-based from Day 2
+  const weekNumber = Math.floor(offsetFromDay2 / 7) + 1; // 1–4
+  const positionInWeek = offsetFromDay2 % 7; // 0–6 (0=Work1, 5=Work6, 6=Shabat)
+  const isShabat = (positionInWeek === 6);
+  const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
+  if (weekRow) {
+    weekRow.classList.add("highlight-week");
+  }
+
+  const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
+  if (dayBox) {
+    dayBox.classList.add("highlight-day");
+  }
+
+  const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
+  const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
+
+  let mainText = "";
+  let subHtml = "";
+
+  if (isShabat) {
+    const shabatBox = dayBox && dayBox.getAttribute("data-shabat-number")
+      ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
+      : null;
+    const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
+    mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+    subHtml =
+      `<span class="pillHighlight">${weekWord} Week</span>` +
+      ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
+      ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
+  } else {
+    const workDayNumber = positionInWeek + 1; // 1–6
+    const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
+    mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+    subHtml =
+      `<span class="pillHighlight">${weekWord} Week</span>` +
+      ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
+      ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
+  }
+
+  todayMain.textContent = mainText;
+  todaySub.innerHTML = subHtml;
+  setVoiceText(mainText);
+}
+
+// Voice button handler – slightly faster, shorter pauses, phonetic spellings
+speakBtn.addEventListener("click", () => {
+  if (!lastVoiceText) return;
+  if (!("speechSynthesis" in window)) {
+    alert("Voice announcement is not available on this device or browser.");
+    return;
+  }
+
+  // Cancel anything currently speaking
+  window.speechSynthesis.cancel();
+
+  // Use phonetic version for speech
+  const phoneticText = toPhonetic(lastVoiceText);
+
+  // Split the big sentence on " — " so each phrase is spoken with a pause
+  const parts = phoneticText.split(" — ").map(p => p.trim()).filter(Boolean);
+
+  let index = 0;
+  function speakNext() {
+    if (index >= parts.length) return;
+    const text = parts[index];
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 0.9;   // a bit faster than before
+    utter.pitch = 0.95; // slightly deeper
+    utter.lang = "en-US";
+
+    utter.onend = () => {
+      index++;
+      // slightly shorter pause between phrases
+      setTimeout(speakNext, 200);
+    };
+
+    window.speechSynthesis.speak(utter);
+  }
+
+  speakNext();
+});
+
+// HEDASH PHOTO UPLOADER LOGIC
+photoInput.addEventListener("change", (event) => {
+  const files = Array.from(event.target.files || []);
+  thumbGrid.innerHTML = "";
+
+  files.forEach(file => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const url = e.target.result;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "thumb";
+      btn.innerHTML = `<img src="${url}" alt="Hedash sighting photo">`;
+      btn.addEventListener("click", () => {
+        modalImage.src = url;
+        imageModal.classList.add("show");
+      });
+      thumbGrid.appendChild(btn);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// Close enlarged image on click
+imageModal.addEventListener("click", () => {
+  imageModal.classList.remove("show");
+  modalImage.src = "";
+});
+
+// initial run
+updateCalendar();
+</script>
+
+</body>
+</html>
