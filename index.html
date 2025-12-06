@@ -459,6 +459,9 @@
     </button>
   </div>
 
+  <!-- AUDIO PLAYER FOR ELEVENLABS -->
+  <audio id="tts-audio"></audio>
+
   <!-- WEEK 1 – Half Moon Waxing (Days 2–8) -->
   <div class="weekRow" data-week="1">
     <div class="weekLabel">1st Week</div>
@@ -708,12 +711,16 @@
   };
 
   // DOM elements
-  const hedashInput = document.getElementById("hedash-input");
-  const monthSelect = document.getElementById("month-select");
-  const todayMain = document.getElementById("today-main");
-  const todaySub = document.getElementById("today-sub");
-  const speakBtn = document.getElementById("speakBtn");
+  const hedashInput  = document.getElementById("hedash-input");
+  const monthSelect  = document.getElementById("month-select");
+  const todayMain    = document.getElementById("today-main");
+  const todaySub     = document.getElementById("today-sub");
+  const speakBtn     = document.getElementById("speakBtn");
   const monthBadgeEl = document.getElementById("month-badge");
+  const ttsAudioEl   = document.getElementById("tts-audio");
+
+  // ElevenLabs proxy endpoint on your server
+  const TTS_ENDPOINT = "https://yahuah-aluah.com/tts-11labs.php";
 
   let lastVoiceText = "";
 
@@ -773,11 +780,11 @@
     let t = text;
 
     // Handle possessive forms first (both curly and straight apostrophes)
-    t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
-    t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+    t = t.replace(/YAHUAH’S/gi, "YAHOOWAH’S");
+    t = t.replace(/YAHUAH'S/gi, "YAHOOWAH'S");
 
     // Plain Name
-    t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+    t = t.replace(/YAHUAH/gi, "YAHUAH");
 
     // Abayab -> ABBAYOB (spoken)
     t = t.replace(/ABAYAB/gi, "ABA YOB");
@@ -786,63 +793,18 @@
     t = t.replace(/HEDASH/gi, "HA DAWSH");
 
     // Shabat pronunciation -> SHABOT
-    t = t.replace(/SHABAT/gi, "SHABOT");
+    t = t.replace(/SHABAT/gi, "SHA BOT");
 
     return t;
-  }
-
-  // Prefer a US English male / neutral voice, avoid European English if possible
-  function getUsMaleVoice() {
-    const voices = window.speechSynthesis.getVoices();
-    if (!voices || !voices.length) return null;
-
-    const isUs = (v) =>
-      v.lang &&
-      v.lang.toLowerCase().startsWith("en-us");
-
-    const notBritishOrEuro = (v) =>
-      !/uk|gb|irish|australia|australian|nz|new zealand|south africa/i.test(v.name) &&
-      (!v.lang || !/(en-gb|en-au|en-nz|en-za|en-ie)/i.test(v.lang));
-
-    // 1) US English voices by common names (Google, Microsoft, etc.)
-    let voice = voices.find(v =>
-      isUs(v) &&
-      /google|microsoft|natural/i.test(v.name) &&
-      notBritishOrEuro(v)
-    );
-
-    // 2) Any en-US voice, filtered to avoid obvious Euro variants
-    if (!voice) {
-      voice = voices.find(v => isUs(v) && notBritishOrEuro(v));
-    }
-
-    // 3) Any English voice that is not tagged as GB/AU/EU variants
-    if (!voice) {
-      voice = voices.find(v =>
-        v.lang &&
-        v.lang.toLowerCase().startsWith("en") &&
-        notBritishOrEuro(v)
-      );
-    }
-
-    // 4) Fallback: first voice
-    return voice || voices[0];
-  }
-
-  // Ensure voices are loaded in browsers that lazy-load them
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.onvoiceschanged = () => {
-      // triggers voice list population
-    };
   }
 
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
 
-    const hedashValue = hedashInput.value;
+    const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
-    const monthName = monthNameDisplay[currentMonth] || "YAHUAH’S MONTH";
+    const monthName    = monthNameDisplay[currentMonth] || "YAHUAH’S MONTH";
 
     if (!hedashValue) {
       todayMain.textContent =
@@ -853,7 +815,7 @@
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
-    const now = new Date();
+    const now        = new Date();
 
     const hedashMid = new Date(
       hedashDate.getFullYear(),
@@ -871,8 +833,8 @@
       todayMid = hedashMid;
     }
 
-    const diffMs = todayMid - hedashMid;
-    const dayOffset = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+    const diffMs    = todayMid - hedashMid;
+    const dayOffset = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
 
     if (dayOfMonth > 30) {
@@ -894,25 +856,21 @@
     }
 
     const offsetFromDay2 = dayOfMonth - 2;
-    const weekNumber = Math.floor(offsetFromDay2 / 7) + 1;
+    const weekNumber     = Math.floor(offsetFromDay2 / 7) + 1;
     const positionInWeek = offsetFromDay2 % 7;
-    const isShabat = positionInWeek === 6;
+    const isShabat       = (positionInWeek === 6);
 
-    const weekRow = document.querySelector(
-      `.weekRow[data-week="${weekNumber}"]`
-    );
+    const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
     if (weekRow) weekRow.classList.add("highlight-week");
 
-    const dayBox = document.querySelector(
-      `.dayBox[data-day="${dayOfMonth}"]`
-    );
+    const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
     if (dayBox) dayBox.classList.add("highlight-day");
 
     const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
-    const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
+    const dayWord  = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
 
     let mainText = "";
-    let subHtml = "";
+    let subHtml  = "";
 
     if (isShabat) {
       const shabatBox =
@@ -930,7 +888,7 @@
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     } else {
       const workDayNumber = positionInWeek + 1;
-      const workDayWord =
+      const workDayWord   =
         ordinalDayWords[workDayNumber] || workDayNumber.toString();
       mainText =
         `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
@@ -941,51 +899,45 @@
     }
 
     todayMain.textContent = mainText;
-    todaySub.innerHTML = subHtml;
+    todaySub.innerHTML    = subHtml;
     setVoiceText(mainText);
   }
 
-  speakBtn.addEventListener("click", () => {
+  // === ElevenLabs voice button handler ===
+  speakBtn.addEventListener("click", async () => {
     if (!lastVoiceText) return;
-    if (!("speechSynthesis" in window)) {
-      alert("Voice announcement is not available on this device or browser.");
-      return;
-    }
-
-    window.speechSynthesis.cancel();
+    if (!ttsAudioEl)    return;
 
     const phoneticText = toPhonetic(lastVoiceText);
-    const parts = phoneticText
-      .split(" — ")
-      .map((p) => p.trim())
-      .filter(Boolean);
 
-    const usVoice = getUsMaleVoice();
+    const originalLabel = speakBtn.textContent;
+    speakBtn.disabled = true;
+    speakBtn.textContent = "Generating voice...";
 
-    let index = 0;
-    function speakNext() {
-      if (index >= parts.length) return;
-      const text = parts[index];
+    try {
+      const res = await fetch(TTS_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: phoneticText })
+      });
 
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 0.9;   // steady, strong pacing
-      utter.pitch = 0.9;  // slightly deeper tone
-      utter.lang = "en-US";
-      utter.volume = 1.0;
-
-      if (usVoice) {
-        utter.voice = usVoice;
+      if (!res.ok) {
+        console.error("TTS error:", await res.text());
+        alert("There was a problem generating the voice announcement.");
+        return;
       }
 
-      utter.onend = () => {
-        index++;
-        setTimeout(speakNext, 220);
-      };
-
-      window.speechSynthesis.speak(utter);
+      const blob = await res.blob();
+      const url  = URL.createObjectURL(blob);
+      ttsAudioEl.src = url;
+      await ttsAudioEl.play();
+    } catch (err) {
+      console.error(err);
+      alert("Unable to contact the voice server.");
+    } finally {
+      speakBtn.disabled = !lastVoiceText;
+      speakBtn.textContent = originalLabel;
     }
-
-    speakNext();
   });
 
   // initial run
