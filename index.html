@@ -82,7 +82,7 @@
     margin-bottom:6px;
   }
 
-  /* CONFIG BAR */
+  /* HEDASH INPUT BAR */
   .configBar {
     background:#020617;
     border-radius:8px;
@@ -98,8 +98,7 @@
   .configLabel {
     color:#e5e7eb;
   }
-  .configBar input[type="date"],
-  .configBar select {
+  .configBar input[type="date"] {
     background:#020617;
     border:1px solid #1f2937;
     border-radius:6px;
@@ -212,12 +211,14 @@
     border:1px solid #111827;
   }
 
+  /* highlighted current week */
   .highlight-week {
     background:linear-gradient(90deg, rgba(250,204,21,0.12), #020617);
     border-color:rgba(250,204,21,0.55);
     box-shadow:0 0 0 1px rgba(250,204,21,0.2);
   }
 
+  /* left week label column */
   .weekLabel {
     width:60px;
     font-size:10px;
@@ -227,12 +228,14 @@
     text-align:center;
   }
 
+  /* phase icons left/right */
   .phaseIcon {
     width:26px;
     text-align:center;
     font-size:18px;
   }
 
+  /* day boxes */
   .dayRow {
     display:flex;
     flex:1;
@@ -268,6 +271,7 @@
     font-weight:600;
   }
 
+  /* highlighted current day */
   .highlight-day {
     background:rgba(250,204,21,0.25);
     border-color:rgba(250,204,21,0.85);
@@ -278,6 +282,91 @@
   }
   .highlight-day .daySub {
     color:#fef3c7;
+  }
+
+  /* LEGEND (inside collapsible) */
+  .legendDetails {
+    margin-top:8px;
+    font-size:12px;
+  }
+  .legendDetails summary {
+    cursor:pointer;
+    list-style:none;
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid #1f2937;
+    display:inline-block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#e5e7eb;
+  }
+  .legendDetails summary::-webkit-details-marker {
+    display:none;
+  }
+  .legend {
+    margin-top:8px;
+    font-size:12px;
+    text-align:center;
+  }
+
+  .legendRow {
+    display:inline-flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-bottom:8px;
+  }
+
+  .legendColor {
+    width:10px;
+    height:10px;
+    border-radius:3px;
+    border:1px solid #1f2937;
+  }
+
+  .legendColor.work {
+    background:#111827;
+  }
+  .legendColor.shabat {
+    background:#1e293b;
+    border-color:#facc15;
+  }
+
+  /* moon phase legend row */
+  .phaseLegendTitle {
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:#9ca3af;
+    margin-bottom:3px;
+    margin-top:3px;
+  }
+
+  .phaseLegendRow {
+    display:flex;
+    justify-content:space-between;
+    gap:4px;
+  }
+
+  .phaseItem {
+    flex:1;
+    text-align:center;
+  }
+
+  .phaseItemIcon {
+    font-size:20px;
+  }
+
+  .phaseItemText {
+    font-size:10px;
+    color:#9ca3af;
+  }
+
+  .calendarNoteBottom {
+    margin-top:6px;
+    font-size:10px;
+    color:#9ca3af;
   }
 
   /* MOBILE */
@@ -296,6 +385,7 @@
     .dayBox { font-size:9px; padding:4px 1px; }
     .dayLabel { font-size:9px; }
     .daySub { font-size:8px; }
+    .phaseItemText { font-size:9px; }
   }
   </style>
 </head>
@@ -303,7 +393,7 @@
 
 <div class="calendar">
 
-  <!-- HEADER -->
+  <!-- HEADER ROW: left ref, centered title, right month badge -->
   <div class="calendarHeader">
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
@@ -317,45 +407,28 @@
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
   </div>
 
-  <!-- CONFIG BAR -->
+  <!-- CONFIG BAR – HEDASH DATE INPUT -->
   <div class="configBar">
-    <span class="configLabel">Confirmed HEDASH Date:</span>
+    <span class="configLabel">Confirmed HEDASH Date (Gregorian):</span>
     <input type="date" id="hedash-input" />
-
-    <span class="configLabel">Kingdom Month:</span>
-    <select id="month-select">
-      <option value="1">ABAYAB (1st Month)</option>
-      <option value="2">2nd Month</option>
-      <option value="3">3rd Month</option>
-      <option value="4">4th Month</option>
-      <option value="5">5th Month</option>
-      <option value="6">6th Month</option>
-      <option value="7">7th Month</option>
-      <option value="8">8th Month</option>
-      <option value="9">9th Month</option>
-      <option value="10">10th Month</option>
-      <option value="11">11th Month</option>
-      <option value="12" selected>12th Month</option>
-    </select>
-
-    <span class="configHint">(Set the Renewed Moon and select the current Kingdom Month.)</span>
+    <span class="configHint">(Set the Renewed Moon sighting date to activate the calendar.)</span>
   </div>
 
-  <!-- HEDASH ROW -->
+  <!-- HEDASH = DAY 1 OF MONTH -->
   <div class="hedashRow">
     <div class="hedashIcon">🌒</div>
     <div>
       <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
       <div class="hedashText-sub">
-        HEDASH sets the Shabats for this Kingdom Month according to the Path of Years.
+        Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
       </div>
     </div>
   </div>
 
-  <!-- TODAY BANNER -->
+  <!-- TODAY BANNER – TEXT INJECTED BY JS -->
   <div class="todayBanner">
     <div class="todayBanner-main" id="today-main">
-      Set the HEDASH date and Kingdom Month to activate the Kingdom Calendar.
+      Set the HEDASH date above to activate the Kingdom Calendar.
     </div>
     <div class="todayBanner-sub" id="today-sub">
       The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.
@@ -370,76 +443,213 @@
     </button>
   </div>
 
-  <!-- WEEK 1 -->
+  <!-- WEEK 1 – Half Moon Waxing (Days 2–8) -->
   <div class="weekRow" data-week="1">
     <div class="weekLabel">1st Week</div>
     <div class="phaseIcon">🌓</div>
     <div class="dayRow">
-      <div class="dayBox" data-day="2"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 2</div></div>
-      <div class="dayBox" data-day="3"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 3</div></div>
-      <div class="dayBox" data-day="4"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 4</div></div>
-      <div class="dayBox" data-day="5"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 5</div></div>
-      <div class="dayBox" data-day="6"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 6</div></div>
-      <div class="dayBox" data-day="7"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 7</div></div>
-      <div class="dayBox shabat" data-day="8" data-shabat-number="1"><div class="dayLabel">Shabat</div><div class="daySub">Day 8</div></div>
+      <div class="dayBox" data-day="2">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 2</div>
+      </div>
+      <div class="dayBox" data-day="3">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 3</div>
+      </div>
+      <div class="dayBox" data-day="4">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 4</div>
+      </div>
+      <div class="dayBox" data-day="5">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 5</div>
+      </div>
+      <div class="dayBox" data-day="6">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 6</div>
+      </div>
+      <div class="dayBox" data-day="7">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 7</div>
+      </div>
+      <div class="dayBox shabat" data-day="8" data-shabat-number="1">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 8</div>
+      </div>
     </div>
     <div class="phaseIcon">🌕</div>
   </div>
 
-  <!-- WEEK 2 -->
+  <!-- WEEK 2 – Full Moon (Days 9–15) -->
   <div class="weekRow" data-week="2">
     <div class="weekLabel">2nd Week</div>
     <div class="phaseIcon">🌕</div>
     <div class="dayRow">
-      <div class="dayBox" data-day="9"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 9</div></div>
-      <div class="dayBox" data-day="10"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 10</div></div>
-      <div class="dayBox" data-day="11"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 11</div></div>
-      <div class="dayBox" data-day="12"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 12</div></div>
-      <div class="dayBox" data-day="13"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 13</div></div>
-      <div class="dayBox" data-day="14"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 14</div></div>
-      <div class="dayBox shabat" data-day="15" data-shabat-number="2"><div class="dayLabel">Shabat</div><div class="daySub">Day 15</div></div>
+      <div class="dayBox" data-day="9">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 9</div>
+      </div>
+      <div class="dayBox" data-day="10">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 10</div>
+      </div>
+      <div class="dayBox" data-day="11">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 11</div>
+      </div>
+      <div class="dayBox" data-day="12">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 12</div>
+      </div>
+      <div class="dayBox" data-day="13">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 13</div>
+      </div>
+      <div class="dayBox" data-day="14">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 14</div>
+      </div>
+      <div class="dayBox shabat" data-day="15" data-shabat-number="2">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 15</div>
+      </div>
     </div>
     <div class="phaseIcon">🌗</div>
   </div>
 
-  <!-- WEEK 3 -->
+  <!-- WEEK 3 – Half Moon Waning (Days 16–22) -->
   <div class="weekRow" data-week="3">
     <div class="weekLabel">3rd Week</div>
     <div class="phaseIcon">🌗</div>
     <div class="dayRow">
-      <div class="dayBox" data-day="16"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 16</div></div>
-      <div class="dayBox" data-day="17"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 17</div></div>
-      <div class="dayBox" data-day="18"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 18</div></div>
-      <div class="dayBox" data-day="19"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 19</div></div>
-      <div class="dayBox" data-day="20"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 20</div></div>
-      <div class="dayBox" data-day="21"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 21</div></div>
-      <div class="dayBox shabat" data-day="22" data-shabat-number="3"><div class="dayLabel">Shabat</div><div class="daySub">Day 22</div></div>
+      <div class="dayBox" data-day="16">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 16</div>
+      </div>
+      <div class="dayBox" data-day="17">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 17</div>
+      </div>
+      <div class="dayBox" data-day="18">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 18</div>
+      </div>
+      <div class="dayBox" data-day="19">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 19</div>
+      </div>
+      <div class="dayBox" data-day="20">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 20</div>
+      </div>
+      <div class="dayBox" data-day="21">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 21</div>
+      </div>
+      <div class="dayBox shabat" data-day="22" data-shabat-number="3">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">Day 22</div>
+      </div>
     </div>
     <div class="phaseIcon">🌘</div>
   </div>
 
-  <!-- WEEK 4 -->
+  <!-- WEEK 4 – Waning Crescent (Days 23–29) -->
   <div class="weekRow" data-week="4">
     <div class="weekLabel">4th Week</div>
     <div class="phaseIcon">🌘</div>
     <div class="dayRow">
-      <div class="dayBox" data-day="23"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 23</div></div>
-      <div class="dayBox" data-day="24"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 24</div></div>
-      <div class="dayBox" data-day="25"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 25</div></div>
-      <div class="dayBox" data-day="26"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 26</div></div>
-      <div class="dayBox" data-day="27"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 27</div></div>
-      <div class="dayBox" data-day="28"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 28</div></div>
-      <div class="dayBox shabat" data-day="29" data-shabat-number="4"><div class="dayLabel">Last Shabat</div><div class="daySub">Day 29</div></div>
+      <div class="dayBox" data-day="23">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 23</div>
+      </div>
+      <div class="dayBox" data-day="24">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 24</div>
+      </div>
+      <div class="dayBox" data-day="25">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 25</div>
+      </div>
+      <div class="dayBox" data-day="26">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 26</div>
+      </div>
+      <div class="dayBox" data-day="27">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 27</div>
+      </div>
+      <div class="dayBox" data-day="28">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 28</div>
+      </div>
+      <div class="dayBox shabat" data-day="29" data-shabat-number="4">
+        <div class="dayLabel">Last Shabat</div>
+        <div class="daySub">Day 29</div>
+      </div>
     </div>
+    <!-- Dark moon after Day 29 -->
     <div class="phaseIcon">🌑</div>
   </div>
+
+  <!-- LEGEND & NOTES (COLLAPSIBLE) -->
+  <details class="legendDetails">
+    <summary>Legend &amp; Notes</summary>
+    <div class="legend">
+      <div class="legendRow">
+        <div class="legendColor work"></div><span>Work Day</span>
+        <div class="legendColor shabat"></div><span>Shabat</span>
+        <span>🌅 Sunset Boundary — Shabat from evening to evening</span>
+      </div>
+
+      <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
+      <div class="phaseLegendRow">
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌒</div>
+          <div class="phaseItemText">HEDASH – Day 1</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌓</div>
+          <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌕</div>
+          <div class="phaseItemText">Full Moon – 2nd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌗</div>
+          <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌘</div>
+          <div class="phaseItemText">Waning Crescent – 4th Week</div>
+        </div>
+      </div>
+
+      <div class="calendarNoteBottom">
+        In a 29-day month HEDASH appears after the last Shabat (Day 29). In a 30-day month, the extra day is a waiting day until the Renewed Moon is seen.
+      </div>
+    </div>
+  </details>
 
 </div>
 
 <script>
-  // ---- Ordinal mappings ----
-  const ordinalWeekWords = {1:"FIRST",2:"SECOND",3:"THIRD",4:"FOURTH"};
-  const ordinalShabatWords = {1:"FIRST",2:"SECOND",3:"THIRD",4:"FOURTH"};
+  // ---- Utility: Ordinal word mapping ----
+  const ordinalWeekWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
+
+  const ordinalShabatWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
+
   const ordinalDayWords = {
     1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
     6:"SIXTH", 7:"SEVENTH", 8:"EIGHTH", 9:"NINTH", 10:"TENTH",
@@ -450,215 +660,177 @@
     27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
   };
 
-  const hedashInput   = document.getElementById("hedash-input");
-  const monthSelect   = document.getElementById("month-select");
-  const monthBadge    = document.getElementById("month-badge");
-  const todayMain     = document.getElementById("today-main");
-  const todaySub      = document.getElementById("today-sub");
-  const speakBtn      = document.getElementById("speakBtn");
+  // ---- Get elements ----
+  const hedashInput = document.getElementById("hedash-input");
+  const todayMain = document.getElementById("today-main");
+  const todaySub = document.getElementById("today-sub");
+  const speakBtn = document.getElementById("speakBtn");
 
   let lastVoiceText = "";
-  let kingdomMonthIndex = 12; // default
 
-  // --- Month label helpers ---
-  function getMonthBadgeText(index){
-    if(index === 1) return "ABAYAB";
-    const suffix = (n) => {
-      if (n === 1) return "st";
-      if (n === 2) return "nd";
-      if (n === 3) return "rd";
-      return "th";
-    };
-    return `${index}${suffix(index)} Month`;
+  // restore saved hedash date if present
+  const savedHedash = localStorage.getItem("hedashDate");
+  if (savedHedash) {
+    hedashInput.value = savedHedash;
   }
 
-  function toPhonetic(text){
-  let t = text;
-  t = t.replace(/YAHUAH’S/gi,"YAH HOO WAH’S");
-  t = t.replace(/YAHUAH'S/gi,"YAH HOO WAH'S");
-  t = t.replace(/YAHUAH/gi,"YAH HOO WAH");
-  t = t.replace(/SHABAT/gi,"SHABOT");
+  hedashInput.addEventListener("change", () => {
+    if (hedashInput.value) {
+      localStorage.setItem("hedashDate", hedashInput.value);
+    }
+    updateCalendar();
+  });
 
-  // Month 1 name: ABAYAB -> ABBAYOB (voice only)
-  t = t.replace(/ABAYAB/gi,"ABBAYOB");
-
-  return t;
-}
-
-
-  function updateMonthBadge(){
-    monthBadge.textContent = getMonthBadgeText(kingdomMonthIndex);
+  function clearHighlights() {
+    document.querySelectorAll(".weekRow").forEach(row => {
+      row.classList.remove("highlight-week");
+    });
+    document.querySelectorAll(".dayBox").forEach(box => {
+      box.classList.remove("highlight-day");
+    });
   }
 
-  // --- Phonetic for speech ---
-  function toPhonetic(text){
-    let t = text;
-    t = t.replace(/YAHUAH’S/gi,"YAH HOO WAH’S");
-    t = t.replace(/YAHUAH'S/gi,"YAH HOO WAH'S");
-    t = t.replace(/YAHUAH/gi,"YAH HOO WAH");
-    t = t.replace(/SHABAT/gi,"SHABOT");
-    t = t.replace(/ABAYAB/gi,"ABBA YAAB");
-    return t;
-  }
-
-  function clearHighlights(){
-    document.querySelectorAll(".weekRow").forEach(r => r.classList.remove("highlight-week"));
-    document.querySelectorAll(".dayBox").forEach(b => b.classList.remove("highlight-day"));
-  }
-
-  function setVoiceText(text){
+  function setVoiceText(text) {
     lastVoiceText = text || "";
     speakBtn.disabled = !lastVoiceText;
   }
 
-  // --- Restore saved state (if browser supports it) ---
-  try {
-    const savedHedash = localStorage.getItem("hedashDate");
-    const savedMonth  = localStorage.getItem("kingdomMonthIndex");
-    if(savedHedash){
-      hedashInput.value = savedHedash;
-    }
-    if(savedMonth){
-      const val = parseInt(savedMonth,10);
-      if(val >=1 && val <=12){
-        kingdomMonthIndex = val;
-        monthSelect.value = String(val);
-      }
-    }
-  } catch(e) {
-    // ignore if localStorage not available
+  // Convert display text into phonetic text for speech only
+  function toPhonetic(text) {
+    let t = text;
+
+    // Handle possessive forms first (both curly and straight apostrophes)
+    t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
+    t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+
+    // Plain Name
+    t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+
+    // Shabat pronunciation -> SHABOT
+    t = t.replace(/SHABAT/gi, "SHABOT");
+
+    return t;
   }
 
-  updateMonthBadge();
-
-  // --- Events ---
-  hedashInput.addEventListener("change", () => {
-    try { localStorage.setItem("hedashDate", hedashInput.value || ""); } catch(e){}
-    updateCalendar();
-  });
-
-  monthSelect.addEventListener("change", () => {
-    kingdomMonthIndex = parseInt(monthSelect.value,10) || 1;
-    try { localStorage.setItem("kingdomMonthIndex", String(kingdomMonthIndex)); } catch(e){}
-    updateMonthBadge();
-    updateCalendar();
-  });
-
-  // --- Main calc ---
-  function updateCalendar(){
+  // ---- Main update function ----
+  function updateCalendar() {
     clearHighlights();
     setVoiceText("");
 
     const hedashValue = hedashInput.value;
-    if(!hedashValue){
-      todayMain.textContent = "Set the HEDASH date and Kingdom Month to activate the Kingdom Calendar.";
-      todaySub.textContent  = "The tool will announce the correct week, work day or Shabat once HEDASH is set.";
+    if (!hedashValue) {
+      todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
+      todaySub.textContent = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
       return;
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
-    const now       = new Date();
+    const now = new Date();
     const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
-    const todayMid  = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const diffMs    = todayMid - hedashMid;
-    let dayOfMonth  = Math.floor(diffMs / (24*60*60*1000)) + 1;
+    const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffMs = todayMid - hedashMid;
+    const dayOffset = Math.floor(diffMs / (24*60*60*1000));
+    const dayOfMonth = dayOffset + 1;
 
-    if(dayOfMonth < 1) dayOfMonth = 1;
-
-    if(dayOfMonth > 30){
+    if (dayOfMonth < 1) {
+      todayMain.textContent = "Today is before the selected HEDASH date.";
+      todaySub.textContent = "Adjust the Renewed Moon date if needed.";
+      return;
+    }
+    if (dayOfMonth > 30) {
       todayMain.textContent = "Today is beyond the 30th day from the selected HEDASH.";
-      todaySub.textContent  = "Confirm the next HEDASH to begin a new Kingdom Month.";
+      todaySub.textContent = "Confirm the next HEDASH to begin the new month.";
       return;
     }
 
-    const monthVoice = getMonthVoiceText(kingdomMonthIndex);
-
-    if(dayOfMonth === 1){
-      const mainText =
-        `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S ${monthVoice}, ACCORDING TO THE PATH OF YEARS.`;
+    if (dayOfMonth === 1) {
+      const mainText = "TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S MONTH, ACCORDING TO THE PATH OF YEARS.";
       todayMain.textContent = mainText;
-      todaySub.innerHTML =
-        `<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.`;
+      todaySub.innerHTML = '<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.';
       setVoiceText(mainText);
       return;
     }
 
     const offsetFromDay2 = dayOfMonth - 2;
-    const weekNumber     = Math.floor(offsetFromDay2 / 7) + 1;
+    const weekNumber = Math.floor(offsetFromDay2 / 7) + 1;
     const positionInWeek = offsetFromDay2 % 7;
-    const isShabat       = (positionInWeek === 6);
-
+    const isShabat = (positionInWeek === 6);
     const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
-    if(weekRow){ weekRow.classList.add("highlight-week"); }
+    if (weekRow) {
+      weekRow.classList.add("highlight-week");
+    }
 
     const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
-    if(dayBox){ dayBox.classList.add("highlight-day"); }
+    if (dayBox) {
+      dayBox.classList.add("highlight-day");
+    }
 
-    const weekWord = ordinalWeekWords[weekNumber] || String(weekNumber);
-    const dayWord  = ordinalDayWords[dayOfMonth] || String(dayOfMonth);
+    const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
+    const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
 
     let mainText = "";
-    let subHtml  = "";
+    let subHtml = "";
 
-    if(isShabat){
-      const shNum  = dayBox && dayBox.getAttribute("data-shabat-number")
+    if (isShabat) {
+      const shabatBox = dayBox && dayBox.getAttribute("data-shabat-number")
         ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
         : null;
-      const shWord = shNum ? (ordinalShabatWords[shNum] || String(shNum)) : "SHABAT";
-
-      mainText =
-        `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shWord} SHABAT — ` +
-        `ON THE ${dayWord} DAY — IN YAHUAH’S ${monthVoice} — ACCORDING TO THE PATH OF YEARS.`;
-
+      const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
+      mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
         `<span class="pillHighlight">${weekWord} Week</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${shWord} Shabat</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     } else {
       const workDayNumber = positionInWeek + 1;
-      const workWord      = ordinalDayWords[workDayNumber] || String(workDayNumber);
-
-      mainText =
-        `WE ARE IN THE ${weekWord} WEEK — ON THE ${workWord} WORK DAY — ` +
-        `ON THE ${dayWord} DAY — IN YAHUAH’S ${monthVoice} — ACCORDING TO THE PATH OF YEARS.`;
-
+      const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
+      mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
         `<span class="pillHighlight">${weekWord} Week</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${workWord} Work Day</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     }
 
     todayMain.textContent = mainText;
-    todaySub.innerHTML    = subHtml;
+    todaySub.innerHTML = subHtml;
     setVoiceText(mainText);
   }
 
-  // Voice
+  // Voice button handler
   speakBtn.addEventListener("click", () => {
-    if(!lastVoiceText) return;
-    if(!("speechSynthesis" in window)){
+    if (!lastVoiceText) return;
+    if (!("speechSynthesis" in window)) {
       alert("Voice announcement is not available on this device or browser.");
       return;
     }
 
     window.speechSynthesis.cancel();
+
     const phoneticText = toPhonetic(lastVoiceText);
     const parts = phoneticText.split(" — ").map(p => p.trim()).filter(Boolean);
 
     let index = 0;
-    function speakNext(){
-      if(index >= parts.length) return;
-      const u = new SpeechSynthesisUtterance(parts[index]);
-      u.rate  = 0.9;
-      u.pitch = 0.95;
-      u.lang  = "en-US";
-      u.onend = () => { index++; setTimeout(speakNext,200); };
-      window.speechSynthesis.speak(u);
+    function speakNext() {
+      if (index >= parts.length) return;
+      const text = parts[index];
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.9;
+      utter.pitch = 0.95;
+      utter.lang = "en-US";
+
+      utter.onend = () => {
+        index++;
+        setTimeout(speakNext, 200);
+      };
+
+      window.speechSynthesis.speak(utter);
     }
+
     speakNext();
   });
 
-  // Initial
+  // initial run
   updateCalendar();
 </script>
 
