@@ -12,8 +12,8 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kingdom Calendar – Path of Years">
   <meta property="og:description" content="Track the Renewed Moon, Work Days, and Shabats according to the Path of Years.">
-  <meta property="og:url" content="https://kingdomcalendar.github.io/KINGDOM-CALENDAR-TOOL/">
-  <meta property="og:image" content="https://kingdomcalendar.github.io/KINGDOM-CALENDAR-TOOL/favicon.png">
+  <meta property="og:url" content="https://kingdomcalendartool.com/">
+  <meta property="og:image" content="https://kingdomcalendartool.com/favicon.png">
 
   <style>
   body {
@@ -830,6 +830,21 @@
     return t;
   }
 
+  // === NEW: Scriptural/Kingdom "today" that rolls over at 7 PM ===
+  function getKingdomToday(now = new Date()) {
+    const ROLLOVER_HOUR = 19; // 19:00 = 7 PM local time
+    const adjusted = new Date(now.getTime());
+
+    // Before 7 PM, it's still the previous Scriptural day
+    if (now.getHours() < ROLLOVER_HOUR) {
+      adjusted.setDate(adjusted.getDate() - 1);
+    }
+
+    // Normalize to midnight for clean day math
+    adjusted.setHours(0, 0, 0, 0);
+    return adjusted;
+  }
+
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
@@ -854,19 +869,17 @@
       hedashDate.getMonth(),
       hedashDate.getDate()
     );
-    let todayMid = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
+
+    // Use Scriptural/Kingdom "today" (evening-to-evening, 7 PM rollover)
+    let kingdomToday = getKingdomToday(now);
 
     // Preview future HEDASH as Day 1
-    if (todayMid < hedashMid) {
-      todayMid = hedashMid;
+    if (kingdomToday < hedashMid) {
+      kingdomToday = hedashMid;
     }
 
-    const diffMs    = todayMid - hedashMid;
-    const dayOffset = Math.floor(diffMs / (24*60*60*1000));
+    const diffMs     = kingdomToday - hedashMid;
+    const dayOffset  = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
 
     if (dayOfMonth > 30) {
@@ -978,15 +991,28 @@
       navigator.share({
         title: "Kingdom Calendar – Path of Years",
         text: "Check out the Kingdom Calendar – Path of Years tool!",
-        url: "https://kingdomcalendar.github.io/KINGDOM-CALENDAR-TOOL/"
+        url: "https://kingdomcalendartool.com/"
       }).catch((error) => console.log("Error sharing:", error));
     } else {
       alert("Sharing is not supported on this browser.");
     }
   }
 
+  // === NEW: Auto-update every minute so it rolls over at 7 PM even if tab stays open ===
+  function autoUpdateCalendar() {
+    if (!hedashInput.value) return; // only run if HEDASH is set
+    updateCalendar();
+  }
+
   // initial run
   updateCalendar();
+  setInterval(autoUpdateCalendar, 60 * 1000);
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      autoUpdateCalendar();
+    }
+  });
 </script>
 
 </body>
