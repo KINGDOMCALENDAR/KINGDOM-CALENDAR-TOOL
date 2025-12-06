@@ -768,24 +768,73 @@
     speakBtn.disabled = !lastVoiceText;
   }
 
- function toPhonetic(text) {
-  let t = text;
+  // Phonetic mapping so TTS says the words correctly
+  function toPhonetic(text) {
+    let t = text;
 
-  // Handle possessive forms first (both curly and straight apostrophes)
-  t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
-  t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+    // Handle possessive forms first (both curly and straight apostrophes)
+    t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
+    t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
 
-  // Plain Name
-  t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+    // Plain Name
+    t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
 
-  // Abayab -> AbbayoB (spoken)
-  t = t.replace(/ABAYAB/gi, "ABA YOB");
+    // Abayab -> ABBAYOB (spoken)
+    t = t.replace(/ABAYAB/gi, "ABA YOB");
 
-  // Shabat pronunciation -> SHABOT
-  t = t.replace(/SHABAT/gi, "SHABOT");
+    // Hedash -> HADAWSH (spoken)
+    t = t.replace(/HEDASH/gi, "HA DAWSH");
 
-  return t;
-}
+    // Shabat pronunciation -> SHABOT
+    t = t.replace(/SHABAT/gi, "SHABOT");
+
+    return t;
+  }
+
+  // Prefer a US English male / neutral voice, avoid European English if possible
+  function getUsMaleVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices || !voices.length) return null;
+
+    const isUs = (v) =>
+      v.lang &&
+      v.lang.toLowerCase().startsWith("en-us");
+
+    const notBritishOrEuro = (v) =>
+      !/uk|gb|irish|australia|australian|nz|new zealand|south africa/i.test(v.name) &&
+      (!v.lang || !/(en-gb|en-au|en-nz|en-za|en-ie)/i.test(v.lang));
+
+    // 1) US English voices by common names (Google, Microsoft, etc.)
+    let voice = voices.find(v =>
+      isUs(v) &&
+      /google|microsoft|natural/i.test(v.name) &&
+      notBritishOrEuro(v)
+    );
+
+    // 2) Any en-US voice, filtered to avoid obvious Euro variants
+    if (!voice) {
+      voice = voices.find(v => isUs(v) && notBritishOrEuro(v));
+    }
+
+    // 3) Any English voice that is not tagged as GB/AU/EU variants
+    if (!voice) {
+      voice = voices.find(v =>
+        v.lang &&
+        v.lang.toLowerCase().startsWith("en") &&
+        notBritishOrEuro(v)
+      );
+    }
+
+    // 4) Fallback: first voice
+    return voice || voices[0];
+  }
+
+  // Ensure voices are loaded in browsers that lazy-load them
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      // triggers voice list population
+    };
+  }
 
   function updateCalendar() {
     clearHighlights();
@@ -806,8 +855,16 @@
     const hedashDate = new Date(hedashValue + "T00:00:00");
     const now = new Date();
 
-    const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
-    let todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const hedashMid = new Date(
+      hedashDate.getFullYear(),
+      hedashDate.getMonth(),
+      hedashDate.getDate()
+    );
+    let todayMid = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
 
     // Preview future HEDASH as Day 1
     if (todayMid < hedashMid) {
@@ -815,7 +872,7 @@
     }
 
     const diffMs = todayMid - hedashMid;
-    const dayOffset = Math.floor(diffMs / (24*60*60*1000));
+    const dayOffset = Math.floor(diffMs / (24 * 60 * 60 * 1000));
     const dayOfMonth = dayOffset + 1;
 
     if (dayOfMonth > 30) {
@@ -839,12 +896,16 @@
     const offsetFromDay2 = dayOfMonth - 2;
     const weekNumber = Math.floor(offsetFromDay2 / 7) + 1;
     const positionInWeek = offsetFromDay2 % 7;
-    const isShabat = (positionInWeek === 6);
+    const isShabat = positionInWeek === 6;
 
-    const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
+    const weekRow = document.querySelector(
+      `.weekRow[data-week="${weekNumber}"]`
+    );
     if (weekRow) weekRow.classList.add("highlight-week");
 
-    const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
+    const dayBox = document.querySelector(
+      `.dayBox[data-day="${dayOfMonth}"]`
+    );
     if (dayBox) dayBox.classList.add("highlight-day");
 
     const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
@@ -854,10 +915,13 @@
     let subHtml = "";
 
     if (isShabat) {
-      const shabatBox = dayBox && dayBox.getAttribute("data-shabat-number")
-        ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
-        : null;
-      const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
+      const shabatBox =
+        dayBox && dayBox.getAttribute("data-shabat-number")
+          ? parseInt(dayBox.getAttribute("data-shabat-number"), 10)
+          : null;
+      const shabatWord = shabatBox
+        ? ordinalShabatWords[shabatBox] || shabatBox.toString()
+        : "";
       mainText =
         `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
@@ -866,7 +930,8 @@
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     } else {
       const workDayNumber = positionInWeek + 1;
-      const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
+      const workDayWord =
+        ordinalDayWords[workDayNumber] || workDayNumber.toString();
       mainText =
         `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
@@ -890,7 +955,12 @@
     window.speechSynthesis.cancel();
 
     const phoneticText = toPhonetic(lastVoiceText);
-    const parts = phoneticText.split(" — ").map(p => p.trim()).filter(Boolean);
+    const parts = phoneticText
+      .split(" — ")
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    const usVoice = getUsMaleVoice();
 
     let index = 0;
     function speakNext() {
@@ -898,13 +968,18 @@
       const text = parts[index];
 
       const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 0.9;
-      utter.pitch = 0.95;
+      utter.rate = 0.9;   // steady, strong pacing
+      utter.pitch = 0.9;  // slightly deeper tone
       utter.lang = "en-US";
+      utter.volume = 1.0;
+
+      if (usVoice) {
+        utter.voice = usVoice;
+      }
 
       utter.onend = () => {
         index++;
-        setTimeout(speakNext, 200);
+        setTimeout(speakNext, 220);
       };
 
       window.speechSynthesis.speak(utter);
