@@ -158,7 +158,7 @@
     align-items:center;
     gap:8px;
     max-width:700px;
-    margin:0 auto 8px auto;
+    margin:0 auto 6px auto;
   }
 
   .speak-btn {
@@ -469,33 +469,15 @@
     </div>
   </div>
 
- <!-- TODAY BANNER – TEXT INJECTED BY JS -->
-<div class="todayBanner">
-  <div class="todayBanner-main" id="today-main">
-    Set the HEDASH date above to activate the Kingdom Calendar.
+  <!-- TODAY BANNER – TEXT INJECTED BY JS -->
+  <div class="todayBanner">
+    <div class="todayBanner-main" id="today-main">
+      Set the HEDASH date above to activate the Kingdom Calendar.
+    </div>
+    <div class="todayBanner-sub" id="today-sub">
+      The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.
+    </div>
   </div>
-  <div class="todayBanner-sub" id="today-sub">
-    The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.
-  </div>
-</div>
-
-<!-- 7PM BANNER -->
-<div style="
-  text-align:center;
-  font-size:10px;
-  color:#facc15;
-  margin-top:3px;
-  background:rgba(250,204,21,0.08);
-  border:1px solid rgba(250,204,21,0.45);
-  padding:4px 6px;
-  border-radius:6px;
-  max-width:700px;
-  margin-left:auto;
-  margin-right:auto;
-">
-  The Kingdom Day changes at <b>7:00 PM</b>, evening to evening, according to YAHUAH'S time.
-</div>
-
 
   <!-- VOICE + SHARE BUTTONS -->
   <div class="voiceRow">
@@ -507,6 +489,21 @@
       <span class="icon">🔗</span>
       Share This Page
     </button>
+  </div>
+
+  <!-- 7 PM ROLLOVER INFO BAR -->
+  <div style="
+    text-align:center;
+    font-size:10px;
+    color:#facc15;
+    margin:0 auto 8px auto;
+    background:rgba(250,204,21,0.08);
+    border:1px solid rgba(250,204,21,0.45);
+    padding:4px 6px;
+    border-radius:6px;
+    max-width:700px;
+  ">
+    The calendar changes over from evening to evening at <b>7:00 PM</b>, according to YAHUAH'S time.
   </div>
 
   <!-- AUDIO PLAYER FOR ELEVENLABS -->
@@ -848,19 +845,18 @@
     return t;
   }
 
-  // === NEW: Scriptural/Kingdom "today" that rolls over at 7 PM ===
-  function getKingdomToday(now = new Date()) {
-    const ROLLOVER_HOUR = 19; // 19:00 = 7 PM local time
-    const adjusted = new Date(now.getTime());
-
-    // Before 7 PM, it's still the previous Scriptural day
-    if (now.getHours() < ROLLOVER_HOUR) {
-      adjusted.setDate(adjusted.getDate() - 1);
+  // === Scriptural/Kingdom "today" that rolls over at 7 PM ===
+  // New day begins at 7 PM the previous civil evening.
+  function getKingdomToday() {
+    const now  = new Date();
+    // Start from today's civil midnight
+    const base = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // After 7 PM, we treat it as the NEXT day in the Kingdom calendar
+    if (now.getHours() >= 19) {
+      base.setDate(base.getDate() + 1);
     }
-
-    // Normalize to midnight for clean day math
-    adjusted.setHours(0, 0, 0, 0);
-    return adjusted;
+    // base is already at midnight (00:00)
+    return base;
   }
 
   function updateCalendar() {
@@ -880,7 +876,6 @@
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
-    const now        = new Date();
 
     const hedashMid = new Date(
       hedashDate.getFullYear(),
@@ -888,10 +883,10 @@
       hedashDate.getDate()
     );
 
-    // Use Scriptural/Kingdom "today" (evening-to-evening, 7 PM rollover)
-    let kingdomToday = getKingdomToday(now);
+    // Scriptural/Kingdom "today" (evening-to-evening, 7 PM rollover)
+    let kingdomToday = getKingdomToday();
 
-    // Preview future HEDASH as Day 1
+    // If HEDASH is in the future, preview Day 1 (don't go negative)
     if (kingdomToday < hedashMid) {
       kingdomToday = hedashMid;
     }
@@ -1016,7 +1011,7 @@
     }
   }
 
-  // === NEW: Auto-update every minute so it rolls over at 7 PM even if tab stays open ===
+  // === Auto-update every minute so it rolls over at 7 PM even if tab stays open ===
   function autoUpdateCalendar() {
     if (!hedashInput.value) return; // only run if HEDASH is set
     updateCalendar();
