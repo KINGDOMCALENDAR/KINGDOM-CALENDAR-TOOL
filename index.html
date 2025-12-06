@@ -111,87 +111,6 @@
     color:#9ca3af;
   }
 
-  /* HEDASH PHOTO UPLOADER */
-  .hedashUpload {
-    background:#020617;
-    border-radius:8px;
-    border:1px solid #111827;
-    padding:8px 8px 6px;
-    margin-bottom:8px;
-    font-size:11px;
-  }
-  .hedashUpload-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    gap:6px;
-    margin-bottom:4px;
-  }
-  .hedashUpload-title {
-    font-weight:600;
-  }
-  .hedashUpload-hint {
-    font-size:10px;
-    color:#9ca3af;
-  }
-  .uploadButton {
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:4px 9px;
-    border-radius:999px;
-    border:1px solid rgba(148,163,184,0.8);
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    cursor:pointer;
-  }
-  .uploadButton input[type="file"] {
-    display:none;
-  }
-  .thumbGrid {
-    margin-top:6px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-  }
-  .thumbGrid .thumb {
-    border:none;
-    padding:0;
-    background:transparent;
-    cursor:pointer;
-    border-radius:6px;
-    overflow:hidden;
-    border:1px solid #1f2937;
-    width:64px;
-    height:64px;
-  }
-  .thumbGrid .thumb img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-  }
-
-  /* ENLARGED IMAGE MODAL */
-  .imageModal {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:50;
-  }
-  .imageModal.show {
-    display:flex;
-  }
-  .imageModal img {
-    max-width:90%;
-    max-height:90%;
-    border-radius:14px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.8);
-  }
-
   /* TODAY BANNER */
   .todayBanner {
     background:#0b1120;
@@ -495,20 +414,15 @@
     <span class="configHint">(Set the Renewed Moon sighting date to activate the calendar.)</span>
   </div>
 
-  <!-- HEDASH PHOTO UPLOADER -->
-  <div class="hedashUpload">
-    <div class="hedashUpload-header">
-      <div class="hedashUpload-title">HEDASH Sighting Photos (Optional)</div>
-      <div class="hedashUpload-hint">
-        Upload tonight’s Renewed Moon and tap a thumbnail to enlarge.
+  <!-- HEDASH = DAY 1 OF MONTH -->
+  <div class="hedashRow">
+    <div class="hedashIcon">🌒</div>
+    <div>
+      <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
+      <div class="hedashText-sub">
+        Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
       </div>
     </div>
-    <label class="uploadButton">
-      <span>Upload Photo(s)</span>
-      <input type="file" id="hedash-photos" accept="image/*" multiple>
-    </label>
-    <div id="upload-status" class="hedashUpload-hint" style="margin-top:4px;"></div>
-    <div id="hedash-thumbs" class="thumbGrid"></div>
   </div>
 
   <!-- TODAY BANNER – TEXT INJECTED BY JS -->
@@ -527,17 +441,6 @@
       <span class="icon"></span>
       Play Voice Announcement
     </button>
-  </div>
-
-  <!-- HEDASH = DAY 1 OF MONTH -->
-  <div class="hedashRow">
-    <div class="hedashIcon">🌒</div>
-    <div>
-      <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
-      <div class="hedashText-sub">
-        Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
-      </div>
-    </div>
   </div>
 
   <!-- WEEK 1 – Half Moon Waxing (Days 2–8) -->
@@ -731,38 +634,7 @@
 
 </div>
 
-<!-- IMAGE MODAL -->
-<div id="image-modal" class="imageModal">
-  <img id="modal-image" src="" alt="Hedash sighting enlarged">
-</div>
-
-<script type="module">
-  /* ---------- FIREBASE IMPORTS & CONFIG ---------- */
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getFirestore, collection, addDoc, serverTimestamp,
-    query, orderBy, onSnapshot
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  import {
-    getStorage, ref, uploadBytes, getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBKKtvwfMh1aC09hcc3emg-LUcAdgmkD4",
-    authDomain: "the-kingdom-calendar-tool.firebaseapp.com",
-    projectId: "the-kingdom-calendar-tool",
-    storageBucket: "the-kingdom-calendar-tool.firebasestorage.app",
-    messagingSenderId: "175117939688",
-    appId: "1:175117939688:web:a44fea43107f4137d9faa5d",
-    measurementId: "G-847P3HEJHP"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  /* ---------- EXISTING TOOL ELEMENTS ---------- */
-
+<script>
   // ---- Utility: Ordinal word mapping ----
   const ordinalWeekWords = {
     1: "FIRST",
@@ -794,15 +666,9 @@
   const todaySub = document.getElementById("today-sub");
   const speakBtn = document.getElementById("speakBtn");
 
-  const photoInput = document.getElementById("hedash-photos");
-  const thumbGrid = document.getElementById("hedash-thumbs");
-  const uploadStatus = document.getElementById("upload-status");
-  const imageModal = document.getElementById("image-modal");
-  const modalImage = document.getElementById("modal-image");
-
   let lastVoiceText = "";
 
-  // ---------- HEDASH DATE PERSISTENCE ----------
+  // restore saved hedash date if present
   const savedHedash = localStorage.getItem("hedashDate");
   if (savedHedash) {
     hedashInput.value = savedHedash;
@@ -962,80 +828,6 @@
     }
 
     speakNext();
-  });
-
-  /* ---------- FIREBASE PHOTO UPLOAD & GALLERY ---------- */
-
-  function clearThumbs() {
-    while (thumbGrid.firstChild) {
-      thumbGrid.removeChild(thumbGrid.firstChild);
-    }
-  }
-
-  function renderThumbFromUrl(url) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "thumb";
-    btn.innerHTML = `<img src="${url}" alt="Hedash sighting photo">`;
-    btn.addEventListener("click", () => {
-      modalImage.src = url;
-      imageModal.classList.add("show");
-    });
-    thumbGrid.appendChild(btn);
-  }
-
-  // Listen to Firestore and render all photos
-  const photosQuery = query(
-    collection(db, "calendarPhotos"),
-    orderBy("createdAt", "desc")
-  );
-
-  onSnapshot(photosQuery, (snapshot) => {
-    clearThumbs();
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if (data && data.imageUrl) {
-        renderThumbFromUrl(data.imageUrl);
-      }
-    });
-  });
-
-  // Upload selected files to Firebase
-  photoInput.addEventListener("change", async (event) => {
-    const files = Array.from(event.target.files || []);
-    if (!files.length) return;
-
-    uploadStatus.textContent = "Uploading photo(s)...";
-
-    try {
-      for (const file of files) {
-        if (!file.type.startsWith("image/")) continue;
-
-        const fileName = Date.now() + "_" + file.name;
-        const storageRef = ref(storage, "calendarPhotos/" + fileName);
-
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-
-        await addDoc(collection(db, "calendarPhotos"), {
-          imageUrl: url,
-          createdAt: serverTimestamp()
-        });
-      }
-      uploadStatus.textContent = "Upload complete!";
-    } catch (err) {
-      console.error(err);
-      uploadStatus.textContent = "Upload failed. Please try again.";
-    } finally {
-      photoInput.value = "";
-      setTimeout(() => { uploadStatus.textContent = ""; }, 4000);
-    }
-  });
-
-  // Close enlarged image on click
-  imageModal.addEventListener("click", () => {
-    imageModal.classList.remove("show");
-    modalImage.src = "";
   });
 
   // initial run
