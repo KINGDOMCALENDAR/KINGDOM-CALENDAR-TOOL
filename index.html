@@ -3,472 +3,472 @@
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Kingdom Calendar – Path of Years</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Kingdom Calendar – Path of Years</title>
 
-<style>
-body {
-  background:#020617;
-  color:#e5e7eb;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  margin:0;
-  padding:8px;
-  display:flex;
-  justify-content:center;
-}
+  <style>
+  body {
+    background:#020617;
+    color:#e5e7eb;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    margin:0;
+    padding:8px;
+    display:flex;
+    justify-content:center;
+  }
 
-.calendar {
-  width:100%;
-  max-width:850px;
-}
+  .calendar {
+    width:100%;
+    max-width:850px;
+  }
 
-/* HEADER ROW */
-.calendarHeader {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:2px;
-}
-
-.calendarSide {
-  width:150px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:#9ca3af;
-  white-space:nowrap;
-}
-
-.calendarRef {
-  text-align:left;
-}
-
-.calendarTitle {
-  flex:1;
-  text-align:center;
-  font-size:18px;
-  font-weight:600;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:#fef9c3;
-}
-
-/* MONTH BADGE ON RIGHT */
-.monthBadge {
-  display:inline-block;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
-  padding:3px 9px;
-  border-radius:999px;
-  background:rgba(250,204,21,0.18);
-  border:1px solid rgba(250,204,21,0.7);
-  color:#facc15;
-}
-
-/* SUBTEXT UNDER HEADER */
-.calendarSub {
-  font-size:11px;
-  color:#9ca3af;
-  text-align:center;
-  margin-bottom:2px;
-}
-.calendarNote {
-  font-size:10px;
-  color:#9ca3af;
-  text-align:center;
-  margin-bottom:6px;
-}
-
-/* HEDASH INPUT BAR */
-.configBar {
-  background:#020617;
-  border-radius:8px;
-  border:1px solid #111827;
-  padding:6px 8px;
-  margin-bottom:8px;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:6px;
-  font-size:11px;
-}
-.configLabel {
-  color:#e5e7eb;
-}
-.configBar input[type="date"] {
-  background:#020617;
-  border:1px solid #1f2937;
-  border-radius:6px;
-  padding:3px 5px;
-  color:#e5e7eb;
-  font-size:11px;
-}
-.configHint {
-  font-size:10px;
-  color:#9ca3af;
-}
-
-/* HEDASH PHOTO UPLOADER */
-.hedashUpload {
-  background:#020617;
-  border-radius:8px;
-  border:1px solid #111827;
-  padding:8px 8px 6px;
-  margin-bottom:8px;
-  font-size:11px;
-}
-.hedashUpload-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:6px;
-  margin-bottom:4px;
-}
-.hedashUpload-title {
-  font-weight:600;
-}
-.hedashUpload-hint {
-  font-size:10px;
-  color:#9ca3af;
-}
-.uploadButton {
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:4px 9px;
-  border-radius:999px;
-  border:1px solid rgba(148,163,184,0.8);
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  cursor:pointer;
-}
-.uploadButton input[type="file"] {
-  display:none;
-}
-.thumbGrid {
-  margin-top:6px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.thumbGrid .thumb {
-  border:none;
-  padding:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius:6px;
-  overflow:hidden;
-  border:1px solid #1f2937;
-  width:64px;
-  height:64px;
-}
-.thumbGrid .thumb img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* ENLARGED IMAGE MODAL */
-.imageModal {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-.imageModal.show {
-  display:flex;
-}
-.imageModal img {
-  max-width:90%;
-  max-height:90%;
-  border-radius:14px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.8);
-}
-
-/* TODAY BANNER */
-.todayBanner {
-  background:#0b1120;
-  border:1px solid #1f2937;
-  border-radius:10px;
-  padding:8px 10px;
-  margin:0 auto 6px auto;
-  font-size:13px;
-  max-width:700px;
-  text-align:center;
-}
-.todayBanner-main {
-  font-weight:600;
-}
-.todayBanner-sub {
-  font-size:11px;
-  color:#9ca3af;
-  margin-top:2px;
-}
-.pillHighlight {
-  display:inline-block;
-  padding:1px 6px;
-  border-radius:999px;
-  background:rgba(250,204,21,0.2);
-  border:1px solid rgba(250,204,21,0.7);
-  color:#facc15;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-/* VOICE BUTTON ROW */
-.voiceRow {
-  display:flex;
-  justify-content:center;
-  max-width:700px;
-  margin:0 auto 8px auto;
-}
-.speak-btn {
-  border-radius:999px;
-  border:1px solid rgba(56,189,248,0.7);
-  background:radial-gradient(circle at top,rgba(56,189,248,0.2) 0%,#020617 80%);
-  color:#e0f2fe;
-  font-size:11px;
-  padding:5px 13px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
-.speak-btn span.icon {
-  width:9px;
-  height:9px;
-  border-radius:999px;
-  background:#38bdf8;
-  box-shadow:0 0 6px rgba(56,189,248,0.9);
-}
-.speak-btn:disabled {
-  opacity:.45;
-  cursor:not-allowed;
-  border-style:dashed;
-  box-shadow:none;
-}
-
-/* HEDASH ROW */
-.hedashRow {
-  background:#020617;
-  border-radius:8px;
-  border:1px solid #111827;
-  padding:8px;
-  margin-bottom:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-.hedashIcon {
-  font-size:24px;
-}
-.hedashText-main {
-  font-size:12px;
-  font-weight:600;
-}
-.hedashText-sub {
-  font-size:10px;
-  color:#9ca3af;
-}
-
-/* WEEK ROWS */
-.weekRow {
-  display:flex;
-  align-items:center;
-  gap:4px;
-  margin:6px 0;
-  background:#020617;
-  padding:4px 6px;
-  border-radius:8px;
-  border:1px solid #111827;
-}
-
-/* highlighted current week */
-.highlight-week {
-  background:linear-gradient(90deg, rgba(250,204,21,0.12), #020617);
-  border-color:rgba(250,204,21,0.55);
-  box-shadow:0 0 0 1px rgba(250,204,21,0.2);
-}
-
-/* left week label column */
-.weekLabel {
-  width:60px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  color:#9ca3af;
-  text-align:center;
-}
-
-/* phase icons left/right */
-.phaseIcon {
-  width:26px;
-  text-align:center;
-  font-size:18px;
-}
-
-/* day boxes */
-.dayRow {
-  display:flex;
-  flex:1;
-  gap:3px;
-}
-
-.dayBox {
-  flex:1;
-  background:#111827;
-  border-radius:6px;
-  padding:4px 1px;
-  border:1px solid #1f2937;
-  font-size:10px;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  gap:1px;
-}
-
-.dayLabel {
-  font-weight:500;
-  font-size:10px;
-}
-.daySub {
-  font-size:9px;
-  color:#9ca3af;
-}
-
-.shabat {
-  background:#1e293b;
-  border-color:#facc15;
-  color:#facc15;
-  font-weight:600;
-}
-
-/* highlighted current day */
-.highlight-day {
-  background:rgba(250,204,21,0.25);
-  border-color:rgba(250,204,21,0.85);
-  box-shadow:0 0 0 1px rgba(250,204,21,0.35);
-}
-.highlight-day .dayLabel {
-  color:#fef9c3;
-}
-.highlight-day .daySub {
-  color:#fef3c7;
-}
-
-/* LEGEND (inside collapsible) */
-.legendDetails {
-  margin-top:8px;
-  font-size:12px;
-}
-.legendDetails summary {
-  cursor:pointer;
-  list-style:none;
-  padding:4px 8px;
-  border-radius:999px;
-  border:1px solid #1f2937;
-  display:inline-block;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  color:#e5e7eb;
-}
-.legendDetails summary::-webkit-details-marker {
-  display:none;
-}
-.legend {
-  margin-top:8px;
-  font-size:12px;
-  text-align:center;
-}
-
-.legendRow {
-  display:inline-flex;
-  flex-wrap:wrap;
-  gap:10px;
-  align-items:center;
-  margin-bottom:8px;
-}
-
-.legendColor {
-  width:10px;
-  height:10px;
-  border-radius:3px;
-  border:1px solid #1f2937;
-}
-
-.legendColor.work {
-  background:#111827;
-}
-.legendColor.shabat {
-  background:#1e293b;
-  border-color:#facc15;
-}
-
-/* moon phase legend row */
-.phaseLegendTitle {
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:#9ca3af;
-  margin-bottom:3px;
-  margin-top:3px;
-}
-
-.phaseLegendRow {
-  display:flex;
-  justify-content:space-between;
-  gap:4px;
-}
-
-.phaseItem {
-  flex:1;
-  text-align:center;
-}
-
-.phaseItemIcon {
-  font-size:20px;
-}
-
-.phaseItemText {
-  font-size:10px;
-  color:#9ca3af;
-}
-
-.calendarNoteBottom {
-  margin-top:6px;
-  font-size:10px;
-  color:#9ca3af;
-}
-
-/* MOBILE */
-@media (max-width:640px){
+  /* HEADER ROW */
   .calendarHeader {
-    flex-direction:column;
+    display:flex;
     align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:2px;
+  }
+
+  .calendarSide {
+    width:150px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:#9ca3af;
+    white-space:nowrap;
+  }
+
+  .calendarRef {
+    text-align:left;
+  }
+
+  .calendarTitle {
+    flex:1;
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#fef9c3;
+  }
+
+  /* MONTH BADGE ON RIGHT */
+  .monthBadge {
+    display:inline-block;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    padding:3px 9px;
+    border-radius:999px;
+    background:rgba(250,204,21,0.18);
+    border:1px solid rgba(250,204,21,0.7);
+    color:#facc15;
+  }
+
+  /* SUBTEXT UNDER HEADER */
+  .calendarSub {
+    font-size:11px;
+    color:#9ca3af;
+    text-align:center;
+    margin-bottom:2px;
+  }
+  .calendarNote {
+    font-size:10px;
+    color:#9ca3af;
+    text-align:center;
+    margin-bottom:6px;
+  }
+
+  /* HEDASH INPUT BAR */
+  .configBar {
+    background:#020617;
+    border-radius:8px;
+    border:1px solid #111827;
+    padding:6px 8px;
+    margin-bottom:8px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+  }
+  .configLabel {
+    color:#e5e7eb;
+  }
+  .configBar input[type="date"] {
+    background:#020617;
+    border:1px solid #1f2937;
+    border-radius:6px;
+    padding:3px 5px;
+    color:#e5e7eb;
+    font-size:11px;
+  }
+  .configHint {
+    font-size:10px;
+    color:#9ca3af;
+  }
+
+  /* HEDASH PHOTO UPLOADER */
+  .hedashUpload {
+    background:#020617;
+    border-radius:8px;
+    border:1px solid #111827;
+    padding:8px 8px 6px;
+    margin-bottom:8px;
+    font-size:11px;
+  }
+  .hedashUpload-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:6px;
+    margin-bottom:4px;
+  }
+  .hedashUpload-title {
+    font-weight:600;
+  }
+  .hedashUpload-hint {
+    font-size:10px;
+    color:#9ca3af;
+  }
+  .uploadButton {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 9px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.8);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    cursor:pointer;
+  }
+  .uploadButton input[type="file"] {
+    display:none;
+  }
+  .thumbGrid {
+    margin-top:6px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .thumbGrid .thumb {
+    border:none;
+    padding:0;
+    background:transparent;
+    cursor:pointer;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid #1f2937;
+    width:64px;
+    height:64px;
+  }
+  .thumbGrid .thumb img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  /* ENLARGED IMAGE MODAL */
+  .imageModal {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
+  }
+  .imageModal.show {
+    display:flex;
+  }
+  .imageModal img {
+    max-width:90%;
+    max-height:90%;
+    border-radius:14px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.8);
+  }
+
+  /* TODAY BANNER */
+  .todayBanner {
+    background:#0b1120;
+    border:1px solid #1f2937;
+    border-radius:10px;
+    padding:8px 10px;
+    margin:0 auto 6px auto;
+    font-size:13px;
+    max-width:700px;
     text-align:center;
   }
-  .calendarSide {
-    width:auto;
-    white-space:normal;
+  .todayBanner-main {
+    font-weight:600;
   }
-  .weekRow { padding:4px 3px; gap:3px; }
-  .weekLabel { width:52px; font-size:9px; }
-  .dayBox { font-size:9px; padding:4px 1px; }
-  .dayLabel { font-size:9px; }
-  .daySub { font-size:8px; }
-  .phaseItemText { font-size:9px; }
-}
-</style>
+  .todayBanner-sub {
+    font-size:11px;
+    color:#9ca3af;
+    margin-top:2px;
+  }
+  .pillHighlight {
+    display:inline-block;
+    padding:1px 6px;
+    border-radius:999px;
+    background:rgba(250,204,21,0.2);
+    border:1px solid rgba(250,204,21,0.7);
+    color:#facc15;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+
+  /* VOICE BUTTON ROW */
+  .voiceRow {
+    display:flex;
+    justify-content:center;
+    max-width:700px;
+    margin:0 auto 8px auto;
+  }
+  .speak-btn {
+    border-radius:999px;
+    border:1px solid rgba(56,189,248,0.7);
+    background:radial-gradient(circle at top,rgba(56,189,248,0.2) 0%,#020617 80%);
+    color:#e0f2fe;
+    font-size:11px;
+    padding:5px 13px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .speak-btn span.icon {
+    width:9px;
+    height:9px;
+    border-radius:999px;
+    background:#38bdf8;
+    box-shadow:0 0 6px rgba(56,189,248,0.9);
+  }
+  .speak-btn:disabled {
+    opacity:.45;
+    cursor:not-allowed;
+    border-style:dashed;
+    box-shadow:none;
+  }
+
+  /* HEDASH ROW */
+  .hedashRow {
+    background:#020617;
+    border-radius:8px;
+    border:1px solid #111827;
+    padding:8px;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .hedashIcon {
+    font-size:24px;
+  }
+  .hedashText-main {
+    font-size:12px;
+    font-weight:600;
+  }
+  .hedashText-sub {
+    font-size:10px;
+    color:#9ca3af;
+  }
+
+  /* WEEK ROWS */
+  .weekRow {
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin:6px 0;
+    background:#020617;
+    padding:4px 6px;
+    border-radius:8px;
+    border:1px solid #111827;
+  }
+
+  /* highlighted current week */
+  .highlight-week {
+    background:linear-gradient(90deg, rgba(250,204,21,0.12), #020617);
+    border-color:rgba(250,204,21,0.55);
+    box-shadow:0 0 0 1px rgba(250,204,21,0.2);
+  }
+
+  /* left week label column */
+  .weekLabel {
+    width:60px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#9ca3af;
+    text-align:center;
+  }
+
+  /* phase icons left/right */
+  .phaseIcon {
+    width:26px;
+    text-align:center;
+    font-size:18px;
+  }
+
+  /* day boxes */
+  .dayRow {
+    display:flex;
+    flex:1;
+    gap:3px;
+  }
+
+  .dayBox {
+    flex:1;
+    background:#111827;
+    border-radius:6px;
+    padding:4px 1px;
+    border:1px solid #1f2937;
+    font-size:10px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+  }
+
+  .dayLabel {
+    font-weight:500;
+    font-size:10px;
+  }
+  .daySub {
+    font-size:9px;
+    color:#9ca3af;
+  }
+
+  .shabat {
+    background:#1e293b;
+    border-color:#facc15;
+    color:#facc15;
+    font-weight:600;
+  }
+
+  /* highlighted current day */
+  .highlight-day {
+    background:rgba(250,204,21,0.25);
+    border-color:rgba(250,204,21,0.85);
+    box-shadow:0 0 0 1px rgba(250,204,21,0.35);
+  }
+  .highlight-day .dayLabel {
+    color:#fef9c3;
+  }
+  .highlight-day .daySub {
+    color:#fef3c7;
+  }
+
+  /* LEGEND (inside collapsible) */
+  .legendDetails {
+    margin-top:8px;
+    font-size:12px;
+  }
+  .legendDetails summary {
+    cursor:pointer;
+    list-style:none;
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid #1f2937;
+    display:inline-block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#e5e7eb;
+  }
+  .legendDetails summary::-webkit-details-marker {
+    display:none;
+  }
+  .legend {
+    margin-top:8px;
+    font-size:12px;
+    text-align:center;
+  }
+
+  .legendRow {
+    display:inline-flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-bottom:8px;
+  }
+
+  .legendColor {
+    width:10px;
+    height:10px;
+    border-radius:3px;
+    border:1px solid #1f2937;
+  }
+
+  .legendColor.work {
+    background:#111827;
+  }
+  .legendColor.shabat {
+    background:#1e293b;
+    border-color:#facc15;
+  }
+
+  /* moon phase legend row */
+  .phaseLegendTitle {
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:#9ca3af;
+    margin-bottom:3px;
+    margin-top:3px;
+  }
+
+  .phaseLegendRow {
+    display:flex;
+    justify-content:space-between;
+    gap:4px;
+  }
+
+  .phaseItem {
+    flex:1;
+    text-align:center;
+  }
+
+  .phaseItemIcon {
+    font-size:20px;
+  }
+
+  .phaseItemText {
+    font-size:10px;
+    color:#9ca3af;
+  }
+
+  .calendarNoteBottom {
+    margin-top:6px;
+    font-size:10px;
+    color:#9ca3af;
+  }
+
+  /* MOBILE */
+  @media (max-width:640px){
+    .calendarHeader {
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+    .calendarSide {
+      width:auto;
+      white-space:normal;
+    }
+    .weekRow { padding:4px 3px; gap:3px; }
+    .weekLabel { width:52px; font-size:9px; }
+    .dayBox { font-size:9px; padding:4px 1px; }
+    .dayLabel { font-size:9px; }
+    .daySub { font-size:8px; }
+    .phaseItemText { font-size:9px; }
+  }
+  </style>
 </head>
 <body>
 
@@ -499,12 +499,15 @@ body {
   <div class="hedashUpload">
     <div class="hedashUpload-header">
       <div class="hedashUpload-title">HEDASH Sighting Photos (Optional)</div>
-      <div class="hedashUpload-hint">Upload tonight’s Renewed Moon and tap a thumbnail to enlarge.</div>
+      <div class="hedashUpload-hint">
+        Upload tonight’s Renewed Moon and tap a thumbnail to enlarge.
+      </div>
     </div>
     <label class="uploadButton">
       <span>Upload Photo(s)</span>
       <input type="file" id="hedash-photos" accept="image/*" multiple>
     </label>
+    <div id="upload-status" class="hedashUpload-hint" style="margin-top:4px;"></div>
     <div id="hedash-thumbs" class="thumbGrid"></div>
   </div>
 
@@ -733,246 +736,310 @@ body {
   <img id="modal-image" src="" alt="Hedash sighting enlarged">
 </div>
 
-<script>
-// ---- Utility: Ordinal word mapping ----
-const ordinalWeekWords = {
-  1: "FIRST",
-  2: "SECOND",
-  3: "THIRD",
-  4: "FOURTH"
-};
+<script type="module">
+  /* ---------- FIREBASE IMPORTS & CONFIG ---------- */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, serverTimestamp,
+    query, orderBy, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getStorage, ref, uploadBytes, getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-const ordinalShabatWords = {
-  1: "FIRST",
-  2: "SECOND",
-  3: "THIRD",
-  4: "FOURTH"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKKtvwfMh1aC09hcc3emg-LUcAdgmkD4",
+    authDomain: "the-kingdom-calendar-tool.firebaseapp.com",
+    projectId: "the-kingdom-calendar-tool",
+    storageBucket: "the-kingdom-calendar-tool.firebasestorage.app",
+    messagingSenderId: "175117939688",
+    appId: "1:175117939688:web:a44fea43107f4137d9faa5d",
+    measurementId: "G-847P3HEJHP"
+  };
 
-const ordinalDayWords = {
-  1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
-  6:"SIXTH", 7:"SEVENTH", 8:"EIGHTH", 9:"NINTH", 10:"TENTH",
-  11:"ELEVENTH", 12:"TWELFTH", 13:"THIRTEENTH", 14:"FOURTEENTH",
-  15:"FIFTEENTH", 16:"SIXTEENTH", 17:"SEVENTEENTH", 18:"EIGHTEENTH",
-  19:"NINETEENTH", 20:"TWENTIETH", 21:"TWENTY-FIRST", 22:"TWENTY-SECOND",
-  23:"TWENTY-THIRD", 24:"TWENTY-FOURTH", 25:"TWENTY-FIFTH", 26:"TWENTY-SIXTH",
-  27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
-};
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
-// ---- Get elements ----
-const hedashInput = document.getElementById("hedash-input");
-const todayMain = document.getElementById("today-main");
-const todaySub = document.getElementById("today-sub");
-const speakBtn = document.getElementById("speakBtn");
+  /* ---------- EXISTING TOOL ELEMENTS ---------- */
 
-const photoInput = document.getElementById("hedash-photos");
-const thumbGrid = document.getElementById("hedash-thumbs");
-const imageModal = document.getElementById("image-modal");
-const modalImage = document.getElementById("modal-image");
+  // ---- Utility: Ordinal word mapping ----
+  const ordinalWeekWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
 
-let lastVoiceText = "";
+  const ordinalShabatWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
 
-// restore saved hedash date if present
-const savedHedash = localStorage.getItem("hedashDate");
-if (savedHedash) {
-  hedashInput.value = savedHedash;
-}
+  const ordinalDayWords = {
+    1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
+    6:"SIXTH", 7:"SEVENTH", 8:"EIGHTH", 9:"NINTH", 10:"TENTH",
+    11:"ELEVENTH", 12:"TWELFTH", 13:"THIRTEENTH", 14:"FOURTEENTH",
+    15:"FIFTEENTH", 16:"SIXTEENTH", 17:"SEVENTEENTH", 18:"EIGHTEENTH",
+    19:"NINETEENTH", 20:"TWENTIETH", 21:"TWENTY-FIRST", 22:"TWENTY-SECOND",
+    23:"TWENTY-THIRD", 24:"TWENTY-FOURTH", 25:"TWENTY-FIFTH", 26:"TWENTY-SIXTH",
+    27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
+  };
 
-hedashInput.addEventListener("change", () => {
-  if (hedashInput.value) {
-    localStorage.setItem("hedashDate", hedashInput.value);
+  // ---- Get elements ----
+  const hedashInput = document.getElementById("hedash-input");
+  const todayMain = document.getElementById("today-main");
+  const todaySub = document.getElementById("today-sub");
+  const speakBtn = document.getElementById("speakBtn");
+
+  const photoInput = document.getElementById("hedash-photos");
+  const thumbGrid = document.getElementById("hedash-thumbs");
+  const uploadStatus = document.getElementById("upload-status");
+  const imageModal = document.getElementById("image-modal");
+  const modalImage = document.getElementById("modal-image");
+
+  let lastVoiceText = "";
+
+  // ---------- HEDASH DATE PERSISTENCE ----------
+  const savedHedash = localStorage.getItem("hedashDate");
+  if (savedHedash) {
+    hedashInput.value = savedHedash;
   }
-  updateCalendar();
-});
 
-function clearHighlights() {
-  document.querySelectorAll(".weekRow").forEach(row => {
-    row.classList.remove("highlight-week");
+  hedashInput.addEventListener("change", () => {
+    if (hedashInput.value) {
+      localStorage.setItem("hedashDate", hedashInput.value);
+    }
+    updateCalendar();
   });
-  document.querySelectorAll(".dayBox").forEach(box => {
-    box.classList.remove("highlight-day");
-  });
-}
 
-function setVoiceText(text) {
-  lastVoiceText = text || "";
-  speakBtn.disabled = !lastVoiceText;
-}
-
-// Convert display text into phonetic text for speech only
-function toPhonetic(text) {
-  let t = text;
-
-  // Handle possessive forms first (both curly and straight apostrophes)
-  t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
-  t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
-
-  // Plain Name
-  t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
-
-  // Shabat pronunciation -> SHABOT
-  t = t.replace(/SHABAT/gi, "SHABOT");
-
-  return t;
-}
-
-// ---- Main update function ----
-function updateCalendar() {
-  clearHighlights();
-  setVoiceText("");
-
-  const hedashValue = hedashInput.value;
-  if (!hedashValue) {
-    todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
-    todaySub.textContent = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
-    return;
+  function clearHighlights() {
+    document.querySelectorAll(".weekRow").forEach(row => {
+      row.classList.remove("highlight-week");
+    });
+    document.querySelectorAll(".dayBox").forEach(box => {
+      box.classList.remove("highlight-day");
+    });
   }
 
-  const hedashDate = new Date(hedashValue + "T00:00:00");
-  const now = new Date();
-  // normalize to midnight for both
-  const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
-  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const diffMs = todayMid - hedashMid;
-  const dayOffset = Math.floor(diffMs / (24*60*60*1000)); // days since Hedash
-  const dayOfMonth = dayOffset + 1; // Hedash is Day 1
-
-  if (dayOfMonth < 1) {
-    todayMain.textContent = "Today is before the selected HEDASH date.";
-    todaySub.textContent = "Adjust the Renewed Moon date if needed.";
-    return;
-  }
-  if (dayOfMonth > 30) {
-    todayMain.textContent = "Today is beyond the 30th day from the selected HEDASH.";
-    todaySub.textContent = "Confirm the next HEDASH to begin the new month.";
-    return;
+  function setVoiceText(text) {
+    lastVoiceText = text || "";
+    speakBtn.disabled = !lastVoiceText;
   }
 
-  // HEDASH itself
-  if (dayOfMonth === 1) {
-    const mainText = "TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S MONTH, ACCORDING TO THE PATH OF YEARS.";
+  // Convert display text into phonetic text for speech only
+  function toPhonetic(text) {
+    let t = text;
+
+    // Handle possessive forms first (both curly and straight apostrophes)
+    t = t.replace(/YAHUAH’S/gi, "YAH HOO WAH’S");
+    t = t.replace(/YAHUAH'S/gi, "YAH HOO WAH'S");
+
+    // Plain Name
+    t = t.replace(/YAHUAH/gi, "YAH HOO WAH");
+
+    // Shabat pronunciation -> SHABOT
+    t = t.replace(/SHABAT/gi, "SHABOT");
+
+    return t;
+  }
+
+  // ---- Main update function ----
+  function updateCalendar() {
+    clearHighlights();
+    setVoiceText("");
+
+    const hedashValue = hedashInput.value;
+    if (!hedashValue) {
+      todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
+      todaySub.textContent = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
+      return;
+    }
+
+    const hedashDate = new Date(hedashValue + "T00:00:00");
+    const now = new Date();
+    const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
+    const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffMs = todayMid - hedashMid;
+    const dayOffset = Math.floor(diffMs / (24*60*60*1000));
+    const dayOfMonth = dayOffset + 1;
+
+    if (dayOfMonth < 1) {
+      todayMain.textContent = "Today is before the selected HEDASH date.";
+      todaySub.textContent = "Adjust the Renewed Moon date if needed.";
+      return;
+    }
+    if (dayOfMonth > 30) {
+      todayMain.textContent = "Today is beyond the 30th day from the selected HEDASH.";
+      todaySub.textContent = "Confirm the next HEDASH to begin the new month.";
+      return;
+    }
+
+    if (dayOfMonth === 1) {
+      const mainText = "TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF YAHUAH’S MONTH, ACCORDING TO THE PATH OF YEARS.";
+      todayMain.textContent = mainText;
+      todaySub.innerHTML = '<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.';
+      setVoiceText(mainText);
+      return;
+    }
+
+    const offsetFromDay2 = dayOfMonth - 2;
+    const weekNumber = Math.floor(offsetFromDay2 / 7) + 1;
+    const positionInWeek = offsetFromDay2 % 7;
+    const isShabat = (positionInWeek === 6);
+    const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
+    if (weekRow) {
+      weekRow.classList.add("highlight-week");
+    }
+
+    const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
+    if (dayBox) {
+      dayBox.classList.add("highlight-day");
+    }
+
+    const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
+    const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
+
+    let mainText = "";
+    let subHtml = "";
+
+    if (isShabat) {
+      const shabatBox = dayBox && dayBox.getAttribute("data-shabat-number")
+        ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
+        : null;
+      const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
+      mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+      subHtml =
+        `<span class="pillHighlight">${weekWord} Week</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
+    } else {
+      const workDayNumber = positionInWeek + 1;
+      const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
+      mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
+      subHtml =
+        `<span class="pillHighlight">${weekWord} Week</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
+    }
+
     todayMain.textContent = mainText;
-    todaySub.innerHTML = '<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for this month according to the Path of Years.';
+    todaySub.innerHTML = subHtml;
     setVoiceText(mainText);
-    return;
   }
 
-  // Days 2–29 (and optional 30)
-  const offsetFromDay2 = dayOfMonth - 2; // 0-based from Day 2
-  const weekNumber = Math.floor(offsetFromDay2 / 7) + 1; // 1–4
-  const positionInWeek = offsetFromDay2 % 7; // 0–6 (0=Work1, 5=Work6, 6=Shabat)
-  const isShabat = (positionInWeek === 6);
-  const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
-  if (weekRow) {
-    weekRow.classList.add("highlight-week");
-  }
+  // Voice button handler
+  speakBtn.addEventListener("click", () => {
+    if (!lastVoiceText) return;
+    if (!("speechSynthesis" in window)) {
+      alert("Voice announcement is not available on this device or browser.");
+      return;
+    }
 
-  const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
-  if (dayBox) {
-    dayBox.classList.add("highlight-day");
-  }
+    window.speechSynthesis.cancel();
 
-  const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
-  const dayWord = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
+    const phoneticText = toPhonetic(lastVoiceText);
+    const parts = phoneticText.split(" — ").map(p => p.trim()).filter(Boolean);
 
-  let mainText = "";
-  let subHtml = "";
+    let index = 0;
+    function speakNext() {
+      if (index >= parts.length) return;
+      const text = parts[index];
 
-  if (isShabat) {
-    const shabatBox = dayBox && dayBox.getAttribute("data-shabat-number")
-      ? parseInt(dayBox.getAttribute("data-shabat-number"),10)
-      : null;
-    const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
-    mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
-    subHtml =
-      `<span class="pillHighlight">${weekWord} Week</span>` +
-      ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
-      ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
-  } else {
-    const workDayNumber = positionInWeek + 1; // 1–6
-    const workDayWord = ordinalDayWords[workDayNumber] || workDayNumber.toString();
-    mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN YAHUAH’S TWELFTH MONTH — ACCORDING TO THE PATH OF YEARS.`;
-    subHtml =
-      `<span class="pillHighlight">${weekWord} Week</span>` +
-      ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
-      ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
-  }
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.9;
+      utter.pitch = 0.95;
+      utter.lang = "en-US";
 
-  todayMain.textContent = mainText;
-  todaySub.innerHTML = subHtml;
-  setVoiceText(mainText);
-}
+      utter.onend = () => {
+        index++;
+        setTimeout(speakNext, 200);
+      };
 
-// Voice button handler – slightly faster, shorter pauses, phonetic spellings
-speakBtn.addEventListener("click", () => {
-  if (!lastVoiceText) return;
-  if (!("speechSynthesis" in window)) {
-    alert("Voice announcement is not available on this device or browser.");
-    return;
-  }
+      window.speechSynthesis.speak(utter);
+    }
 
-  // Cancel anything currently speaking
-  window.speechSynthesis.cancel();
-
-  // Use phonetic version for speech
-  const phoneticText = toPhonetic(lastVoiceText);
-
-  // Split the big sentence on " — " so each phrase is spoken with a pause
-  const parts = phoneticText.split(" — ").map(p => p.trim()).filter(Boolean);
-
-  let index = 0;
-  function speakNext() {
-    if (index >= parts.length) return;
-    const text = parts[index];
-
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.9;
-    utter.pitch = 0.95;
-    utter.lang = "en-US";
-
-    utter.onend = () => {
-      index++;
-      setTimeout(speakNext, 200);
-    };
-
-    window.speechSynthesis.speak(utter);
-  }
-
-  speakNext();
-});
-
-// HEDASH PHOTO UPLOADER LOGIC
-photoInput.addEventListener("change", (event) => {
-  const files = Array.from(event.target.files || []);
-  thumbGrid.innerHTML = "";
-
-  files.forEach(file => {
-    if (!file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const url = e.target.result;
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "thumb";
-      btn.innerHTML = `<img src="${url}" alt="Hedash sighting photo">`;
-      btn.addEventListener("click", () => {
-        modalImage.src = url;
-        imageModal.classList.add("show");
-      });
-      thumbGrid.appendChild(btn);
-    };
-    reader.readAsDataURL(file);
+    speakNext();
   });
-});
 
-// Close enlarged image on click
-imageModal.addEventListener("click", () => {
-  imageModal.classList.remove("show");
-  modalImage.src = "";
-});
+  /* ---------- FIREBASE PHOTO UPLOAD & GALLERY ---------- */
 
-// initial run
-updateCalendar();
+  function clearThumbs() {
+    while (thumbGrid.firstChild) {
+      thumbGrid.removeChild(thumbGrid.firstChild);
+    }
+  }
+
+  function renderThumbFromUrl(url) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "thumb";
+    btn.innerHTML = `<img src="${url}" alt="Hedash sighting photo">`;
+    btn.addEventListener("click", () => {
+      modalImage.src = url;
+      imageModal.classList.add("show");
+    });
+    thumbGrid.appendChild(btn);
+  }
+
+  // Listen to Firestore and render all photos
+  const photosQuery = query(
+    collection(db, "calendarPhotos"),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(photosQuery, (snapshot) => {
+    clearThumbs();
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data && data.imageUrl) {
+        renderThumbFromUrl(data.imageUrl);
+      }
+    });
+  });
+
+  // Upload selected files to Firebase
+  photoInput.addEventListener("change", async (event) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+
+    uploadStatus.textContent = "Uploading photo(s)...";
+
+    try {
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+
+        const fileName = Date.now() + "_" + file.name;
+        const storageRef = ref(storage, "calendarPhotos/" + fileName);
+
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+
+        await addDoc(collection(db, "calendarPhotos"), {
+          imageUrl: url,
+          createdAt: serverTimestamp()
+        });
+      }
+      uploadStatus.textContent = "Upload complete!";
+    } catch (err) {
+      console.error(err);
+      uploadStatus.textContent = "Upload failed. Please try again.";
+    } finally {
+      photoInput.value = "";
+      setTimeout(() => { uploadStatus.textContent = ""; }, 4000);
+    }
+  });
+
+  // Close enlarged image on click
+  imageModal.addEventListener("click", () => {
+    imageModal.classList.remove("show");
+    modalImage.src = "";
+  });
+
+  // initial run
+  updateCalendar();
 </script>
 
 </body>
