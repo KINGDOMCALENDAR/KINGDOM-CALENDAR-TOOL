@@ -143,13 +143,16 @@
     letter-spacing:.08em;
   }
 
-  /* VOICE BUTTON ROW */
+  /* VOICE + SHARE BUTTON ROW */
   .voiceRow {
     display:flex;
     justify-content:center;
+    align-items:center;
+    gap:8px;
     max-width:700px;
     margin:0 auto 8px auto;
   }
+
   .speak-btn {
     border-radius:999px;
     border:1px solid rgba(56,189,248,0.7);
@@ -174,6 +177,24 @@
     cursor:not-allowed;
     border-style:dashed;
     box-shadow:none;
+  }
+
+  /* SMALL SHARE BUTTON */
+  .share-btn {
+    border-radius:999px;
+    border:1px solid rgba(250,204,21,0.7);
+    background:rgba(250,204,21,0.08);
+    color:#facc15;
+    font-size:10px;
+    padding:5px 10px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    white-space:nowrap;
+  }
+  .share-btn span.icon {
+    font-size:11px;
   }
 
   /* HEDASH ROW */
@@ -451,11 +472,15 @@
     </div>
   </div>
 
-  <!-- VOICE BUTTON -->
+  <!-- VOICE + SHARE BUTTONS -->
   <div class="voiceRow">
     <button id="speakBtn" type="button" class="speak-btn" disabled>
       <span class="icon"></span>
       Play Voice Announcement
+    </button>
+    <button type="button" class="share-btn" onclick="sharePage()">
+      <span class="icon">🔗</span>
+      Share This Page
     </button>
   </div>
 
@@ -939,6 +964,19 @@
       speakBtn.textContent = originalLabel;
     }
   });
+
+  // === Share Page handler ===
+  function sharePage() {
+    if (navigator.share) {
+      navigator.share({
+        title: "Kingdom Calendar – Path of Years",
+        text: "Check out the Kingdom Calendar – Path of Years tool!",
+        url: "https://kingdomcalendar.github.io/KINGDOM-CALENDAR-TOOL/"
+      }).catch((error) => console.log("Error sharing:", error));
+    } else {
+      alert("Sharing is not supported on this browser.");
+    }
+  }
 
   // initial run
   updateCalendar();
