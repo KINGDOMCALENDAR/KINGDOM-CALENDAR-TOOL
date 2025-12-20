@@ -120,7 +120,7 @@
     color:#9ca3af;
   }
 
-  /* ✅ MONTH LENGTH TOGGLE (29/30) */
+  /* ✅ MONTH LENGTH TOGGLE */
   .monthTools{
     max-width:700px;
     margin:0 auto 8px auto;
@@ -420,13 +420,8 @@
     border:1px solid #1f2937;
   }
 
-  .legendColor.work {
-    background:#111827;
-  }
-  .legendColor.shabat {
-    background:#1e293b;
-    border-color:#facc15;
-  }
+  .legendColor.work { background:#111827; }
+  .legendColor.shabat { background:#1e293b; border-color:#facc15; }
 
   /* moon phase legend row */
   .phaseLegendTitle {
@@ -444,19 +439,9 @@
     gap:4px;
   }
 
-  .phaseItem {
-    flex:1;
-    text-align:center;
-  }
-
-  .phaseItemIcon {
-    font-size:20px;
-  }
-
-  .phaseItemText {
-    font-size:10px;
-    color:#9ca3af;
-  }
+  .phaseItem { flex:1; text-align:center; }
+  .phaseItemIcon { font-size:20px; }
+  .phaseItemText { font-size:10px; color:#9ca3af; }
 
   .calendarNoteBottom {
     margin-top:6px;
@@ -540,7 +525,7 @@
     </div>
 
     <div class="day30Banner" id="day30Banner" hidden>
-      30-Day Month Active — Day 30 is a waiting day (Dark Moon concealed) until HEDASH is confirmed.
+      30-Day Month Active — Day 30 is a waiting day. 🌒 HEDASH appears at evening to begin the next month when confirmed.
     </div>
   </div>
 
@@ -656,20 +641,27 @@
       <div class="dayBox" data-day="28"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 28</div></div>
       <div class="dayBox shabat" data-day="29" data-shabat-number="4"><div class="dayLabel">Last Shabat</div><div class="daySub">Day 29</div></div>
     </div>
+    <!-- Dark moon after Day 29 -->
     <div class="phaseIcon">🌑</div>
   </div>
 
-  <!-- ✅ DAY 30 ROW (hidden unless 30-day month is selected) -->
+  <!-- ✅ DAY 30 ROW (only visible when 30-day month is selected)
+       Day begins concealed 🌑 and ends with HEDASH appearing at evening 🌒 -->
   <div class="weekRow" id="day30Row" style="display:none;">
     <div class="weekLabel">Day 30</div>
+
+    <!-- Day 30 begins: concealed/dark -->
     <div class="phaseIcon">🌑</div>
+
     <div class="dayRow">
       <div class="dayBox day30" data-day="30" style="flex:1;">
         <div class="dayLabel">Waiting Day</div>
-        <div class="daySub">Day 30 — Dark Moon (Concealed) • Await HEDASH</div>
+        <div class="daySub">Day 30 — Dark Moon • 🌒 HEDASH appears at evening</div>
       </div>
     </div>
-    <div class="phaseIcon">🌑</div>
+
+    <!-- Day 30 ends: HEDASH appears -->
+    <div class="phaseIcon">🌒</div>
   </div>
 
   <!-- LEGEND & NOTES (COLLAPSIBLE) -->
@@ -684,15 +676,30 @@
 
       <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
       <div class="phaseLegendRow">
-        <div class="phaseItem"><div class="phaseItemIcon">🌒</div><div class="phaseItemText">HEDASH – Day 1</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌓</div><div class="phaseItemText">Half Moon Waxing – 1st Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌕</div><div class="phaseItemText">Full Moon – 2nd Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌗</div><div class="phaseItemText">Half Moon Waning – 3rd Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌘</div><div class="phaseItemText">Waning Crescent – 4th Week</div></div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌒</div>
+          <div class="phaseItemText">HEDASH – Day 1</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌓</div>
+          <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌕</div>
+          <div class="phaseItemText">Full Moon – 2nd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌗</div>
+          <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
+        </div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌘</div>
+          <div class="phaseItemText">Waning Crescent – 4th Week</div>
+        </div>
       </div>
 
       <div class="calendarNoteBottom">
-        In a 29-day month HEDASH appears after the last Shabat (Day 29). In a 30-day month, the extra day is a waiting day until the Renewed Moon is seen.
+        In a 29-day month HEDASH appears after the last Shabat (Day 29). In a 30-day month, Day 30 is a waiting day, and 🌒 HEDASH appears at evening when the next month begins (once confirmed).
       </div>
     </div>
   </details>
@@ -732,8 +739,19 @@
   };
 
   // Ordinal word mapping
-  const ordinalWeekWords = { 1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH" };
-  const ordinalShabatWords = { 1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH" };
+  const ordinalWeekWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
+
+  const ordinalShabatWords = {
+    1: "FIRST",
+    2: "SECOND",
+    3: "THIRD",
+    4: "FOURTH"
+  };
 
   const ordinalDayWords = {
     1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
@@ -765,6 +783,7 @@
 
   // ✅ Month length state (29/30) with persistence
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
+  if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
   function syncMonthLengthUI(){
     document.querySelectorAll('input[name="monthLength"]').forEach(r => {
@@ -780,6 +799,7 @@
     document.querySelectorAll('input[name="monthLength"]').forEach(radio => {
       radio.addEventListener("change", (e) => {
         monthLength = parseInt(e.target.value, 10);
+        if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
         localStorage.setItem("kc_monthLength", String(monthLength));
         syncMonthLengthUI();
         updateCalendar();
@@ -807,8 +827,11 @@
 
   // Event handlers
   hedashInput.addEventListener("change", () => {
-    if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
-    else localStorage.removeItem("hedashDate");
+    if (hedashInput.value) {
+      localStorage.setItem("hedashDate", hedashInput.value);
+    } else {
+      localStorage.removeItem("hedashDate");
+    }
     updateCalendar();
   });
 
@@ -820,8 +843,12 @@
   });
 
   function clearHighlights() {
-    document.querySelectorAll(".weekRow").forEach(row => row.classList.remove("highlight-week"));
-    document.querySelectorAll(".dayBox").forEach(box => box.classList.remove("highlight-day"));
+    document.querySelectorAll(".weekRow").forEach(row => {
+      row.classList.remove("highlight-week");
+    });
+    document.querySelectorAll(".dayBox").forEach(box => {
+      box.classList.remove("highlight-day");
+    });
   }
 
   function setVoiceText(text) {
@@ -832,50 +859,76 @@
   // Phonetic mapping so TTS says the words correctly
   function toPhonetic(text) {
     let t = text;
+
+    // Handle possessive forms first (both curly and straight apostrophes)
     t = t.replace(/YAHUAH’S/gi, "YAHOOWAH’S");
     t = t.replace(/YAHUAH'S/gi, "YAHOOWAH'S");
+
+    // Plain Name
     t = t.replace(/YAHUAH/gi, "YAHUAH");
+
+    // Abayab -> spoken
     t = t.replace(/ABAYAB/gi, "ABA YOB");
+
+    // Hedash -> spoken
     t = t.replace(/HEDASH/gi, "HA DAWSH");
+
+    // Shabat -> spoken
     t = t.replace(/SHABAT/gi, "SHA BOT");
+
     return t;
   }
 
   // === Scriptural/Kingdom "today" that rolls over at 7 PM ===
+  // New day begins at 7 PM the previous civil evening.
   function getKingdomToday() {
     const now  = new Date();
+    // Start from today's civil midnight
     const base = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    if (now.getHours() >= 19) base.setDate(base.getDate() + 1);
+    // After 7 PM, treat as next day
+    if (now.getHours() >= 19) {
+      base.setDate(base.getDate() + 1);
+    }
     return base;
   }
 
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
+    syncMonthLengthUI();
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
     const monthName    = monthNameDisplay[currentMonth] || "YAHUAH’S MONTH";
 
-    syncMonthLengthUI(); // ensure UI stays consistent even on auto-updates
-
     if (!hedashValue) {
-      todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
-      todaySub.textContent  = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
+      todayMain.textContent =
+        "Set the HEDASH date above to activate the Kingdom Calendar.";
+      todaySub.textContent =
+        "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
       return;
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
-    const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
+    const hedashMid = new Date(
+      hedashDate.getFullYear(),
+      hedashDate.getMonth(),
+      hedashDate.getDate()
+    );
 
+    // Scriptural/Kingdom "today" (evening-to-evening, 7 PM rollover)
     let kingdomToday = getKingdomToday();
-    if (kingdomToday < hedashMid) kingdomToday = hedashMid;
+
+    // If HEDASH is in the future, preview Day 1 (don't go negative)
+    if (kingdomToday < hedashMid) {
+      kingdomToday = hedashMid;
+    }
 
     const diffMs     = kingdomToday - hedashMid;
     const dayOffset  = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
 
-    // ✅ limit based on selected month length
+    // ✅ Stop based on toggle selection (29 or 30)
     if (dayOfMonth > monthLength) {
       todayMain.textContent =
         `TODAY IS BEYOND DAY ${monthLength} FROM THIS HEDASH — CONFIRM THE NEXT HEDASH TO BEGIN ${monthName}.`;
@@ -895,15 +948,19 @@
       return;
     }
 
-    // ✅ Day 30 special behavior (not a "Week 5")
+    // ✅ Day 30 special behavior (waiting day — HEDASH appears at evening)
     if (dayOfMonth === 30) {
       const mainText =
-        `TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AWAIT HEDASH TO BEGIN THE NEXT MONTH OF YAHUAH.`;
+        `TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AND 🌒 HEDASH APPEARS AT EVENING WHEN CONFIRMED TO BEGIN THE NEXT MONTH OF YAHUAH.`;
       todayMain.textContent = mainText;
       todaySub.innerHTML =
-        `<span class="pillHighlight">Day 30</span> &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span> &nbsp;•&nbsp; <span class="pillHighlight">Await HEDASH</span>`;
+        `<span class="pillHighlight">Day 30</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span>` +
+        ` &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
+
       const dayBox30 = document.querySelector(`.dayBox[data-day="30"]`);
       if (dayBox30) dayBox30.classList.add("highlight-day");
+
       setVoiceText(mainText);
       return;
     }
@@ -942,7 +999,8 @@
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     } else {
       const workDayNumber = positionInWeek + 1;
-      const workDayWord   = ordinalDayWords[workDayNumber] || workDayNumber.toString();
+      const workDayWord   =
+        ordinalDayWords[workDayNumber] || workDayNumber.toString();
       mainText =
         `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml =
@@ -1012,7 +1070,7 @@
 
   // === Auto-update every minute so it rolls over at 7 PM even if tab stays open ===
   function autoUpdateCalendar() {
-    if (!hedashInput.value) return;
+    if (!hedashInput.value) return; // only run if HEDASH is set
     updateCalendar();
   }
 
@@ -1021,7 +1079,9 @@
   setInterval(autoUpdateCalendar, 60 * 1000);
 
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) autoUpdateCalendar();
+    if (!document.hidden) {
+      autoUpdateCalendar();
+    }
   });
 </script>
 
