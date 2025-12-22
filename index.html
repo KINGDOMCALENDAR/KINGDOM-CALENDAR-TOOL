@@ -302,6 +302,51 @@
   .highlight-day .dayLabel { color:#fef9c3; }
   .highlight-day .daySub { color:#fef3c7; }
 
+  /* =========================================================
+     ✅ ABAYAB DAY 1 (HEDASH) SPOTLIGHT
+     - Only affects the BIG TODAY banner + Day 1 Hedash row
+     - Does NOT touch Shabat boxes
+     ========================================================= */
+  #todayBanner.abayab-on{
+    border:2px solid #f59e0b !important;
+    background:rgba(245,158,11,0.10) !important;
+    box-shadow:
+      0 0 0 1px rgba(245,158,11,.45) inset,
+      0 0 26px rgba(245,158,11,.55),
+      0 0 58px rgba(245,158,11,.35) !important;
+  }
+  #todayBanner.abayab-on .todayBanner-main,
+  #todayBanner.abayab-on .todayBanner-sub,
+  #todayBanner.abayab-on *{
+    color:#f59e0b !important;
+    text-shadow:0 0 14px rgba(245,158,11,.45) !important;
+  }
+
+  /* Make the Day 1 Hedash row also glow when ABAYAB Day 1 is active */
+  #hedashRow.abayab-on{
+    border:1px solid rgba(245,158,11,.65) !important;
+    background:rgba(245,158,11,0.06) !important;
+    box-shadow:
+      0 0 0 1px rgba(245,158,11,.20) inset,
+      0 0 18px rgba(245,158,11,.35) !important;
+  }
+  #hedashRow.abayab-on .hedashText-main,
+  #hedashRow.abayab-on .hedashIcon{
+    color:#f59e0b !important;
+    text-shadow:0 0 12px rgba(245,158,11,.35) !important;
+  }
+  /* Keep sub text readable but still “Abayab orange-tinted” */
+  #hedashRow.abayab-on .hedashText-sub{
+    color:rgba(245,158,11,.85) !important;
+  }
+  /* Make the HEDASH pill orange only during ABAYAB Day 1 */
+  #todayBanner.abayab-on .pillHighlight{
+    background:rgba(245,158,11,0.18) !important;
+    border-color:rgba(245,158,11,0.75) !important;
+    color:#f59e0b !important;
+    text-shadow:none !important;
+  }
+
   .legendDetails { margin-top:8px; font-size:12px; }
   .legendDetails summary {
     cursor:pointer;
@@ -419,7 +464,7 @@
     </div>
   </div>
 
-  <div class="hedashRow">
+  <div class="hedashRow" id="hedashRow">
     <div class="hedashIcon">🌒</div>
     <div>
       <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
@@ -429,7 +474,7 @@
     </div>
   </div>
 
-  <div class="todayBanner">
+  <div class="todayBanner" id="todayBanner">
     <div class="todayBanner-main" id="today-main">
       Set the HEDASH date above to activate the Kingdom Calendar.
     </div>
@@ -614,6 +659,9 @@
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
+  const todayBannerEl = document.getElementById("todayBanner");
+  const hedashRowEl   = document.getElementById("hedashRow");
+
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
@@ -686,10 +734,19 @@
     return base;
   }
 
+  // ✅ ABAYAB Day 1 spotlight toggle
+  function setAbayabDay1Spotlight(on){
+    if (todayBannerEl) todayBannerEl.classList.toggle("abayab-on", !!on);
+    if (hedashRowEl) hedashRowEl.classList.toggle("abayab-on", !!on);
+  }
+
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
     syncMonthLengthUI();
+
+    // Always reset spotlight unless we explicitly turn it on
+    setAbayabDay1Spotlight(false);
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
@@ -722,6 +779,11 @@
       todayMain.textContent = mainText;
       todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for ${monthName}.`;
       setVoiceText(mainText);
+
+      // ✅ ONLY ABAYAB gets the orange spotlight on Day 1
+      if (currentMonth === 1) {
+        setAbayabDay1Spotlight(true);
+      }
       return;
     }
 
