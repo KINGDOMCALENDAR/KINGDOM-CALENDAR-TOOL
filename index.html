@@ -177,6 +177,7 @@
     margin:0 auto 6px auto;
   }
 
+  /* ✅ Speak button styles kept (harmless) in case you re-enable later, but button removed */
   .speak-btn {
     border-radius:999px;
     border:1px solid rgba(56,189,248,0.7);
@@ -437,11 +438,8 @@
     </div>
   </div>
 
+  <!-- ✅ VOICE REMOVED: Share button only -->
   <div class="voiceRow">
-    <button id="speakBtn" type="button" class="speak-btn" disabled>
-      <span class="icon"></span>
-      Play Voice Announcement
-    </button>
     <button type="button" class="share-btn" onclick="sharePage()">
       <span class="icon">🔗</span>
       Share This Page
@@ -461,9 +459,6 @@
   ">
     The calendar changes over from evening to evening at <b>7:00 PM</b>, according to YAHUAH'S time.
   </div>
-
-  <!-- ✅ UPDATED: playsinline + preload="none" (helps Safari/iOS a LOT) -->
-  <audio id="tts-audio" preload="none" playsinline></audio>
 
   <!-- WEEK 1 -->
   <div class="weekRow" data-week="1">
@@ -614,18 +609,11 @@
   const monthSelect  = document.getElementById("month-select");
   const todayMain    = document.getElementById("today-main");
   const todaySub     = document.getElementById("today-sub");
-  const speakBtn     = document.getElementById("speakBtn");
   const monthBadgeEl = document.getElementById("month-badge");
-  const ttsAudioEl   = document.getElementById("tts-audio");
 
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
-  // ✅ Your endpoint
-  const TTS_ENDPOINT = "https://yahuah-aluah.com/tts-11labs.php";
-
-  let lastVoiceText = "";
-  let lastObjectUrl = null; // ✅ track & revoke
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
@@ -686,20 +674,9 @@
     document.querySelectorAll(".dayBox").forEach(box => box.classList.remove("highlight-day"));
   }
 
+  // ✅ Voice disabled: keep this function so rest of code stays unchanged
   function setVoiceText(text) {
-    lastVoiceText = text || "";
-    speakBtn.disabled = !lastVoiceText;
-  }
-
-  function toPhonetic(text) {
-    let t = text;
-    t = t.replace(/YAHUAH’S/gi, "YAHOOWAH’S");
-    t = t.replace(/YAHUAH'S/gi, "YAHOOWAH'S");
-    t = t.replace(/YAHUAH/gi, "YAHUAH");
-    t = t.replace(/ABAYAB/gi, "ABA YOB");
-    t = t.replace(/HEDASH/gi, "HA DAWSH");
-    t = t.replace(/SHABAT/gi, "SHA BOT");
-    return t;
+    // intentionally blank (voice removed for now)
   }
 
   function getKingdomToday() {
@@ -807,104 +784,6 @@
     todaySub.innerHTML    = subHtml;
     setVoiceText(mainText);
   }
-
-  // ✅ NEW: safe stop + revoke old blob URLs
-  function cleanupAudioUrl() {
-    try {
-      ttsAudioEl.pause();
-      ttsAudioEl.currentTime = 0;
-    } catch(e) {}
-    if (lastObjectUrl) {
-      URL.revokeObjectURL(lastObjectUrl);
-      lastObjectUrl = null;
-    }
-  }
-
-  // ✅ NEW: play blob reliably (Safari/iOS friendly)
-  async function playTTSBlob(blob) {
-    cleanupAudioUrl();
-
-    // If server returns unknown type, set a usable audio type
-    const type = blob.type || "audio/mpeg";
-    const fixedBlob = (blob.type ? blob : new Blob([blob], { type }));
-
-    const url = URL.createObjectURL(fixedBlob);
-    lastObjectUrl = url;
-
-    ttsAudioEl.src = url;
-    ttsAudioEl.load();
-
-    // auto cleanup after play finishes
-    ttsAudioEl.onended = () => cleanupAudioUrl();
-
-    await ttsAudioEl.play();
-  }
-
-  // === ElevenLabs voice button handler (FIXED + HARDENED) ===
-  speakBtn.addEventListener("click", async () => {
-    if (!lastVoiceText) return;
-
-    const phoneticText = toPhonetic(lastVoiceText);
-
-    const originalHTML = speakBtn.innerHTML; // ✅ FIX: preserve icon span
-    speakBtn.disabled = true;
-    speakBtn.innerHTML = `<span class="icon"></span> Generating voice...`;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000); // ✅ 20s timeout
-
-    try {
-      const res = await fetch(TTS_ENDPOINT, {
-        method: "POST",
-        mode: "cors",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: phoneticText }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        console.error("TTS error:", txt);
-        alert("There was a problem generating the voice announcement.");
-        return;
-      }
-
-      // ✅ Validate that we got audio (or at least not HTML)
-      const contentType = (res.headers.get("content-type") || "").toLowerCase();
-      if (contentType.includes("text/html")) {
-        const txt = await res.text().catch(() => "");
-        console.error("TTS returned HTML (likely a server error):", txt);
-        alert("Voice server returned an error page. Check tts-11labs.php.");
-        return;
-      }
-
-      const blob = await res.blob();
-
-      // tiny sanity check
-      if (!blob || blob.size < 200) {
-        console.error("TTS blob too small:", blob);
-        alert("Voice audio was empty. Check your voice server response.");
-        return;
-      }
-
-      // ✅ Play
-      await playTTSBlob(blob);
-
-    } catch (err) {
-      console.error(err);
-      if (String(err).includes("AbortError")) {
-        alert("Voice request timed out. Please try again.");
-      } else {
-        alert("Unable to contact the voice server.");
-      }
-    } finally {
-      speakBtn.disabled = !lastVoiceText;
-      speakBtn.innerHTML = originalHTML;
-    }
-  });
 
   function sharePage() {
     if (navigator.share) {
