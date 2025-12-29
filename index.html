@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -175,6 +176,7 @@
     gap:8px;
     max-width:700px;
     margin:0 auto 6px auto;
+    flex-wrap:wrap;
   }
 
   /* ✅ Speak button styles kept (harmless) in case you re-enable later, but button removed */
@@ -219,6 +221,26 @@
   }
   .share-btn span.icon { font-size:11px; }
 
+  /* ✅ Toggle button for Sunset Boundaries */
+  .sunset-toggle-btn{
+    border-radius:999px;
+    border:1px solid rgba(255,184,77,0.70);
+    background:rgba(255,184,77,0.08);
+    color:#ffd18a;
+    font-size:10px;
+    padding:5px 10px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+  }
+  .sunset-toggle-btn .dot{
+    width:7px;height:7px;border-radius:999px;
+    background:rgba(255,184,77,.95);
+    box-shadow:0 0 10px rgba(255,184,77,.65);
+  }
+
   .hedashRow {
     background:#020617;
     border-radius:8px;
@@ -262,7 +284,7 @@
 
   .phaseIcon { width:26px; text-align:center; font-size:18px; }
 
-  .dayRow { display:flex; flex:1; gap:3px; }
+  .dayRow { display:flex; flex:1; gap:3px; position:relative; }
 
   .dayBox {
     flex:1;
@@ -275,6 +297,7 @@
     display:flex;
     flex-direction:column;
     gap:1px;
+    position:relative; /* needed for sunset divider */
   }
 
   .dayLabel { font-weight:500; font-size:10px; }
@@ -304,8 +327,6 @@
 
   /* =========================================================
      ✅ ABAYAB DAY 1 (HEDASH) SPOTLIGHT
-     - Only affects the BIG TODAY banner + Day 1 Hedash row
-     - Does NOT touch Shabat boxes
      ========================================================= */
   #todayBanner.abayab-on{
     border:2px solid #f59e0b !important;
@@ -322,7 +343,6 @@
     text-shadow:0 0 14px rgba(245,158,11,.45) !important;
   }
 
-  /* Make the Day 1 Hedash row also glow when ABAYAB Day 1 is active */
   #hedashRow.abayab-on{
     border:1px solid rgba(245,158,11,.65) !important;
     background:rgba(245,158,11,0.06) !important;
@@ -335,11 +355,9 @@
     color:#f59e0b !important;
     text-shadow:0 0 12px rgba(245,158,11,.35) !important;
   }
-  /* Keep sub text readable but still “Abayab orange-tinted” */
   #hedashRow.abayab-on .hedashText-sub{
     color:rgba(245,158,11,.85) !important;
   }
-  /* Make the HEDASH pill orange only during ABAYAB Day 1 */
   #todayBanner.abayab-on .pillHighlight{
     background:rgba(245,158,11,0.18) !important;
     border-color:rgba(245,158,11,0.75) !important;
@@ -396,6 +414,111 @@
   .phaseItemText { font-size:10px; color:#9ca3af; }
 
   .calendarNoteBottom { margin-top:6px; font-size:10px; color:#9ca3af; }
+
+  /* =========================================================
+     ✅ SUNSET BOUNDARY DIVIDERS (Vertical)
+     ========================================================= */
+  :root{
+    --sunsetGlow: rgba(255, 184, 77, .55);
+    --sunsetLine: rgba(255, 184, 77, .28);
+    --sunsetText: #ffd18a;
+  }
+
+  .dayBox.sunset-divider::before{
+    content:"";
+    position:absolute;
+    left:-2px;
+    top:6px;
+    bottom:6px;
+    width:1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      var(--sunsetLine),
+      var(--sunsetGlow),
+      var(--sunsetLine),
+      transparent
+    );
+    box-shadow:0 0 10px var(--sunsetGlow);
+    opacity:.60;
+    pointer-events:none;
+    transition:opacity .18s ease, box-shadow .18s ease;
+  }
+
+  .dayBox.sunset-divider:hover::before{
+    opacity:1;
+    box-shadow:0 0 16px rgba(255,184,77,.75);
+  }
+
+  .dayBox.sunset-divider::after{
+    content: attr(data-sunset-tip);
+    position:absolute;
+    left:-4px;
+    top:-34px;
+    transform: translateX(-100%);
+    background: rgba(2,6,23,.94);
+    border: 1px solid rgba(255,184,77,.35);
+    color: var(--sunsetText);
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: .4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events:none;
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+    transition:opacity .18s ease, transform .18s ease;
+  }
+
+  .dayBox.sunset-divider:hover::after{
+    opacity:1;
+    transform: translateX(-100%) translateY(-4px);
+  }
+
+  @media (hover:none){
+    .dayBox.sunset-divider::after{ display:none; }
+  }
+
+  body.hide-sunset-boundaries .dayBox.sunset-divider::before,
+  body.hide-sunset-boundaries .dayBox.sunset-divider::after{
+    display:none;
+  }
+
+  /* =========================================================
+     ✅ PASAH (Day 14 at EVEN) — NOTE + SUBTLE GOLD OUTLINE
+     ========================================================= */
+  .feastNote {
+    display:inline-block;
+    margin: 2px auto 2px auto;
+    padding: 2px 6px;
+    border-radius: 999px;
+    font-size: 9px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: .10em;
+    color: #ffd18a;
+    background: rgba(255,184,77,0.10);
+    border: 1px solid rgba(255,184,77,0.35);
+    box-shadow: 0 0 10px rgba(255,184,77,0.15);
+  }
+
+  .feastAnnounce {
+    margin-top: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #ffd18a;
+  }
+
+  /* Subtle gold outline on Day 14 tile (always visible, not overpowering) */
+  .dayBox.pasah-day{
+    border-color: rgba(250,204,21,0.70);
+    box-shadow: 0 0 0 1px rgba(250,204,21,0.18), 0 0 16px rgba(250,204,21,0.12);
+  }
+  /* If Day 14 is also the active highlighted day, keep it clean but slightly stronger */
+  .dayBox.pasah-day.highlight-day{
+    border-color: rgba(250,204,21,0.90);
+    box-shadow: 0 0 0 1px rgba(250,204,21,0.30), 0 0 22px rgba(250,204,21,0.18);
+  }
 
   @media (max-width:640px){
     .calendarHeader { flex-direction:column; align-items:center; text-align:center; }
@@ -483,11 +606,16 @@
     </div>
   </div>
 
-  <!-- ✅ VOICE REMOVED: Share button only -->
+  <!-- ✅ Share + Sunset Boundary Toggle -->
   <div class="voiceRow">
     <button type="button" class="share-btn" onclick="sharePage()">
       <span class="icon">🔗</span>
       Share This Page
+    </button>
+
+    <button type="button" class="sunset-toggle-btn" onclick="toggleSunsetBoundaries()" title="Toggle Sunset Boundary Dividers">
+      <span class="dot"></span>
+      Sunset Boundaries
     </button>
   </div>
 
@@ -665,6 +793,53 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
+  /* =========================================================
+     ✅ SUNSET BOUNDARY DIVIDERS (installer)
+     ========================================================= */
+  const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
+
+  function applySunsetDividers(){
+    document.querySelectorAll(".dayRow").forEach(row=>{
+      const boxes = row.querySelectorAll(".dayBox");
+      boxes.forEach((box, idx)=>{
+        const on = idx !== 0;
+        box.classList.toggle("sunset-divider", on);
+        if(on) box.setAttribute("data-sunset-tip", SUNSET_TIP);
+        else box.removeAttribute("data-sunset-tip");
+      });
+    });
+  }
+
+  function toggleSunsetBoundaries(){
+    document.body.classList.toggle("hide-sunset-boundaries");
+  }
+  window.toggleSunsetBoundaries = toggleSunsetBoundaries;
+
+  /* =========================================================
+     ✅ PASAH DAY 14 (installer)
+     - Adds "PASAH BEGINS AT EVEN" above "Day 14"
+     - Keeps "Day 14" unchanged
+     - Adds subtle gold outline on Day 14 tile
+     ========================================================= */
+  function applyFeastNotes(){
+    document.querySelectorAll('.dayBox[data-day="14"]').forEach(box=>{
+      // subtle gold outline always on Day 14 tile
+      box.classList.add("pasah-day");
+
+      // prevent duplicates
+      if (box.querySelector(".feastNote")) return;
+
+      const note = document.createElement("div");
+      note.className = "feastNote";
+      note.textContent = "PASAH begins at even";
+
+      // Insert directly ABOVE the Day 14 text (daySub)
+      const daySub = box.querySelector(".daySub");
+      if (daySub) box.insertBefore(note, daySub);
+      else box.prepend(note);
+    });
+  }
+
   function syncMonthLengthUI(){
     document.querySelectorAll('input[name="monthLength"]').forEach(r => {
       r.checked = (parseInt(r.value, 10) === monthLength);
@@ -673,6 +848,10 @@
     const show30 = (monthLength === 30);
     if (day30Row) day30Row.style.display = show30 ? "flex" : "none";
     if (day30Banner) day30Banner.hidden = !show30;
+
+    // ✅ Re-apply installers (Day 30 visibility can change layout)
+    applySunsetDividers();
+    applyFeastNotes();
   }
 
   function bindMonthLengthToggle(){
@@ -722,7 +901,6 @@
     document.querySelectorAll(".dayBox").forEach(box => box.classList.remove("highlight-day"));
   }
 
-  // ✅ Voice disabled: keep this function so rest of code stays unchanged
   function setVoiceText(text) {
     // intentionally blank (voice removed for now)
   }
@@ -734,7 +912,6 @@
     return base;
   }
 
-  // ✅ ABAYAB Day 1 spotlight toggle
   function setAbayabDay1Spotlight(on){
     if (todayBannerEl) todayBannerEl.classList.toggle("abayab-on", !!on);
     if (hedashRowEl) hedashRowEl.classList.toggle("abayab-on", !!on);
@@ -745,7 +922,6 @@
     setVoiceText("");
     syncMonthLengthUI();
 
-    // Always reset spotlight unless we explicitly turn it on
     setAbayabDay1Spotlight(false);
 
     const hedashValue  = hedashInput.value;
@@ -780,10 +956,7 @@
       todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for ${monthName}.`;
       setVoiceText(mainText);
 
-      // ✅ ONLY ABAYAB gets the orange spotlight on Day 1
-      if (currentMonth === 1) {
-        setAbayabDay1Spotlight(true);
-      }
+      if (currentMonth === 1) setAbayabDay1Spotlight(true);
       return;
     }
 
@@ -842,6 +1015,11 @@
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     }
 
+    // ✅ PASAH announcement in the banner on Day 14 (day begins at EVENING via your 7pm boundary)
+    if (dayOfMonth === 14) {
+      subHtml += `<div class="feastAnnounce">PASAH BEGINS AT EVEN</div>`;
+    }
+
     todayMain.textContent = mainText;
     todaySub.innerHTML    = subHtml;
     setVoiceText(mainText);
@@ -859,6 +1037,9 @@
     }
   }
 
+  // ✅ Initialize installers + UI
+  applySunsetDividers();
+  applyFeastNotes();
   syncMonthLengthUI();
   bindMonthLengthToggle();
 
@@ -877,3 +1058,4 @@
 
 </body>
 </html>
+```
