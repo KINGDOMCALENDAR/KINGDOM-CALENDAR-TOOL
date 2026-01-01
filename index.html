@@ -492,6 +492,68 @@
     box-shadow: 0 0 0 1px rgba(250,204,21,0.30), 0 0 22px rgba(250,204,21,0.18);
   }
 
+  /* ✅ F.O.U.L.B. RANGE (Day 14 EVEN → Day 21 EVEN)
+     - Glowing white
+     - Overrides Shabat orange while active */
+  .dayBox.feast-foulb{
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.85);
+    box-shadow:
+      0 0 12px rgba(255,255,255,0.55),
+      0 0 26px rgba(255,255,255,0.28),
+      0 0 52px rgba(255,255,255,0.18);
+    color: #ffffff;
+    z-index: 3;
+  }
+  .dayBox.feast-foulb .dayLabel,
+  .dayBox.feast-foulb .daySub{
+    color:#ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.22);
+  }
+  .dayBox.shabat.feast-foulb{
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.90) !important;
+    color:#ffffff !important;
+    font-weight:700;
+  }
+  .dayBox.feast-foulb.highlight-day{
+    border-color: rgba(255,255,255,0.98);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.35),
+      0 0 18px rgba(255,255,255,0.60),
+      0 0 42px rgba(255,255,255,0.30);
+  }
+
+  /* ✅ NEW: F.O.U.L.B. HOVER LABEL (works anywhere inside the white glowing days) */
+  .dayBox.feast-foulb::after{
+    content: "WE ARE IN THE FEAST OF UNLEAVENED BREAD";
+    position: absolute;
+    left: 50%;
+    top: -34px;
+    transform: translateX(-50%);
+    background: rgba(2,6,23,.94);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #ffffff;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 9999;
+  }
+  .dayBox.feast-foulb:hover::after{
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  @media (hover:none){
+    .dayBox.feast-foulb::after{ display:none; }
+  }
+
   @media (max-width:640px){
     .calendarHeader { flex-direction:column; align-items:center; text-align:center; }
     .calendarSide { width:auto; white-space:normal; }
@@ -800,6 +862,19 @@
     });
   }
 
+  /* ✅ F.O.U.L.B. RANGE INSTALLER (Day 14 EVEN → Day 21 EVEN)
+     Adds .feast-foulb class so hover tooltip appears anywhere in the white-glow area. */
+  function applyFOULBRange(){
+    const start = 14;
+    const end   = 21;
+
+    document.querySelectorAll(".dayBox").forEach(box=>{
+      const d = parseInt(box.getAttribute("data-day") || "0", 10);
+      if (d >= start && d <= end) box.classList.add("feast-foulb");
+      else box.classList.remove("feast-foulb");
+    });
+  }
+
   /* ✅ QUOTE SANITIZER (in case outside code injects quotes) */
   function sanitizeBadgeText(){
     if (!monthBadgeEl) return;
@@ -819,6 +894,7 @@
 
     applySunsetDividers();
     applyFeastNotes();
+    applyFOULBRange();
     sanitizeBadgeText();
   }
 
@@ -1001,6 +1077,7 @@
 
   applySunsetDividers();
   applyFeastNotes();
+  applyFOULBRange();
   syncMonthLengthUI();
   bindMonthLengthToggle();
 
