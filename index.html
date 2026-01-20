@@ -67,8 +67,7 @@
     color:#facc15;
   }
 
-  /* ✅ QUOTE FIX KILL-SWITCH:
-     If any other stylesheet injects content after the badge, this blocks it. */
+  /* ✅ QUOTE FIX KILL-SWITCH */
   #month-badge::before,
   #month-badge::after,
   .monthBadge::before,
@@ -203,7 +202,6 @@
   }
   .share-btn span.icon { font-size:11px; }
 
-  /* ✅ Toggle button for Sunset Boundaries */
   .sunset-toggle-btn{
     border-radius:999px;
     border:1px solid rgba(255,184,77,0.70);
@@ -249,11 +247,9 @@
     border:1px solid #111827;
   }
 
-  .highlight-week {
-    background:linear-gradient(90deg, rgba(250,204,21,0.12), #020617);
-    border-color:rgba(250,204,21,0.55);
-    box-shadow:0 0 0 1px rgba(250,204,21,0.2);
-  }
+  /* ✅ Normal days only — keep highlight classes harmless */
+  .highlight-week { background:#020617; border-color:#111827; box-shadow:none; }
+  .highlight-day  { background:#111827; border-color:#1f2937; box-shadow:none; }
 
   .weekLabel {
     width:60px;
@@ -265,7 +261,6 @@
   }
 
   .phaseIcon { width:26px; text-align:center; font-size:18px; }
-
   .dayRow { display:flex; flex:1; gap:3px; position:relative; }
 
   .dayBox {
@@ -285,63 +280,21 @@
   .dayLabel { font-weight:500; font-size:10px; }
   .daySub { font-size:9px; color:#9ca3af; }
 
+  /* ✅ Normalize Shabat visuals (no gold highlight) */
   .shabat {
-    background:#1e293b;
-    border-color:#facc15;
-    color:#facc15;
-    font-weight:600;
+    background:#111827;
+    border:1px solid #1f2937;
+    color:#e5e7eb;
+    font-weight:500;
   }
 
+  /* ✅ Day 30 also normal */
   .day30 {
-    background:rgba(250,204,21,0.10);
-    border-color:rgba(250,204,21,0.65);
+    background:#111827;
+    border:1px solid #1f2937;
   }
-  .day30 .dayLabel{ color:#facc15; font-weight:700; }
-  .day30 .daySub{ color:#fde68a; }
-
-  .highlight-day {
-    background:rgba(250,204,21,0.25);
-    border-color:rgba(250,204,21,0.85);
-    box-shadow:0 0 0 1px rgba(250,204,21,0.35);
-  }
-  .highlight-day .dayLabel { color:#fef9c3; }
-  .highlight-day .daySub { color:#fef3c7; }
-
-  /* ✅ ABAYAB DAY 1 SPOTLIGHT */
-  #todayBanner.abayab-on{
-    border:2px solid #f59e0b !important;
-    background:rgba(245,158,11,0.10) !important;
-    box-shadow:
-      0 0 0 1px rgba(245,158,11,.45) inset,
-      0 0 26px rgba(245,158,11,.55),
-      0 0 58px rgba(245,158,11,.35) !important;
-  }
-  #todayBanner.abayab-on .todayBanner-main,
-  #todayBanner.abayab-on .todayBanner-sub,
-  #todayBanner.abayab-on *{
-    color:#f59e0b !important;
-    text-shadow:0 0 14px rgba(245,158,11,.45) !important;
-  }
-
-  #hedashRow.abayab-on{
-    border:1px solid rgba(245,158,11,.65) !important;
-    background:rgba(245,158,11,0.06) !important;
-    box-shadow:
-      0 0 0 1px rgba(245,158,11,.20) inset,
-      0 0 18px rgba(245,158,11,.35) !important;
-  }
-  #hedashRow.abayab-on .hedashText-main,
-  #hedashRow.abayab-on .hedashIcon{
-    color:#f59e0b !important;
-    text-shadow:0 0 12px rgba(245,158,11,.35) !important;
-  }
-  #hedashRow.abayab-on .hedashText-sub{ color:rgba(245,158,11,.85) !important; }
-  #todayBanner.abayab-on .pillHighlight{
-    background:rgba(245,158,11,0.18) !important;
-    border-color:rgba(245,158,11,0.75) !important;
-    color:#f59e0b !important;
-    text-shadow:none !important;
-  }
+  .day30 .dayLabel{ color:#e5e7eb; font-weight:500; }
+  .day30 .daySub{ color:#9ca3af; }
 
   .legendDetails { margin-top:8px; font-size:12px; }
   .legendDetails summary {
@@ -375,7 +328,7 @@
   }
 
   .legendColor.work { background:#111827; }
-  .legendColor.shabat { background:#1e293b; border-color:#facc15; }
+  .legendColor.shabat { background:#111827; border-color:#1f2937; }
 
   .phaseLegendTitle {
     font-size:10px;
@@ -459,7 +412,7 @@
     display:none;
   }
 
-  /* ✅ PASAH (Day 14 at EVEN) */
+  /* ✅ PASAH NOTE (kept) */
   .feastNote {
     display:inline-block;
     margin: 2px auto 2px auto;
@@ -475,56 +428,11 @@
     box-shadow: 0 0 10px rgba(255,184,77,0.15);
   }
 
-  .feastAnnounce {
-    margin-top: 6px;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .14em;
-    color: #ffd18a;
-  }
-
-  .dayBox.pasah-day{
-    border-color: rgba(250,204,21,0.70);
-    box-shadow: 0 0 0 1px rgba(250,204,21,0.18), 0 0 16px rgba(250,204,21,0.12);
-  }
-  .dayBox.pasah-day.highlight-day{
-    border-color: rgba(250,204,21,0.90);
-    box-shadow: 0 0 0 1px rgba(250,204,21,0.30), 0 0 22px rgba(250,204,21,0.18);
-  }
-
-  /* ✅ F.O.U.L.B. RANGE (Day 14 EVEN → Day 21 EVEN)
-     - Glowing white
-     - Overrides Shabat orange while active */
-  .dayBox.feast-foulb{
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.85);
-    box-shadow:
-      0 0 12px rgba(255,255,255,0.55),
-      0 0 26px rgba(255,255,255,0.28),
-      0 0 52px rgba(255,255,255,0.18);
-    color: #ffffff;
-    z-index: 3;
-  }
+  /* ✅ FOULB tooltip text kept, but no glow/highlight */
+  .dayBox.feast-foulb{ background:#111827; border:1px solid #1f2937; color:#e5e7eb; }
   .dayBox.feast-foulb .dayLabel,
-  .dayBox.feast-foulb .daySub{
-    color:#ffffff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.22);
-  }
-  .dayBox.shabat.feast-foulb{
-    background: rgba(255,255,255,0.10) !important;
-    border-color: rgba(255,255,255,0.90) !important;
-    color:#ffffff !important;
-    font-weight:700;
-  }
-  .dayBox.feast-foulb.highlight-day{
-    border-color: rgba(255,255,255,0.98);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.35),
-      0 0 18px rgba(255,255,255,0.60),
-      0 0 42px rgba(255,255,255,0.30);
-  }
+  .dayBox.feast-foulb .daySub{ color:inherit; text-shadow:none; }
 
-  /* ✅ NEW: F.O.U.L.B. HOVER LABEL (works anywhere inside the white glowing days) */
   .dayBox.feast-foulb::after{
     content: "WE ARE IN THE FEAST OF UNLEAVENED BREAD";
     position: absolute;
@@ -532,7 +440,7 @@
     top: -34px;
     transform: translateX(-50%);
     background: rgba(2,6,23,.94);
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.20);
     color: #ffffff;
     padding: 6px 10px;
     border-radius: 10px;
@@ -573,7 +481,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">12th Month</span>
+      <span class="monthBadge" id="month-badge">2nd Month</span>
     </div>
   </div>
 
@@ -588,7 +496,7 @@
     <span class="configLabel">Month:</span>
     <select id="month-select">
       <option value="1">1st – Abayab</option>
-      <option value="2">2nd Month</option>
+      <option value="2" selected>2nd Month</option>
       <option value="3">3rd Month</option>
       <option value="4">4th Month</option>
       <option value="5">5th Month</option>
@@ -598,7 +506,7 @@
       <option value="9">9th Month</option>
       <option value="10">10th Month</option>
       <option value="11">11th Month</option>
-      <option value="12" selected>12th Month</option>
+      <option value="12">12th Month</option>
     </select>
     <span class="configHint">(Set the Renewed Moon sighting date and which month this is.)</span>
   </div>
@@ -820,9 +728,6 @@
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
-  const todayBannerEl = document.getElementById("todayBanner");
-  const hedashRowEl   = document.getElementById("hedashRow");
-
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
@@ -846,28 +751,23 @@
   }
   window.toggleSunsetBoundaries = toggleSunsetBoundaries;
 
-  /* ✅ PASAH DAY 14 INSTALLER */
+  /* ✅ PASAH DAY 14 NOTE */
   function applyFeastNotes(){
     document.querySelectorAll('.dayBox[data-day="14"]').forEach(box=>{
-      box.classList.add("pasah-day");
       if (box.querySelector(".feastNote")) return;
-
       const note = document.createElement("div");
       note.className = "feastNote";
       note.textContent = "PASAH begins at even";
-
       const daySub = box.querySelector(".daySub");
       if (daySub) box.insertBefore(note, daySub);
       else box.prepend(note);
     });
   }
 
-  /* ✅ F.O.U.L.B. RANGE INSTALLER (Day 14 EVEN → Day 21 EVEN)
-     Adds .feast-foulb class so hover tooltip appears anywhere in the white-glow area. */
+  /* ✅ FOULB RANGE (Day 14 → 21) — class kept for tooltip, no highlight */
   function applyFOULBRange(){
     const start = 14;
     const end   = 21;
-
     document.querySelectorAll(".dayBox").forEach(box=>{
       const d = parseInt(box.getAttribute("data-day") || "0", 10);
       if (d >= start && d <= end) box.classList.add("feast-foulb");
@@ -875,7 +775,7 @@
     });
   }
 
-  /* ✅ QUOTE SANITIZER (in case outside code injects quotes) */
+  /* ✅ QUOTE SANITIZER */
   function sanitizeBadgeText(){
     if (!monthBadgeEl) return;
     monthBadgeEl.textContent = (monthBadgeEl.textContent || "")
@@ -910,15 +810,25 @@
     });
   }
 
+  /* ✅ Defaults you gave me:
+     - Month = 2nd month
+     - HEDASH = 2026-01-20
+     These apply on first load if user has no saved values yet.
+  */
+  const DEFAULT_HEDASH = "2026-01-20";
+  const DEFAULT_MONTH  = "2";
+
   const savedHedash = localStorage.getItem("hedashDate");
   if (savedHedash) hedashInput.value = savedHedash;
+  else hedashInput.value = DEFAULT_HEDASH;
 
   const savedMonth = localStorage.getItem("kingdomMonthNumber");
   if (savedMonth) monthSelect.value = savedMonth;
+  else monthSelect.value = DEFAULT_MONTH;
 
   function getCurrentMonthNumber() {
     const n = parseInt(monthSelect.value, 10);
-    return (!isNaN(n) && n >= 1 && n <= 12) ? n : 12;
+    return (!isNaN(n) && n >= 1 && n <= 12) ? n : 2;
   }
 
   function updateMonthBadge() {
@@ -941,11 +851,8 @@
     updateCalendar();
   });
 
-  function clearHighlights() {
-    document.querySelectorAll(".weekRow").forEach(row => row.classList.remove("highlight-week"));
-    document.querySelectorAll(".dayBox").forEach(box => box.classList.remove("highlight-day"));
-  }
-
+  /* ✅ NO HIGHLIGHTS: functions kept but do nothing visible */
+  function clearHighlights() { /* intentionally blank */ }
   function setVoiceText(text) { /* voice disabled */ }
 
   function getKingdomToday() {
@@ -955,16 +862,10 @@
     return base;
   }
 
-  function setAbayabDay1Spotlight(on){
-    if (todayBannerEl) todayBannerEl.classList.toggle("abayab-on", !!on);
-    if (hedashRowEl) hedashRowEl.classList.toggle("abayab-on", !!on);
-  }
-
   function updateCalendar() {
     clearHighlights();
     setVoiceText("");
     syncMonthLengthUI();
-    setAbayabDay1Spotlight(false);
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
@@ -995,9 +896,8 @@
     if (dayOfMonth === 1) {
       const mainText = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
       todayMain.textContent = mainText;
-      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • The Renewed Moon sets the Shabats for ${monthName}.`;
+      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • Day 1 sets the Shabat pattern for ${monthName}.`;
       setVoiceText(mainText);
-      if (currentMonth === 1) setAbayabDay1Spotlight(true);
       return;
     }
 
@@ -1008,8 +908,6 @@
         `<span class="pillHighlight">Day 30</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span>` +
         ` &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
-      const dayBox30 = document.querySelector(`.dayBox[data-day="30"]`);
-      if (dayBox30) dayBox30.classList.add("highlight-day");
       setVoiceText(mainText);
       return;
     }
@@ -1019,12 +917,6 @@
     const positionInWeek = offsetFromDay2 % 7;
     const isShabat       = (positionInWeek === 6);
 
-    const weekRow = document.querySelector(`.weekRow[data-week="${weekNumber}"]`);
-    if (weekRow) weekRow.classList.add("highlight-week");
-
-    const dayBox = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
-    if (dayBox) dayBox.classList.add("highlight-day");
-
     const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
     const dayWord  = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
 
@@ -1032,11 +924,12 @@
     let subHtml  = "";
 
     if (isShabat) {
-      const shabatBox = (dayBox && dayBox.getAttribute("data-shabat-number"))
-        ? parseInt(dayBox.getAttribute("data-shabat-number"), 10)
+      const shabatBoxEl = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
+      const shabatNum = shabatBoxEl && shabatBoxEl.getAttribute("data-shabat-number")
+        ? parseInt(shabatBoxEl.getAttribute("data-shabat-number"), 10)
         : null;
 
-      const shabatWord = shabatBox ? (ordinalShabatWords[shabatBox] || shabatBox.toString()) : "";
+      const shabatWord = shabatNum ? (ordinalShabatWords[shabatNum] || shabatNum.toString()) : "";
 
       mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
       subHtml  =
@@ -1055,7 +948,7 @@
     }
 
     if (dayOfMonth === 14) {
-      subHtml += `<div class="feastAnnounce">PASAH BEGINS AT EVEN</div>`;
+      subHtml += `<div class="calendarNote" style="margin-top:6px;color:#ffd18a;">PASAH BEGINS AT EVEN</div>`;
     }
 
     todayMain.textContent = mainText;
@@ -1074,6 +967,7 @@
       alert("Sharing is not supported on this browser.");
     }
   }
+  window.sharePage = sharePage;
 
   applySunsetDividers();
   applyFeastNotes();
