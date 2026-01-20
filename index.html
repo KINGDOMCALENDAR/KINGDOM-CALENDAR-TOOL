@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Kingdom Calendar – Path of Years</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Social Sharing Preview -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kingdom Calendar – Path of Years">
   <meta property="og:description" content="Track the Renewed Moon, Work Days, and Shabats according to the Path of Years.">
@@ -16,442 +14,428 @@
   <meta property="og:image" content="https://kingdomcalendartool.com/favicon.png">
 
   <style>
-  body {
-    background:#020617;
-    color:#e5e7eb;
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    margin:0;
-    padding:8px;
-    display:flex;
-    justify-content:center;
-  }
+    body{
+      background:#020617;
+      color:#e5e7eb;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      margin:0;
+      padding:8px;
+      display:flex;
+      justify-content:center;
+    }
 
-  .calendar { width:100%; max-width:850px; }
+    .calendar{ width:100%; max-width:850px; }
 
-  .calendarHeader {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    margin-bottom:2px;
-  }
-  .calendarSide {
-    width:150px;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.16em;
-    color:#9ca3af;
-    white-space:nowrap;
-  }
-  .calendarRef { text-align:left; }
+    .calendarHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:2px;
+    }
+    .calendarSide{
+      width:150px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#9ca3af;
+      white-space:nowrap;
+    }
+    .calendarRef{ text-align:left; }
 
-  .calendarTitle {
-    flex:1;
-    text-align:center;
-    font-size:18px;
-    font-weight:600;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:#fef9c3;
-  }
+    .calendarTitle{
+      flex:1;
+      text-align:center;
+      font-size:18px;
+      font-weight:600;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#fef9c3;
+    }
 
-  .monthBadge {
-    display:inline-block;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-    padding:3px 9px;
-    border-radius:999px;
-    background:rgba(250,204,21,0.18);
-    border:1px solid rgba(250,204,21,0.7);
-    color:#facc15;
-  }
+    .monthBadge{
+      display:inline-block;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      padding:3px 9px;
+      border-radius:999px;
+      background:rgba(250,204,21,0.18);
+      border:1px solid rgba(250,204,21,0.7);
+      color:#facc15;
+    }
 
-  /* ✅ QUOTE FIX KILL-SWITCH */
-  #month-badge::before,
-  #month-badge::after,
-  .monthBadge::before,
-  .monthBadge::after{
-    content: none !important;
-    display: none !important;
-  }
+    /* Quote fix kill-switch */
+    #month-badge::before,
+    #month-badge::after,
+    .monthBadge::before,
+    .monthBadge::after{
+      content:none !important;
+      display:none !important;
+    }
 
-  .calendarSub { font-size:11px; color:#9ca3af; text-align:center; margin-bottom:2px; }
-  .calendarNote { font-size:10px; color:#9ca3af; text-align:center; margin-bottom:6px; }
+    .calendarSub{ font-size:11px; color:#9ca3af; text-align:center; margin-bottom:2px; }
+    .calendarNote{ font-size:10px; color:#9ca3af; text-align:center; margin-bottom:6px; }
 
-  /* ✅ NEW: Feast of Weeks banner (normal style; not “highlighted days”) */
-  .weeksBanner{
-    max-width:700px;
-    margin:0 auto 8px auto;
-    background: rgba(250,204,21,0.08);
-    border: 1px solid rgba(250,204,21,0.45);
-    border-radius: 10px;
-    padding: 8px 10px;
-    text-align:center;
-  }
-  .weeksBannerTitle{
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:#facc15;
-  }
-  .weeksBannerText{
-    margin-top:4px;
-    font-size:11px;
-    color:#e5e7eb;
-    line-height:1.35;
-  }
-  .weeksBannerText small{
-    display:block;
-    margin-top:4px;
-    font-size:10px;
-    color:#9ca3af;
-  }
+    .weeksBanner{
+      max-width:700px;
+      margin:0 auto 8px auto;
+      background:rgba(250,204,21,0.08);
+      border:1px solid rgba(250,204,21,0.45);
+      border-radius:10px;
+      padding:8px 10px;
+      text-align:center;
+    }
+    .weeksBannerTitle{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#facc15;
+    }
+    .weeksBannerText{
+      margin-top:4px;
+      font-size:11px;
+      color:#e5e7eb;
+      line-height:1.35;
+    }
+    .weeksBannerText small{
+      display:block;
+      margin-top:4px;
+      font-size:10px;
+      color:#9ca3af;
+    }
 
-  .configBar {
-    background:#020617;
-    border-radius:8px;
-    border:1px solid #111827;
-    padding:6px 8px;
-    margin-bottom:8px;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:6px;
-    font-size:11px;
-  }
-  .configLabel { color:#e5e7eb; }
-  .configBar input[type="date"],
-  .configBar select {
-    background:#020617;
-    border:1px solid #1f2937;
-    border-radius:6px;
-    padding:3px 5px;
-    color:#e5e7eb;
-    font-size:11px;
-  }
-  .configHint { font-size:10px; color:#9ca3af; }
+    .configBar{
+      background:#020617;
+      border-radius:8px;
+      border:1px solid #111827;
+      padding:6px 8px;
+      margin-bottom:8px;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+    }
+    .configLabel{ color:#e5e7eb; }
+    .configBar input[type="date"],
+    .configBar select{
+      background:#020617;
+      border:1px solid #1f2937;
+      border-radius:6px;
+      padding:3px 5px;
+      color:#e5e7eb;
+      font-size:11px;
+    }
+    .configHint{ font-size:10px; color:#9ca3af; }
 
-  .monthTools{
-    max-width:700px;
-    margin:0 auto 8px auto;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
-  .monthToggle{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    background:#0b1120;
-    border:1px solid #1f2937;
-    border-radius:10px;
-    padding:6px 10px;
-    font-size:11px;
-  }
-  .monthToggleLabel{
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.16em;
-    color:#9ca3af;
-  }
-  .monthRadio{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:4px 10px;
-    border-radius:999px;
-    border:1px solid rgba(250,204,21,0.35);
-    background:rgba(250,204,21,0.06);
-    cursor:pointer;
-    user-select:none;
-  }
-  .monthRadio input{ cursor:pointer; accent-color:#facc15; }
+    .monthTools{
+      max-width:700px;
+      margin:0 auto 8px auto;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .monthToggle{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      background:#0b1120;
+      border:1px solid #1f2937;
+      border-radius:10px;
+      padding:6px 10px;
+      font-size:11px;
+    }
+    .monthToggleLabel{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#9ca3af;
+    }
+    .monthRadio{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,0.35);
+      background:rgba(250,204,21,0.06);
+      cursor:pointer;
+      user-select:none;
+    }
+    .monthRadio input{ cursor:pointer; accent-color:#facc15; }
 
-  .day30Banner{
-    background:rgba(250,204,21,0.08);
-    border:1px solid rgba(250,204,21,0.55);
-    color:#facc15;
-    border-radius:10px;
-    padding:6px 10px;
-    font-size:10px;
-    text-align:center;
-    letter-spacing:.08em;
-  }
+    .day30Banner{
+      background:rgba(250,204,21,0.08);
+      border:1px solid rgba(250,204,21,0.55);
+      color:#facc15;
+      border-radius:10px;
+      padding:6px 10px;
+      font-size:10px;
+      text-align:center;
+      letter-spacing:.08em;
+    }
 
-  .todayBanner {
-    background:#0b1120;
-    border:1px solid #1f2937;
-    border-radius:10px;
-    padding:8px 10px;
-    margin:0 auto 6px auto;
-    font-size:13px;
-    max-width:700px;
-    text-align:center;
-  }
-  .todayBanner-main { font-weight:600; }
-  .todayBanner-sub { font-size:11px; color:#9ca3af; margin-top:2px; }
+    .todayBanner{
+      background:#0b1120;
+      border:1px solid #1f2937;
+      border-radius:10px;
+      padding:8px 10px;
+      margin:0 auto 6px auto;
+      font-size:13px;
+      max-width:700px;
+      text-align:center;
+    }
+    .todayBanner-main{ font-weight:600; }
+    .todayBanner-sub{ font-size:11px; color:#9ca3af; margin-top:2px; }
 
-  .pillHighlight {
-    display:inline-block;
-    padding:1px 6px;
-    border-radius:999px;
-    background:rgba(250,204,21,0.2);
-    border:1px solid rgba(250,204,21,0.7);
-    color:#facc15;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-  }
+    .pillHighlight{
+      display:inline-block;
+      padding:1px 6px;
+      border-radius:999px;
+      background:rgba(250,204,21,0.2);
+      border:1px solid rgba(250,204,21,0.7);
+      color:#facc15;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
 
-  .voiceRow {
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:8px;
-    max-width:700px;
-    margin:0 auto 6px auto;
-    flex-wrap:wrap;
-  }
+    .voiceRow{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      max-width:700px;
+      margin:0 auto 6px auto;
+      flex-wrap:wrap;
+    }
 
-  .share-btn {
-    border-radius:999px;
-    border:1px solid rgba(250,204,21,0.7);
-    background:rgba(250,204,21,0.08);
-    color:#facc15;
-    font-size:10px;
-    padding:5px 10px;
-    cursor:pointer;
-    display:inline-flex;
-    align-items:center;
-    gap:4px;
-    white-space:nowrap;
-  }
-  .share-btn span.icon { font-size:11px; }
+    .share-btn{
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,0.7);
+      background:rgba(250,204,21,0.08);
+      color:#facc15;
+      font-size:10px;
+      padding:5px 10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      white-space:nowrap;
+    }
+    .share-btn span.icon{ font-size:11px; }
 
-  .sunset-toggle-btn{
-    border-radius:999px;
-    border:1px solid rgba(255,184,77,0.70);
-    background:rgba(255,184,77,0.08);
-    color:#ffd18a;
-    font-size:10px;
-    padding:5px 10px;
-    cursor:pointer;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    white-space:nowrap;
-  }
-  .sunset-toggle-btn .dot{
-    width:7px;height:7px;border-radius:999px;
-    background:rgba(255,184,77,.95);
-    box-shadow:0 0 10px rgba(255,184,77,.65);
-  }
+    .sunset-toggle-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,184,77,0.70);
+      background:rgba(255,184,77,0.08);
+      color:#ffd18a;
+      font-size:10px;
+      padding:5px 10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+    .sunset-toggle-btn .dot{
+      width:7px;height:7px;border-radius:999px;
+      background:rgba(255,184,77,.95);
+      box-shadow:0 0 10px rgba(255,184,77,.65);
+    }
 
-  .hedashRow {
-    background:#020617;
-    border-radius:8px;
-    border:1px solid #111827;
-    padding:8px;
-    margin-bottom:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-  }
-  .hedashIcon { font-size:24px; }
-  .hedashText-main { font-size:12px; font-weight:600; }
-  .hedashText-sub { font-size:10px; color:#9ca3af; }
+    .hedashRow{
+      background:#020617;
+      border-radius:8px;
+      border:1px solid #111827;
+      padding:8px;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .hedashIcon{ font-size:24px; }
+    .hedashText-main{ font-size:12px; font-weight:600; }
+    .hedashText-sub{ font-size:10px; color:#9ca3af; }
 
-  .weekRow {
-    display:flex;
-    align-items:center;
-    gap:4px;
-    margin:6px 0;
-    background:#020617;
-    padding:4px 6px;
-    border-radius:8px;
-    border:1px solid #111827;
-  }
+    .weekRow{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      margin:6px 0;
+      background:#020617;
+      padding:4px 6px;
+      border-radius:8px;
+      border:1px solid #111827;
+    }
 
-  /* ✅ Normal days only — highlight classes harmless */
-  .highlight-week { background:#020617; border-color:#111827; box-shadow:none; }
-  .highlight-day  { background:#111827; border-color:#1f2937; box-shadow:none; }
+    .weekLabel{
+      width:60px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#9ca3af;
+      text-align:center;
+    }
+    .phaseIcon{ width:26px; text-align:center; font-size:18px; }
 
-  .weekLabel {
-    width:60px;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    color:#9ca3af;
-    text-align:center;
-  }
+    .dayRow{ display:flex; flex:1; gap:3px; position:relative; }
 
-  .phaseIcon { width:26px; text-align:center; font-size:18px; }
-  .dayRow { display:flex; flex:1; gap:3px; position:relative; }
+    .dayBox{
+      flex:1;
+      background:#111827;
+      border-radius:6px;
+      padding:4px 1px;
+      border:1px solid #1f2937;
+      font-size:10px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+      position:relative;
+    }
+    .dayLabel{ font-weight:500; font-size:10px; }
+    .daySub{ font-size:9px; color:#9ca3af; }
 
-  .dayBox {
-    flex:1;
-    background:#111827;
-    border-radius:6px;
-    padding:4px 1px;
-    border:1px solid #1f2937;
-    font-size:10px;
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    gap:1px;
-    position:relative;
-  }
+    /* Shabat as normal day styling */
+    .shabat{
+      background:#111827;
+      border:1px solid #1f2937;
+      color:#e5e7eb;
+      font-weight:600;
+    }
+    .shabat .dayLabel{ font-weight:700; }
+    .shabat .daySub{ color:#e5e7eb; font-weight:700; letter-spacing:.08em; }
 
-  .dayLabel { font-weight:500; font-size:10px; }
-  .daySub { font-size:9px; color:#9ca3af; }
+    .day30{
+      background:#111827;
+      border:1px solid #1f2937;
+    }
 
-  /* ✅ Normalize Shabat visuals */
-  .shabat {
-    background:#111827;
-    border:1px solid #1f2937;
-    color:#e5e7eb;
-    font-weight:500;
-  }
+    .legendDetails{ margin-top:8px; font-size:12px; }
+    .legendDetails summary{
+      cursor:pointer;
+      list-style:none;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      display:inline-block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#e5e7eb;
+    }
+    .legendDetails summary::-webkit-details-marker{ display:none; }
+    .legend{ margin-top:8px; font-size:12px; text-align:center; }
 
-  /* ✅ Day 30 also normal */
-  .day30 {
-    background:#111827;
-    border:1px solid #1f2937;
-  }
-  .day30 .dayLabel{ color:#e5e7eb; font-weight:500; }
-  .day30 .daySub{ color:#9ca3af; }
+    .legendRow{
+      display:inline-flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+    }
 
-  .legendDetails { margin-top:8px; font-size:12px; }
-  .legendDetails summary {
-    cursor:pointer;
-    list-style:none;
-    padding:4px 8px;
-    border-radius:999px;
-    border:1px solid #1f2937;
-    display:inline-block;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    color:#e5e7eb;
-  }
-  .legendDetails summary::-webkit-details-marker { display:none; }
-  .legend { margin-top:8px; font-size:12px; text-align:center; }
+    .legendColor{
+      width:10px;height:10px;
+      border-radius:3px;
+      border:1px solid #1f2937;
+    }
+    .legendColor.work{ background:#111827; }
+    .legendColor.shabat{ background:#111827; }
 
-  .legendRow {
-    display:inline-flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-    margin-bottom:8px;
-  }
+    .phaseLegendTitle{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#9ca3af;
+      margin-bottom:3px;
+      margin-top:3px;
+    }
+    .phaseLegendRow{ display:flex; justify-content:space-between; gap:4px; }
+    .phaseItem{ flex:1; text-align:center; }
+    .phaseItemIcon{ font-size:20px; }
+    .phaseItemText{ font-size:10px; color:#9ca3af; }
 
-  .legendColor {
-    width:10px;
-    height:10px;
-    border-radius:3px;
-    border:1px solid #1f2937;
-  }
+    .calendarNoteBottom{ margin-top:6px; font-size:10px; color:#9ca3af; }
 
-  .legendColor.work { background:#111827; }
-  .legendColor.shabat { background:#111827; border-color:#1f2937; }
+    :root{
+      --sunsetGlow: rgba(255, 184, 77, .55);
+      --sunsetLine: rgba(255, 184, 77, .28);
+      --sunsetText: #ffd18a;
+    }
 
-  .phaseLegendTitle {
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.16em;
-    color:#9ca3af;
-    margin-bottom:3px;
-    margin-top:3px;
-  }
+    .dayBox.sunset-divider::before{
+      content:"";
+      position:absolute;
+      left:-2px;
+      top:6px;
+      bottom:6px;
+      width:1px;
+      background: linear-gradient(to bottom,
+        transparent,
+        var(--sunsetLine),
+        var(--sunsetGlow),
+        var(--sunsetLine),
+        transparent
+      );
+      box-shadow:0 0 10px var(--sunsetGlow);
+      opacity:.60;
+      pointer-events:none;
+      transition:opacity .18s ease, box-shadow .18s ease;
+    }
+    .dayBox.sunset-divider:hover::before{
+      opacity:1;
+      box-shadow:0 0 16px rgba(255,184,77,.75);
+    }
 
-  .phaseLegendRow { display:flex; justify-content:space-between; gap:4px; }
-  .phaseItem { flex:1; text-align:center; }
-  .phaseItemIcon { font-size:20px; }
-  .phaseItemText { font-size:10px; color:#9ca3af; }
+    .dayBox.sunset-divider::after{
+      content: attr(data-sunset-tip);
+      position:absolute;
+      left:-4px;
+      top:-34px;
+      transform: translateX(-100%);
+      background: rgba(2,6,23,.94);
+      border: 1px solid rgba(255,184,77,.35);
+      color: var(--sunsetText);
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      letter-spacing: .4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events:none;
+      box-shadow:0 10px 25px rgba(0,0,0,.35);
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .dayBox.sunset-divider:hover::after{
+      opacity:1;
+      transform: translateX(-100%) translateY(-4px);
+    }
+    @media (hover:none){
+      .dayBox.sunset-divider::after{ display:none; }
+    }
 
-  .calendarNoteBottom { margin-top:6px; font-size:10px; color:#9ca3af; }
+    body.hide-sunset-boundaries .dayBox.sunset-divider::before,
+    body.hide-sunset-boundaries .dayBox.sunset-divider::after{
+      display:none;
+    }
 
-  /* ✅ SUNSET BOUNDARY DIVIDERS */
-  :root{
-    --sunsetGlow: rgba(255, 184, 77, .55);
-    --sunsetLine: rgba(255, 184, 77, .28);
-    --sunsetText: #ffd18a;
-  }
-
-  .dayBox.sunset-divider::before{
-    content:"";
-    position:absolute;
-    left:-2px;
-    top:6px;
-    bottom:6px;
-    width:1px;
-    background: linear-gradient(to bottom,
-      transparent,
-      var(--sunsetLine),
-      var(--sunsetGlow),
-      var(--sunsetLine),
-      transparent
-    );
-    box-shadow:0 0 10px var(--sunsetGlow);
-    opacity:.60;
-    pointer-events:none;
-    transition:opacity .18s ease, box-shadow .18s ease;
-  }
-
-  .dayBox.sunset-divider:hover::before{
-    opacity:1;
-    box-shadow:0 0 16px rgba(255,184,77,.75);
-  }
-
-  .dayBox.sunset-divider::after{
-    content: attr(data-sunset-tip);
-    position:absolute;
-    left:-4px;
-    top:-34px;
-    transform: translateX(-100%);
-    background: rgba(2,6,23,.94);
-    border: 1px solid rgba(255,184,77,.35);
-    color: var(--sunsetText);
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    letter-spacing: .4px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events:none;
-    box-shadow:0 10px 25px rgba(0,0,0,.35);
-    transition:opacity .18s ease, transform .18s ease;
-  }
-
-  .dayBox.sunset-divider:hover::after{
-    opacity:1;
-    transform: translateX(-100%) translateY(-4px);
-  }
-
-  @media (hover:none){
-    .dayBox.sunset-divider::after{ display:none; }
-  }
-
-  body.hide-sunset-boundaries .dayBox.sunset-divider::before,
-  body.hide-sunset-boundaries .dayBox.sunset-divider::after{
-    display:none;
-  }
-
-  @media (max-width:640px){
-    .calendarHeader { flex-direction:column; align-items:center; text-align:center; }
-    .calendarSide { width:auto; white-space:normal; }
-    .weekRow { padding:4px 3px; gap:3px; }
-    .weekLabel { width:52px; font-size:9px; }
-    .dayBox { font-size:9px; padding:4px 1px; }
-    .dayLabel { font-size:9px; }
-    .daySub { font-size:8px; }
-    .phaseItemText { font-size:9px; }
-  }
+    @media (max-width:640px){
+      .calendarHeader{ flex-direction:column; align-items:center; text-align:center; }
+      .calendarSide{ width:auto; white-space:normal; }
+      .weekRow{ padding:4px 3px; gap:3px; }
+      .weekLabel{ width:52px; font-size:9px; }
+      .dayBox{ font-size:9px; padding:4px 1px; }
+      .dayLabel{ font-size:9px; }
+      .daySub{ font-size:8px; }
+      .phaseItemText{ font-size:9px; }
+    }
   </style>
 </head>
 <body>
@@ -470,12 +454,12 @@
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
   </div>
 
-  <!-- ✅ NEW: FEAST OF WEEKS BANNER (for remainder of this month) -->
+  <!-- ✅ FEAST OF WEEKS BANNER (2nd Month) -->
   <div class="weeksBanner" id="weeksBanner">
-    <div class="weeksBannerTitle">FEAST OF WEEKS — COUNT SEVEN COMPLETED SHABATS</div>
-    <div class="weeksBannerText" id="weeksBannerText">
-      For the remainder of this month, we are counting <b>Seven Completed Shabats</b> (appointments) — not “seven weeks.”
-      <small>Wayaqara (Leviticus) 23:15–16 — “seven Shabats shall be complete… even unto the morrow after the seventh Shabat…”</small>
+    <div class="weeksBannerTitle">FEAST OF WEEKS — COUNTING SEVEN SHABATS</div>
+    <div class="weeksBannerText">
+      We count <b>seven completed Shabats</b> (appointments) — not “seven weeks.”
+      <small>Shabat #1 was completed before this Hedash was confirmed. The next Shabat shown below begins the count at <b>2 of 7</b>.</small>
     </div>
   </div>
 
@@ -574,7 +558,12 @@
       <div class="dayBox" data-day="5"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 5</div></div>
       <div class="dayBox" data-day="6"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 6</div></div>
       <div class="dayBox" data-day="7"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 7</div></div>
-      <div class="dayBox shabat" data-day="8" data-shabat-number="1"><div class="dayLabel">Shabat</div><div class="daySub">Day 8</div></div>
+
+      <!-- ✅ Shabat #2 of 7 -->
+      <div class="dayBox shabat" data-day="8" data-shabat-number="1" data-fow-shabat="2">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">2 OF 7</div>
+      </div>
     </div>
     <div class="phaseIcon">🌓</div>
   </div>
@@ -590,7 +579,12 @@
       <div class="dayBox" data-day="12"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 12</div></div>
       <div class="dayBox" data-day="13"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 13</div></div>
       <div class="dayBox" data-day="14"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 14</div></div>
-      <div class="dayBox shabat" data-day="15" data-shabat-number="2"><div class="dayLabel">Shabat</div><div class="daySub">Day 15</div></div>
+
+      <!-- ✅ Shabat #3 of 7 -->
+      <div class="dayBox shabat" data-day="15" data-shabat-number="2" data-fow-shabat="3">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">3 OF 7</div>
+      </div>
     </div>
     <div class="phaseIcon">🌕</div>
   </div>
@@ -606,7 +600,12 @@
       <div class="dayBox" data-day="19"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 19</div></div>
       <div class="dayBox" data-day="20"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 20</div></div>
       <div class="dayBox" data-day="21"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 21</div></div>
-      <div class="dayBox shabat" data-day="22" data-shabat-number="3"><div class="dayLabel">Shabat</div><div class="daySub">Day 22</div></div>
+
+      <!-- ✅ Shabat #4 of 7 -->
+      <div class="dayBox shabat" data-day="22" data-shabat-number="3" data-fow-shabat="4">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">4 OF 7</div>
+      </div>
     </div>
     <div class="phaseIcon">🌗</div>
   </div>
@@ -622,18 +621,24 @@
       <div class="dayBox" data-day="26"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 26</div></div>
       <div class="dayBox" data-day="27"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 27</div></div>
       <div class="dayBox" data-day="28"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 28</div></div>
-      <div class="dayBox shabat" data-day="29" data-shabat-number="4"><div class="dayLabel">Last Shabat</div><div class="daySub">Day 29</div></div>
+
+      <!-- ✅ Shabat #5 of 7 -->
+      <div class="dayBox shabat" data-day="29" data-shabat-number="4" data-fow-shabat="5">
+        <div class="dayLabel">Shabat</div>
+        <div class="daySub">5 OF 7</div>
+      </div>
     </div>
     <div class="phaseIcon">🌑</div>
   </div>
 
+  <!-- Day 30 row (only if 30-day month) -->
   <div class="weekRow" id="day30Row" style="display:none;">
     <div class="weekLabel">Day 30</div>
     <div class="phaseIcon">🌑</div>
     <div class="dayRow">
       <div class="dayBox day30" data-day="30" style="flex:1;">
         <div class="dayLabel">Waiting Day</div>
-        <div class="daySub">Day 30 — Dark Moon • 🌒 HEDASH appears at evening</div>
+        <div class="daySub">Day 30 — Dark Moon concealed • 🌒 HEDASH appears at evening</div>
       </div>
     </div>
     <div class="phaseIcon">🌒</div>
@@ -644,8 +649,8 @@
     <div class="legend">
       <div class="legendRow">
         <div class="legendColor work"></div><span>Work Day</span>
-        <div class="legendColor shabat"></div><span>Shabat</span>
-        <span>🌅 Sunset Boundary — Shabat from evening to evening</span>
+        <div class="legendColor shabat"></div><span>Shabat (shown as a normal day)</span>
+        <span>🌅 Sunset Boundary — day changes at evening (~7:00 PM)</span>
       </div>
 
       <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
@@ -658,7 +663,7 @@
       </div>
 
       <div class="calendarNoteBottom">
-        In a 29-day month HEDASH appears after the last Shabat (Day 29). In a 30-day month, Day 30 is a waiting day, and 🌒 HEDASH appears at evening when the next month begins (once confirmed).
+        In a 29-day month HEDASH appears after Day 29. In a 30-day month, Day 30 is a waiting day, and 🌒 HEDASH appears at evening when the next month begins (once confirmed).
       </div>
     </div>
   </details>
@@ -696,18 +701,6 @@
     12:"12th Month"
   };
 
-  const ordinalWeekWords = { 1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH" };
-  const ordinalShabatWords = { 1: "FIRST", 2: "SECOND", 3: "THIRD", 4: "FOURTH" };
-  const ordinalDayWords = {
-    1:"FIRST", 2:"SECOND", 3:"THIRD", 4:"FOURTH", 5:"FIFTH",
-    6:"SIXTH", 7:"SEVENTH", 8:"EIGHTH", 9:"NINTH", 10:"TENTH",
-    11:"ELEVENTH", 12:"TWELFTH", 13:"THIRTEENTH", 14:"FOURTEENTH",
-    15:"FIFTEENTH", 16:"SIXTEENTH", 17:"SEVENTEENTH", 18:"EIGHTEENTH",
-    19:"NINETEENTH", 20:"TWENTIETH", 21:"TWENTY-FIRST", 22:"TWENTY-SECOND",
-    23:"TWENTY-THIRD", 24:"TWENTY-FOURTH", 25:"TWENTY-FIFTH", 26:"TWENTY-SIXTH",
-    27:"TWENTY-SEVENTH", 28:"TWENTY-EIGHTH", 29:"TWENTY-NINTH", 30:"THIRTIETH"
-  };
-
   const hedashInput  = document.getElementById("hedash-input");
   const monthSelect  = document.getElementById("month-select");
   const todayMain    = document.getElementById("today-main");
@@ -717,12 +710,16 @@
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
-  const weeksBannerEl = document.getElementById("weeksBanner");
-
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  /* ✅ SUNSET INSTALLER */
+  /* ✅ DEFAULTS LOCKED FOR THIS MONTH (YOUR SETTINGS) */
+  const DEFAULT_HEDASH = "2026-01-20"; // 01/20/2026
+  const DEFAULT_MONTH  = "2";          // 2nd Month
+
+  /* Feast of Weeks: Shabat #1 already completed BEFORE Hedash confirmation */
+  const FOW_START_AT = 2; // next Shabat shown in-calendar is 2 of 7
+
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
 
   function applySunsetDividers(){
@@ -742,7 +739,6 @@
   }
   window.toggleSunsetBoundaries = toggleSunsetBoundaries;
 
-  /* ✅ QUOTE SANITIZER */
   function sanitizeBadgeText(){
     if (!monthBadgeEl) return;
     monthBadgeEl.textContent = (monthBadgeEl.textContent || "")
@@ -751,7 +747,7 @@
   }
 
   function syncMonthLengthUI(){
-    document.querySelectorAll('input[name="monthLength"]').forEach(r => {
+    document.querySelectorAll('input[name="monthLength"]').forEach(r=>{
       r.checked = (parseInt(r.value, 10) === monthLength);
     });
 
@@ -764,8 +760,8 @@
   }
 
   function bindMonthLengthToggle(){
-    document.querySelectorAll('input[name="monthLength"]').forEach(radio => {
-      radio.addEventListener("change", (e) => {
+    document.querySelectorAll('input[name="monthLength"]').forEach(radio=>{
+      radio.addEventListener("change", (e)=>{
         monthLength = parseInt(e.target.value, 10);
         if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
         localStorage.setItem("kc_monthLength", String(monthLength));
@@ -775,79 +771,67 @@
     });
   }
 
-  /* ✅ Defaults you gave me */
-  const DEFAULT_HEDASH = "2026-01-20";
-  const DEFAULT_MONTH  = "2";
-
-  const savedHedash = localStorage.getItem("hedashDate");
-  hedashInput.value = savedHedash ? savedHedash : DEFAULT_HEDASH;
-
-  const savedMonth = localStorage.getItem("kingdomMonthNumber");
-  monthSelect.value = savedMonth ? savedMonth : DEFAULT_MONTH;
-
-  function getCurrentMonthNumber() {
+  function getCurrentMonthNumber(){
     const n = parseInt(monthSelect.value, 10);
     return (!isNaN(n) && n >= 1 && n <= 12) ? n : 2;
   }
 
-  function updateMonthBadge() {
+  function updateMonthBadge(){
     const monthNum = getCurrentMonthNumber();
     monthBadgeEl.textContent = monthBadgeLabels[monthNum] || "Month";
     sanitizeBadgeText();
   }
-  updateMonthBadge();
 
-  /* ✅ Feast of Weeks banner — show for remainder of THIS month (Month 2 per your instruction) */
-  function syncFeastOfWeeksBanner(){
-    const monthNum = getCurrentMonthNumber();
-    if (!weeksBannerEl) return;
-    weeksBannerEl.style.display = (monthNum === 2) ? "block" : "none";
-  }
-  syncFeastOfWeeksBanner();
-
-  hedashInput.addEventListener("change", () => {
-    if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
-    else localStorage.removeItem("hedashDate");
-    updateCalendar();
-  });
-
-  monthSelect.addEventListener("change", () => {
-    const monthNum = getCurrentMonthNumber();
-    localStorage.setItem("kingdomMonthNumber", String(monthNum));
+  function ensureDefaults(){
+    if (!hedashInput.value){
+      hedashInput.value = DEFAULT_HEDASH;
+      localStorage.setItem("hedashDate", DEFAULT_HEDASH);
+    }
+    if (!monthSelect.value){
+      monthSelect.value = DEFAULT_MONTH;
+      localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
+    }
     updateMonthBadge();
-    syncFeastOfWeeksBanner();
-    updateCalendar();
-  });
+  }
 
-  /* ✅ No highlight visuals */
-  function clearHighlights() { /* intentionally blank */ }
-  function setVoiceText(text) { /* voice disabled */ }
-
-  function getKingdomToday() {
+  function getKingdomToday(){
     const now  = new Date();
     const base = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     if (now.getHours() >= 19) base.setDate(base.getDate() + 1);
     return base;
   }
 
-  function updateCalendar() {
-    clearHighlights();
-    setVoiceText("");
+  function updateFOWShabatLabels(){
+    // For each shabat day box in the month (Days 8,15,22,29), show FOW numbers starting at 2
+    const shabatDays = [8, 15, 22, 29];
+    shabatDays.forEach((day, idx)=>{
+      const box = document.querySelector(`.dayBox.shabat[data-day="${day}"]`);
+      if (!box) return;
+      const label = box.querySelector(".dayLabel");
+      const sub   = box.querySelector(".daySub");
+
+      if (label) label.textContent = "Shabat";
+      const fowNum = FOW_START_AT + idx; // 2,3,4,5
+      if (sub) sub.textContent = `${fowNum} OF 7`;
+    });
+  }
+
+  function updateCalendar(){
     syncMonthLengthUI();
-    syncFeastOfWeeksBanner();
+    updateFOWShabatLabels();
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
     const monthName    = monthNameDisplay[currentMonth] || "YAHUAH’S MONTH";
 
-    if (!hedashValue) {
+    if (!hedashValue){
       todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
       todaySub.textContent  = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
       return;
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
-    const hedashMid = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
+    const hedashMid  = new Date(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
 
     let kingdomToday = getKingdomToday();
     if (kingdomToday < hedashMid) kingdomToday = hedashMid;
@@ -856,98 +840,71 @@
     const dayOffset  = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
 
-    if (dayOfMonth > monthLength) {
+    if (dayOfMonth > monthLength){
       todayMain.textContent = `TODAY IS BEYOND DAY ${monthLength} FROM THIS HEDASH — CONFIRM THE NEXT HEDASH TO BEGIN ${monthName}.`;
       todaySub.textContent  = "Once the next Renewed Moon is confirmed, enter that date above to begin the new month.";
       return;
     }
 
-    if (dayOfMonth === 1) {
-      const mainText = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-      todayMain.textContent = mainText;
-      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • Day 1 sets the Shabat pattern for ${monthName}.`;
-      setVoiceText(mainText);
+    if (dayOfMonth === 1){
+      todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
+      todaySub.innerHTML    = `<span class="pillHighlight">HEDASH</span> • Day 1 sets the Shabat pattern for ${monthName}.`;
       return;
     }
 
-    if (dayOfMonth === 30) {
-      const mainText = `TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AND 🌒 HEDASH APPEARS AT EVENING WHEN CONFIRMED TO BEGIN THE NEXT MONTH OF YAHUAH.`;
-      todayMain.textContent = mainText;
+    if (dayOfMonth === 30){
+      todayMain.textContent = "TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AND 🌒 HEDASH APPEARS AT EVENING WHEN CONFIRMED TO BEGIN THE NEXT MONTH OF YAHUAH.";
       todaySub.innerHTML =
-        `<span class="pillHighlight">Day 30</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
-      setVoiceText(mainText);
+        `<span class="pillHighlight">Day 30</span> &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span> &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
       return;
     }
 
-    const offsetFromDay2 = dayOfMonth - 2;
-    const weekNumber     = Math.floor(offsetFromDay2 / 7) + 1;
-    const positionInWeek = offsetFromDay2 % 7;
-    const isShabat       = (positionInWeek === 6);
-
-    const weekWord = ordinalWeekWords[weekNumber] || weekNumber.toString();
-    const dayWord  = ordinalDayWords[dayOfMonth] || dayOfMonth.toString();
-
-    let mainText = "";
-    let subHtml  = "";
-
-    if (isShabat) {
-      const shabatBoxEl = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
-      const shabatNum = shabatBoxEl && shabatBoxEl.getAttribute("data-shabat-number")
-        ? parseInt(shabatBoxEl.getAttribute("data-shabat-number"), 10)
-        : null;
-
-      const shabatWord = shabatNum ? (ordinalShabatWords[shabatNum] || shabatNum.toString()) : "";
-
-      mainText = `WE ARE IN THE ${weekWord} WEEK — ON OUR ${shabatWord} SHABAT — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
-      subHtml  =
-        `<span class="pillHighlight">${weekWord} Week</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${shabatWord} Shabat</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
-    } else {
-      const workDayNumber = positionInWeek + 1;
-      const workDayWord   = ordinalDayWords[workDayNumber] || workDayNumber.toString();
-
-      mainText = `WE ARE IN THE ${weekWord} WEEK — ON THE ${workDayWord} WORK DAY — ON THE ${dayWord} DAY — IN ${monthName.toUpperCase()} — ACCORDING TO THE PATH OF YEARS.`;
-      subHtml  =
-        `<span class="pillHighlight">${weekWord} Week</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${workDayWord} Work Day</span>` +
-        ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
-    }
-
-    todayMain.textContent = mainText;
-    todaySub.innerHTML    = subHtml;
-    setVoiceText(mainText);
+    // Keep banner messaging simple (no highlights)
+    todayMain.textContent = `TODAY IS DAY ${dayOfMonth} OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
+    todaySub.innerHTML = `<span class="pillHighlight">Feast of Weeks Count</span> • Shabats inside this month are labeled by count (2 of 7, 3 of 7, etc.).`;
   }
 
-  function sharePage() {
-    if (navigator.share) {
+  function sharePage(){
+    if (navigator.share){
       navigator.share({
-        title: "Kingdom Calendar – Path of Years",
-        text: "Check out the Kingdom Calendar – Path of Years tool!",
-        url: "https://kingdomcalendartool.com/"
-      }).catch((error) => console.log("Error sharing:", error));
+        title:"Kingdom Calendar – Path of Years",
+        text:"Check out the Kingdom Calendar – Path of Years tool!",
+        url:"https://kingdomcalendartool.com/"
+      }).catch(()=>{});
     } else {
       alert("Sharing is not supported on this browser.");
     }
   }
   window.sharePage = sharePage;
 
+  // Load saved values if present, else lock to your new settings
+  const savedHedash = localStorage.getItem("hedashDate");
+  if (savedHedash) hedashInput.value = savedHedash;
+  const savedMonth  = localStorage.getItem("kingdomMonthNumber");
+  if (savedMonth) monthSelect.value = savedMonth;
+
+  hedashInput.addEventListener("change", ()=>{
+    if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
+    else localStorage.removeItem("hedashDate");
+    updateCalendar();
+  });
+
+  monthSelect.addEventListener("change", ()=>{
+    const monthNum = getCurrentMonthNumber();
+    localStorage.setItem("kingdomMonthNumber", String(monthNum));
+    updateMonthBadge();
+    updateCalendar();
+  });
+
+  ensureDefaults();
   applySunsetDividers();
   syncMonthLengthUI();
   bindMonthLengthToggle();
-
-  function autoUpdateCalendar() {
-    if (!hedashInput.value) return;
-    updateCalendar();
-  }
-
   updateCalendar();
-  setInterval(autoUpdateCalendar, 60 * 1000);
+  setInterval(updateCalendar, 60 * 1000);
 
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) autoUpdateCalendar();
+  document.addEventListener("visibilitychange", ()=>{
+    if (!document.hidden) updateCalendar();
   });
 </script>
 
