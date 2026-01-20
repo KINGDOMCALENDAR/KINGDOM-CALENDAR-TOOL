@@ -8,7 +8,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Social Sharing Preview (Facebook, etc.) -->
+  <!-- Social Sharing Preview -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kingdom Calendar – Path of Years">
   <meta property="og:description" content="Track the Renewed Moon, Work Days, and Shabats according to the Path of Years.">
@@ -78,6 +78,36 @@
 
   .calendarSub { font-size:11px; color:#9ca3af; text-align:center; margin-bottom:2px; }
   .calendarNote { font-size:10px; color:#9ca3af; text-align:center; margin-bottom:6px; }
+
+  /* ✅ NEW: Feast of Weeks banner (normal style; not “highlighted days”) */
+  .weeksBanner{
+    max-width:700px;
+    margin:0 auto 8px auto;
+    background: rgba(250,204,21,0.08);
+    border: 1px solid rgba(250,204,21,0.45);
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align:center;
+  }
+  .weeksBannerTitle{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#facc15;
+  }
+  .weeksBannerText{
+    margin-top:4px;
+    font-size:11px;
+    color:#e5e7eb;
+    line-height:1.35;
+  }
+  .weeksBannerText small{
+    display:block;
+    margin-top:4px;
+    font-size:10px;
+    color:#9ca3af;
+  }
 
   .configBar {
     background:#020617;
@@ -247,7 +277,7 @@
     border:1px solid #111827;
   }
 
-  /* ✅ Normal days only — keep highlight classes harmless */
+  /* ✅ Normal days only — highlight classes harmless */
   .highlight-week { background:#020617; border-color:#111827; box-shadow:none; }
   .highlight-day  { background:#111827; border-color:#1f2937; box-shadow:none; }
 
@@ -280,7 +310,7 @@
   .dayLabel { font-weight:500; font-size:10px; }
   .daySub { font-size:9px; color:#9ca3af; }
 
-  /* ✅ Normalize Shabat visuals (no gold highlight) */
+  /* ✅ Normalize Shabat visuals */
   .shabat {
     background:#111827;
     border:1px solid #1f2937;
@@ -412,56 +442,6 @@
     display:none;
   }
 
-  /* ✅ PASAH NOTE (kept) */
-  .feastNote {
-    display:inline-block;
-    margin: 2px auto 2px auto;
-    padding: 2px 6px;
-    border-radius: 999px;
-    font-size: 9px;
-    line-height: 1.1;
-    text-transform: uppercase;
-    letter-spacing: .10em;
-    color: #ffd18a;
-    background: rgba(255,184,77,0.10);
-    border: 1px solid rgba(255,184,77,0.35);
-    box-shadow: 0 0 10px rgba(255,184,77,0.15);
-  }
-
-  /* ✅ FOULB tooltip text kept, but no glow/highlight */
-  .dayBox.feast-foulb{ background:#111827; border:1px solid #1f2937; color:#e5e7eb; }
-  .dayBox.feast-foulb .dayLabel,
-  .dayBox.feast-foulb .daySub{ color:inherit; text-shadow:none; }
-
-  .dayBox.feast-foulb::after{
-    content: "WE ARE IN THE FEAST OF UNLEAVENED BREAD";
-    position: absolute;
-    left: 50%;
-    top: -34px;
-    transform: translateX(-50%);
-    background: rgba(2,6,23,.94);
-    border: 1px solid rgba(255,255,255,0.20);
-    color: #ffffff;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 11px;
-    letter-spacing: .10em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,.35);
-    transition: opacity .18s ease, transform .18s ease;
-    z-index: 9999;
-  }
-  .dayBox.feast-foulb:hover::after{
-    opacity: 1;
-    transform: translateX(-50%) translateY(-4px);
-  }
-  @media (hover:none){
-    .dayBox.feast-foulb::after{ display:none; }
-  }
-
   @media (max-width:640px){
     .calendarHeader { flex-direction:column; align-items:center; text-align:center; }
     .calendarSide { width:auto; white-space:normal; }
@@ -488,6 +468,15 @@
   <div class="calendarSub">Work Days &amp; Shabats According to the Path of Years</div>
   <div class="calendarNote">
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
+  </div>
+
+  <!-- ✅ NEW: FEAST OF WEEKS BANNER (for remainder of this month) -->
+  <div class="weeksBanner" id="weeksBanner">
+    <div class="weeksBannerTitle">FEAST OF WEEKS — COUNT SEVEN COMPLETED SHABATS</div>
+    <div class="weeksBannerText" id="weeksBannerText">
+      For the remainder of this month, we are counting <b>Seven Completed Shabats</b> (appointments) — not “seven weeks.”
+      <small>Wayaqara (Leviticus) 23:15–16 — “seven Shabats shall be complete… even unto the morrow after the seventh Shabat…”</small>
+    </div>
   </div>
 
   <div class="configBar">
@@ -728,6 +717,8 @@
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
+  const weeksBannerEl = document.getElementById("weeksBanner");
+
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
@@ -751,30 +742,6 @@
   }
   window.toggleSunsetBoundaries = toggleSunsetBoundaries;
 
-  /* ✅ PASAH DAY 14 NOTE */
-  function applyFeastNotes(){
-    document.querySelectorAll('.dayBox[data-day="14"]').forEach(box=>{
-      if (box.querySelector(".feastNote")) return;
-      const note = document.createElement("div");
-      note.className = "feastNote";
-      note.textContent = "PASAH begins at even";
-      const daySub = box.querySelector(".daySub");
-      if (daySub) box.insertBefore(note, daySub);
-      else box.prepend(note);
-    });
-  }
-
-  /* ✅ FOULB RANGE (Day 14 → 21) — class kept for tooltip, no highlight */
-  function applyFOULBRange(){
-    const start = 14;
-    const end   = 21;
-    document.querySelectorAll(".dayBox").forEach(box=>{
-      const d = parseInt(box.getAttribute("data-day") || "0", 10);
-      if (d >= start && d <= end) box.classList.add("feast-foulb");
-      else box.classList.remove("feast-foulb");
-    });
-  }
-
   /* ✅ QUOTE SANITIZER */
   function sanitizeBadgeText(){
     if (!monthBadgeEl) return;
@@ -793,8 +760,6 @@
     if (day30Banner) day30Banner.hidden = !show30;
 
     applySunsetDividers();
-    applyFeastNotes();
-    applyFOULBRange();
     sanitizeBadgeText();
   }
 
@@ -810,21 +775,15 @@
     });
   }
 
-  /* ✅ Defaults you gave me:
-     - Month = 2nd month
-     - HEDASH = 2026-01-20
-     These apply on first load if user has no saved values yet.
-  */
+  /* ✅ Defaults you gave me */
   const DEFAULT_HEDASH = "2026-01-20";
   const DEFAULT_MONTH  = "2";
 
   const savedHedash = localStorage.getItem("hedashDate");
-  if (savedHedash) hedashInput.value = savedHedash;
-  else hedashInput.value = DEFAULT_HEDASH;
+  hedashInput.value = savedHedash ? savedHedash : DEFAULT_HEDASH;
 
   const savedMonth = localStorage.getItem("kingdomMonthNumber");
-  if (savedMonth) monthSelect.value = savedMonth;
-  else monthSelect.value = DEFAULT_MONTH;
+  monthSelect.value = savedMonth ? savedMonth : DEFAULT_MONTH;
 
   function getCurrentMonthNumber() {
     const n = parseInt(monthSelect.value, 10);
@@ -838,6 +797,14 @@
   }
   updateMonthBadge();
 
+  /* ✅ Feast of Weeks banner — show for remainder of THIS month (Month 2 per your instruction) */
+  function syncFeastOfWeeksBanner(){
+    const monthNum = getCurrentMonthNumber();
+    if (!weeksBannerEl) return;
+    weeksBannerEl.style.display = (monthNum === 2) ? "block" : "none";
+  }
+  syncFeastOfWeeksBanner();
+
   hedashInput.addEventListener("change", () => {
     if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
     else localStorage.removeItem("hedashDate");
@@ -848,10 +815,11 @@
     const monthNum = getCurrentMonthNumber();
     localStorage.setItem("kingdomMonthNumber", String(monthNum));
     updateMonthBadge();
+    syncFeastOfWeeksBanner();
     updateCalendar();
   });
 
-  /* ✅ NO HIGHLIGHTS: functions kept but do nothing visible */
+  /* ✅ No highlight visuals */
   function clearHighlights() { /* intentionally blank */ }
   function setVoiceText(text) { /* voice disabled */ }
 
@@ -866,6 +834,7 @@
     clearHighlights();
     setVoiceText("");
     syncMonthLengthUI();
+    syncFeastOfWeeksBanner();
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
@@ -947,10 +916,6 @@
         ` &nbsp;•&nbsp; <span class="pillHighlight">${dayWord} Day</span>`;
     }
 
-    if (dayOfMonth === 14) {
-      subHtml += `<div class="calendarNote" style="margin-top:6px;color:#ffd18a;">PASAH BEGINS AT EVEN</div>`;
-    }
-
     todayMain.textContent = mainText;
     todaySub.innerHTML    = subHtml;
     setVoiceText(mainText);
@@ -970,8 +935,6 @@
   window.sharePage = sharePage;
 
   applySunsetDividers();
-  applyFeastNotes();
-  applyFOULBRange();
   syncMonthLengthUI();
   bindMonthLengthToggle();
 
