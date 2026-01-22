@@ -261,7 +261,15 @@
     }
     .hedashIcon{ font-size:24px; }
     .hedashText-main{ font-size:12px; font-weight:600; }
-    .hedashText-sub{ font-size:10px; color:#9ca3af; }
+    .hedashText-sub{ font-size:10px; color:#9ca3af; margin-top:2px; }
+    /* ✅ NEW: Hedash doctrinal note styling */
+    .hedashText-note{
+      margin-top:6px;
+      font-size:10px;
+      line-height:1.35;
+      color:#cbd5e1;
+    }
+    .hedashText-note b{ color:#facc15; }
 
     .weekRow{
       display:flex;
@@ -458,7 +466,7 @@
   <div class="weeksBanner" id="weeksBanner">
     <div class="weeksBannerTitle">FEAST OF WEEKS — COUNTING SEVEN SHABATS</div>
     <div class="weeksBannerText">
-      We count <b>seven completed Shabats</b> (appointments) — not “seven weeks.”
+      We count <b>seven complete Shabats</b> (appointments) = <b>49 days</b> (seven weeks).
       <small>Shabat #1 was completed before this Hedash was confirmed. The next Shabat shown below begins the count at <b>2 of 7</b>.</small>
     </div>
   </div>
@@ -508,6 +516,12 @@
       <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
       <div class="hedashText-sub">
         Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
+      </div>
+
+      <!-- ✅ ADDED: Hedash stand-alone day note -->
+      <div class="hedashText-note">
+        <b>Hedash is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
+        <b>Shabat counting begins after Hedash.</b>
       </div>
     </div>
   </div>
