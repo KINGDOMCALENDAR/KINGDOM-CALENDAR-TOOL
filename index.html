@@ -255,21 +255,75 @@
       padding:8px;
       margin-bottom:8px;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
       gap:8px;
     }
     .hedashIcon{ font-size:24px; }
+
+    /* --- Hedash mobile tooltip + layout --- */
+    .hedashTextWrap{ width:100%; }
+    .hedashTopLine{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
     .hedashText-main{ font-size:12px; font-weight:600; }
     .hedashText-sub{ font-size:10px; color:#9ca3af; margin-top:2px; }
-    /* ✅ NEW: Hedash doctrinal note styling */
-    .hedashText-note{
+
+    .hedashInfoBtn{
+      display:none; /* shown on mobile via media query */
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,0.6);
+      background:rgba(250,204,21,0.10);
+      color:#facc15;
+      font-size:12px;
+      line-height:1;
+      padding:4px 8px;
+      cursor:pointer;
+    }
+
+    .hedashInlineNote{
       margin-top:6px;
       font-size:10px;
       line-height:1.35;
       color:#cbd5e1;
     }
-    .hedashText-note b{ color:#facc15; }
+    .hedashInlineNote b{ color:#facc15; }
+
+    .hedashTooltip{
+      display:none; /* hidden by default */
+      margin-top:8px;
+      background: rgba(2,6,23,.96);
+      border:1px solid rgba(250,204,21,0.35);
+      border-radius:10px;
+      padding:8px 10px;
+      font-size:10px;
+      line-height:1.35;
+      color:#e5e7eb;
+      box-shadow:0 10px 25px rgba(0,0,0,.35);
+    }
+    .hedashTooltip b{ color:#facc15; }
+    .hedashTooltip.is-open{ display:block; }
+
+    /* --- TODAY HIGHLIGHT (orange) --- */
+    .is-today{
+      border:1px solid rgba(255,145,0,.85) !important;
+      box-shadow:0 0 0 1px rgba(255,145,0,.25) inset, 0 0 18px rgba(255,145,0,.18);
+    }
+    .dayBox.is-today{
+      background: rgba(255,145,0,.12) !important;
+    }
+    .dayBox.is-today .dayLabel,
+    .dayBox.is-today .daySub{
+      color:#ffb347 !important;
+      font-weight:800;
+    }
+    #hedashRow.is-today{
+      background: rgba(255,145,0,.08) !important;
+      border:1px solid rgba(255,145,0,.55) !important;
+    }
 
     .weekRow{
       display:flex;
@@ -443,6 +497,10 @@
       .dayLabel{ font-size:9px; }
       .daySub{ font-size:8px; }
       .phaseItemText{ font-size:9px; }
+
+      /* Mobile behavior: show ⓘ, hide inline note */
+      .hedashInfoBtn{ display:inline-flex; }
+      .hedashInlineNote{ display:none; }
     }
   </style>
 </head>
@@ -510,17 +568,33 @@
     </div>
   </div>
 
+  <!-- ✅ UPDATED: Hedash block with mobile tooltip note -->
   <div class="hedashRow" id="hedashRow">
     <div class="hedashIcon">🌒</div>
-    <div>
-      <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
+
+    <div class="hedashTextWrap">
+      <div class="hedashTopLine">
+        <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
+
+        <!-- Mobile-only info button -->
+        <button type="button" class="hedashInfoBtn" id="hedashInfoBtn" aria-label="Hedash info" aria-expanded="false">
+          ⓘ
+        </button>
+      </div>
+
       <div class="hedashText-sub">
         Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
       </div>
 
-      <!-- ✅ ADDED: Hedash stand-alone day note -->
-      <div class="hedashText-note">
+      <!-- Desktop inline note (hidden on mobile) -->
+      <div class="hedashInlineNote">
         <b>Hedash is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
+        <b>Shabat counting begins after Hedash.</b>
+      </div>
+
+      <!-- Mobile tooltip note (hidden on desktop; toggled by ⓘ) -->
+      <div class="hedashTooltip" id="hedashTooltip" role="note">
+        <b>Hedash is not a Shabat.</b> Stand-alone appointed Day One, not a workday.
         <b>Shabat counting begins after Hedash.</b>
       </div>
     </div>
@@ -724,6 +798,9 @@
   const day30Row    = document.getElementById("day30Row");
   const day30Banner = document.getElementById("day30Banner");
 
+  const hedashInfoBtn = document.getElementById("hedashInfoBtn");
+  const hedashTooltip = document.getElementById("hedashTooltip");
+
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
@@ -830,6 +907,25 @@
     });
   }
 
+  function clearTodayHighlights(){
+    document.querySelectorAll(".is-today").forEach(el => el.classList.remove("is-today"));
+  }
+
+  function highlightToday(dayOfMonth){
+    clearTodayHighlights();
+
+    // Hedash Day 1 highlights the Hedash block
+    if (dayOfMonth === 1){
+      const hr = document.getElementById("hedashRow");
+      if (hr) hr.classList.add("is-today");
+      return;
+    }
+
+    // Highlight day box for current day (2-29/30)
+    const box = document.querySelector(`.dayBox[data-day="${dayOfMonth}"]`);
+    if (box) box.classList.add("is-today");
+  }
+
   function updateCalendar(){
     syncMonthLengthUI();
     updateFOWShabatLabels();
@@ -841,6 +937,7 @@
     if (!hedashValue){
       todayMain.textContent = "Set the HEDASH date above to activate the Kingdom Calendar.";
       todaySub.textContent  = "The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.";
+      clearTodayHighlights();
       return;
     }
 
@@ -853,6 +950,9 @@
     const diffMs     = kingdomToday - hedashMid;
     const dayOffset  = Math.floor(diffMs / (24*60*60*1000));
     const dayOfMonth = dayOffset + 1;
+
+    // Highlight the current day box (or Hedash row) every time we update
+    highlightToday(dayOfMonth);
 
     if (dayOfMonth > monthLength){
       todayMain.textContent = `TODAY IS BEYOND DAY ${monthLength} FROM THIS HEDASH — CONFIRM THE NEXT HEDASH TO BEGIN ${monthName}.`;
@@ -890,6 +990,14 @@
     }
   }
   window.sharePage = sharePage;
+
+  /* Mobile Hedash info toggle */
+  if (hedashInfoBtn && hedashTooltip){
+    hedashInfoBtn.addEventListener("click", ()=>{
+      const open = hedashTooltip.classList.toggle("is-open");
+      hedashInfoBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
 
   // Load saved values if present, else lock to your new settings
   const savedHedash = localStorage.getItem("hedashDate");
