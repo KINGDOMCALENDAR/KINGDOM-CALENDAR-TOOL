@@ -77,35 +77,6 @@
     .calendarSub{ font-size:11px; color:#9ca3af; text-align:center; margin-bottom:2px; }
     .calendarNote{ font-size:10px; color:#9ca3af; text-align:center; margin-bottom:6px; }
 
-    .weeksBanner{
-      max-width:700px;
-      margin:0 auto 8px auto;
-      background:rgba(250,204,21,0.08);
-      border:1px solid rgba(250,204,21,0.45);
-      border-radius:10px;
-      padding:8px 10px;
-      text-align:center;
-    }
-    .weeksBannerTitle{
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:#facc15;
-    }
-    .weeksBannerText{
-      margin-top:4px;
-      font-size:11px;
-      color:#e5e7eb;
-      line-height:1.35;
-    }
-    .weeksBannerText small{
-      display:block;
-      margin-top:4px;
-      font-size:10px;
-      color:#9ca3af;
-    }
-
     .configBar{
       background:#020617;
       border-radius:8px;
@@ -248,18 +219,25 @@
       box-shadow:0 0 10px rgba(255,184,77,.65);
     }
 
+    /* HEDASH PERMANENT ORANGE HIGHLIGHT */
     .hedashRow{
-      background:#020617;
+      background:rgba(255,145,0,.14);
       border-radius:8px;
-      border:1px solid #111827;
+      border:1px solid rgba(255,145,0,.75);
       padding:8px;
       margin-bottom:8px;
       display:flex;
       align-items:flex-start;
       justify-content:center;
       gap:8px;
+      box-shadow:
+        0 0 0 1px rgba(255,145,0,.18) inset,
+        0 0 18px rgba(255,145,0,.22);
     }
-    .hedashIcon{ font-size:24px; }
+    .hedashIcon{
+      font-size:24px;
+      filter:drop-shadow(0 0 8px rgba(255,145,0,.45));
+    }
 
     .hedashTextWrap{ width:100%; }
     .hedashTopLine{
@@ -268,15 +246,24 @@
       justify-content:space-between;
       gap:10px;
     }
-    .hedashText-main{ font-size:12px; font-weight:600; }
-    .hedashText-sub{ font-size:10px; color:#9ca3af; margin-top:2px; }
+    .hedashText-main{
+      font-size:12px;
+      font-weight:700;
+      color:#ffb347;
+      letter-spacing:.03em;
+    }
+    .hedashText-sub{
+      font-size:10px;
+      color:#ffd7a1;
+      margin-top:2px;
+    }
 
     .hedashInfoBtn{
       display:none;
       border-radius:999px;
-      border:1px solid rgba(250,204,21,0.6);
-      background:rgba(250,204,21,0.10);
-      color:#facc15;
+      border:1px solid rgba(255,145,0,0.6);
+      background:rgba(255,145,0,0.10);
+      color:#ffb347;
       font-size:12px;
       line-height:1;
       padding:4px 8px;
@@ -287,26 +274,26 @@
       margin-top:6px;
       font-size:10px;
       line-height:1.35;
-      color:#cbd5e1;
+      color:#ffe7c2;
     }
-    .hedashInlineNote b{ color:#facc15; }
+    .hedashInlineNote b{ color:#ffb347; }
 
     .hedashTooltip{
       display:none;
       margin-top:8px;
       background: rgba(2,6,23,.96);
-      border:1px solid rgba(250,204,21,0.35);
+      border:1px solid rgba(255,145,0,.45);
       border-radius:10px;
       padding:8px 10px;
       font-size:10px;
       line-height:1.35;
-      color:#e5e7eb;
+      color:#ffe7c2;
       box-shadow:0 10px 25px rgba(0,0,0,.35);
     }
-    .hedashTooltip b{ color:#facc15; }
+    .hedashTooltip b{ color:#ffb347; }
     .hedashTooltip.is-open{ display:block; }
 
-    /* --- TODAY HIGHLIGHT (orange) --- */
+    /* TODAY HIGHLIGHT */
     .is-today{
       border:1px solid rgba(255,145,0,.85) !important;
       box-shadow:0 0 0 1px rgba(255,145,0,.25) inset, 0 0 18px rgba(255,145,0,.18);
@@ -320,28 +307,11 @@
       font-weight:800;
     }
     #hedashRow.is-today{
-      background: rgba(255,145,0,.08) !important;
-      border:1px solid rgba(255,145,0,.55) !important;
-    }
-
-    /* ✅ Holy Convocation styling */
-    .convocation{
-      background: rgba(250,204,21,0.10) !important;
-      border: 1px solid rgba(250,204,21,0.70) !important;
-      box-shadow: 0 0 18px rgba(250,204,21,0.10);
-    }
-    .convocation .dayLabel{
-      color:#facc15 !important;
-      font-weight:900 !important;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      font-size:9px;
-    }
-    .convocation .daySub{
-      color:#fef9c3 !important;
-      font-weight:800 !important;
-      font-size:9px;
-      letter-spacing:.06em;
+      background: rgba(255,145,0,.20) !important;
+      border:1px solid rgba(255,145,0,.85) !important;
+      box-shadow:
+        0 0 0 1px rgba(255,145,0,.25) inset,
+        0 0 24px rgba(255,145,0,.28) !important;
     }
 
     .weekRow{
@@ -528,22 +498,13 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">3rd Month</span>
+      <span class="monthBadge" id="month-badge">4th Month</span>
     </div>
   </div>
 
   <div class="calendarSub">Work Days &amp; Shabats According to the Path of Years</div>
   <div class="calendarNote">
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
-  </div>
-
-  <!-- ✅ FEAST OF WEEKS BANNER -->
-  <div class="weeksBanner" id="weeksBanner">
-    <div class="weeksBannerTitle">FEAST OF WEEKS — FINAL TWO SHABATS REMAIN</div>
-    <div class="weeksBannerText">
-      We count <b>seven complete Shabats</b> = <b>49 days</b>. The next day is <b>Day 50</b> — the <b>Holy Convocation</b>.
-      <small><b>Completed:</b> 5 of 7 • <b>Remaining:</b> Shabat 6 (Day 42) and Shabat 7 (Day 49) • Then <b>Day 50</b>.</small>
-    </div>
   </div>
 
   <div class="configBar">
@@ -553,8 +514,8 @@
     <select id="month-select">
       <option value="1">1st – Abayab</option>
       <option value="2">2nd Month</option>
-      <option value="3" selected>3rd Month</option>
-      <option value="4">4th Month</option>
+      <option value="3">3rd Month</option>
+      <option value="4" selected>4th Month</option>
       <option value="5">5th Month</option>
       <option value="6">6th Month</option>
       <option value="7">7th Month</option>
@@ -590,7 +551,7 @@
 
     <div class="hedashTextWrap">
       <div class="hedashTopLine">
-        <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon)</div>
+        <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon) • First Day of YAHUAH’S Month</div>
         <button type="button" class="hedashInfoBtn" id="hedashInfoBtn" aria-label="Hedash info" aria-expanded="false">ⓘ</button>
       </div>
 
@@ -655,10 +616,9 @@
       <div class="dayBox" data-day="6"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 6</div></div>
       <div class="dayBox" data-day="7"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 7</div></div>
 
-      <!-- ✅ Shabat 6 of 7 (Day 42) -->
       <div class="dayBox shabat" data-day="8">
         <div class="dayLabel">Shabat</div>
-        <div class="daySub">6 OF 7</div>
+        <div class="daySub">Day 8</div>
       </div>
     </div>
     <div class="phaseIcon">🌓</div>
@@ -676,10 +636,9 @@
       <div class="dayBox" data-day="13"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 13</div></div>
       <div class="dayBox" data-day="14"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 14</div></div>
 
-      <!-- ✅ Shabat 7 of 7 (Day 49) -->
       <div class="dayBox shabat" data-day="15">
         <div class="dayLabel">Shabat</div>
-        <div class="daySub">7 OF 7</div>
+        <div class="daySub">Day 15</div>
       </div>
     </div>
     <div class="phaseIcon">🌕</div>
@@ -690,12 +649,7 @@
     <div class="weekLabel">3rd Week</div>
     <div class="phaseIcon">🌕</div>
     <div class="dayRow">
-      <!-- ✅ Day 50 marker -->
-      <div class="dayBox convocation" data-day="16">
-        <div class="dayLabel">Feast of Weeks</div>
-        <div class="daySub">Holy Convocation • Day 50</div>
-      </div>
-
+      <div class="dayBox" data-day="16"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 16</div></div>
       <div class="dayBox" data-day="17"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 17</div></div>
       <div class="dayBox" data-day="18"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 18</div></div>
       <div class="dayBox" data-day="19"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 19</div></div>
@@ -815,9 +769,9 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  /* ✅ DEFAULTS LOCKED FOR THIS MONTH */
-  const DEFAULT_HEDASH = "2026-02-18"; // Hedash spotted evening 02/18/26
-  const DEFAULT_MONTH  = "3";          // 3rd Month
+  /* DEFAULTS LOCKED FOR THIS MONTH */
+  const DEFAULT_HEDASH = "2026-03-20";
+  const DEFAULT_MONTH  = "4";
 
   const SUNSET_HOUR = 19; // 7:00 PM local
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -873,7 +827,7 @@
 
   function getCurrentMonthNumber(){
     const n = parseInt(monthSelect.value, 10);
-    return (!isNaN(n) && n >= 1 && n <= 12) ? n : 3;
+    return (!isNaN(n) && n >= 1 && n <= 12) ? n : 4;
   }
 
   function updateMonthBadge(){
@@ -883,14 +837,10 @@
   }
 
   function ensureDefaults(){
-    if (!hedashInput.value){
-      hedashInput.value = DEFAULT_HEDASH;
-      localStorage.setItem("hedashDate", DEFAULT_HEDASH);
-    }
-    if (!monthSelect.value){
-      monthSelect.value = DEFAULT_MONTH;
-      localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
-    }
+    hedashInput.value = DEFAULT_HEDASH;
+    monthSelect.value = DEFAULT_MONTH;
+    localStorage.setItem("hedashDate", DEFAULT_HEDASH);
+    localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
     updateMonthBadge();
   }
 
@@ -925,7 +875,7 @@
       return;
     }
 
-    // ✅ KEY FIX: Hedash begins at 7:00 PM, and the day changes again ONLY at the NEXT 7:00 PM.
+    // Hedash begins at 7:00 PM
     const hedashDate = new Date(hedashValue + "T00:00:00");
     const hedashStart = new Date(
       hedashDate.getFullYear(),
@@ -936,7 +886,6 @@
 
     const now = new Date();
 
-    // If we're before Hedash start (same civil day before 7pm), clamp to Day 1 display.
     let diffMs = now - hedashStart;
     if (diffMs < 0) diffMs = 0;
 
@@ -953,14 +902,7 @@
 
     if (dayOfMonth === 1){
       todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-      todaySub.innerHTML    = `<span class="pillHighlight">HEDASH</span> • Day 1 remains active until tomorrow evening at <b>7:00 PM</b>.`;
-      return;
-    }
-
-    if (dayOfMonth === 16){
-      todayMain.textContent = `TODAY IS THE FEAST OF WEEKS — HOLY CONVOCATION — DAY 50 — ACCORDING TO THE COUNT OF SEVEN SHABATS.`;
-      todaySub.innerHTML =
-        `<span class="pillHighlight">DAY 50</span> &nbsp;•&nbsp; <span class="pillHighlight">HOLY CONVOCATION</span> &nbsp;•&nbsp; <span class="pillHighlight">FEAST OF WEEKS</span>`;
+      todaySub.innerHTML    = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
       return;
     }
 
@@ -971,8 +913,15 @@
       return;
     }
 
+    const shabatDays = [8, 15, 22, 29];
+    if (shabatDays.includes(dayOfMonth)){
+      todayMain.textContent = `TODAY IS SHABAT — DAY ${dayOfMonth} OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
+      todaySub.innerHTML = `<span class="pillHighlight">SHABAT</span> • Set-apart day in YAHUAH’S monthly order.`;
+      return;
+    }
+
     todayMain.textContent = `TODAY IS DAY ${dayOfMonth} OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-    todaySub.innerHTML = `<span class="pillHighlight">Feast of Weeks</span> • Final two Shabats are labeled <b>6 OF 7</b> and <b>7 OF 7</b> • Then <b>Day 50</b>.`;
+    todaySub.innerHTML = `<span class="pillHighlight">WORK DAY</span> • Counting forward from HEDASH according to the Path of Years.`;
   }
 
   function sharePage(){
@@ -995,12 +944,6 @@
       hedashInfoBtn.setAttribute("aria-expanded", open ? "true" : "false");
     });
   }
-
-  // Load saved values if present
-  const savedHedash = localStorage.getItem("hedashDate");
-  if (savedHedash) hedashInput.value = savedHedash;
-  const savedMonth  = localStorage.getItem("kingdomMonthNumber");
-  if (savedMonth) monthSelect.value = savedMonth;
 
   hedashInput.addEventListener("change", ()=>{
     if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
