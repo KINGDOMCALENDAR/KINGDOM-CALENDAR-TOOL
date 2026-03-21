@@ -227,35 +227,49 @@
       padding:8px;
       margin-bottom:8px;
       display:flex;
-      align-items:flex-start;
+      align-items:center;
       justify-content:center;
       gap:8px;
       box-shadow:
         0 0 0 1px rgba(255,145,0,.18) inset,
         0 0 18px rgba(255,145,0,.22);
+      text-align:center;
     }
     .hedashIcon{
       font-size:24px;
       filter:drop-shadow(0 0 8px rgba(255,145,0,.45));
+      margin-bottom:4px;
     }
 
-    .hedashTextWrap{ width:100%; }
+    .hedashTextWrap{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
     .hedashTopLine{
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      justify-content:center;
+      gap:6px;
+      width:100%;
+      text-align:center;
     }
     .hedashText-main{
       font-size:12px;
       font-weight:700;
       color:#ffb347;
       letter-spacing:.03em;
+      text-align:center;
     }
     .hedashText-sub{
       font-size:10px;
       color:#ffd7a1;
       margin-top:2px;
+      text-align:center;
+      max-width:620px;
     }
 
     .hedashInfoBtn{
@@ -275,6 +289,8 @@
       font-size:10px;
       line-height:1.35;
       color:#ffe7c2;
+      text-align:center;
+      max-width:620px;
     }
     .hedashInlineNote b{ color:#ffb347; }
 
@@ -289,6 +305,8 @@
       line-height:1.35;
       color:#ffe7c2;
       box-shadow:0 10px 25px rgba(0,0,0,.35);
+      text-align:center;
+      max-width:620px;
     }
     .hedashTooltip b{ color:#ffb347; }
     .hedashTooltip.is-open{ display:block; }
@@ -547,9 +565,9 @@
   </div>
 
   <div class="hedashRow" id="hedashRow">
-    <div class="hedashIcon">🌒</div>
-
     <div class="hedashTextWrap">
+      <div class="hedashIcon">🌒</div>
+
       <div class="hedashTopLine">
         <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon) • First Day of YAHUAH’S Month</div>
         <button type="button" class="hedashInfoBtn" id="hedashInfoBtn" aria-label="Hedash info" aria-expanded="false">ⓘ</button>
