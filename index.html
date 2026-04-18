@@ -65,7 +65,6 @@
       color:#facc15;
     }
 
-    /* Quote fix kill-switch */
     #month-badge::before,
     #month-badge::after,
     .monthBadge::before,
@@ -219,7 +218,6 @@
       box-shadow:0 0 10px rgba(255,184,77,.65);
     }
 
-    /* HEDASH PERMANENT ORANGE HIGHLIGHT */
     .hedashRow{
       background:rgba(255,145,0,.14);
       border-radius:8px;
@@ -311,7 +309,6 @@
     .hedashTooltip b{ color:#ffb347; }
     .hedashTooltip.is-open{ display:block; }
 
-    /* TODAY HIGHLIGHT */
     .is-today{
       border:1px solid rgba(255,145,0,.85) !important;
       box-shadow:0 0 0 1px rgba(255,145,0,.25) inset, 0 0 18px rgba(255,145,0,.18);
@@ -573,8 +570,8 @@
         <button type="button" class="hedashInfoBtn" id="hedashInfoBtn" aria-label="Hedash info" aria-expanded="false">ⓘ</button>
       </div>
 
-      <div class="hedashText-sub">
-        Sets the Shabat pattern for this month. The first full work week begins as the light grows toward 🌓 Half Moon Waxing.
+      <div class="hedashText-sub" id="hedash-status-text">
+        The Renewed Moon is expected to be spotted this evening, April 18, 2026. If confirmed, the 5th Month will begin at sunset according to the Path of Years.
       </div>
 
       <div class="hedashInlineNote">
@@ -622,7 +619,6 @@
     The calendar changes over from evening to evening at <b>7:00 PM</b>, according to YAHUAH'S time.
   </div>
 
-  <!-- WEEK 1 -->
   <div class="weekRow" data-week="1">
     <div class="weekLabel">1st Week</div>
     <div class="phaseIcon">🌒</div>
@@ -642,7 +638,6 @@
     <div class="phaseIcon">🌓</div>
   </div>
 
-  <!-- WEEK 2 -->
   <div class="weekRow" data-week="2">
     <div class="weekLabel">2nd Week</div>
     <div class="phaseIcon">🌓</div>
@@ -662,7 +657,6 @@
     <div class="phaseIcon">🌕</div>
   </div>
 
-  <!-- WEEK 3 -->
   <div class="weekRow" data-week="3">
     <div class="weekLabel">3rd Week</div>
     <div class="phaseIcon">🌕</div>
@@ -682,7 +676,6 @@
     <div class="phaseIcon">🌗</div>
   </div>
 
-  <!-- WEEK 4 -->
   <div class="weekRow" data-week="4">
     <div class="weekLabel">4th Week</div>
     <div class="phaseIcon">🌗</div>
@@ -702,7 +695,6 @@
     <div class="phaseIcon">🌑</div>
   </div>
 
-  <!-- Day 30 row (only if 30-day month) -->
   <div class="weekRow" id="day30Row" style="display:none;">
     <div class="weekLabel">Day 30</div>
     <div class="phaseIcon">🌑</div>
@@ -738,7 +730,6 @@
       </div>
     </div>
   </details>
-
 </div>
 
 <script>
@@ -777,21 +768,24 @@
   const todayMain    = document.getElementById("today-main");
   const todaySub     = document.getElementById("today-sub");
   const monthBadgeEl = document.getElementById("month-badge");
-
-  const day30Row    = document.getElementById("day30Row");
-  const day30Banner = document.getElementById("day30Banner");
-
+  const day30Row     = document.getElementById("day30Row");
+  const day30Banner  = document.getElementById("day30Banner");
   const hedashInfoBtn = document.getElementById("hedashInfoBtn");
   const hedashTooltip = document.getElementById("hedashTooltip");
+  const hedashStatusText = document.getElementById("hedash-status-text");
 
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  /* DEFAULTS LOCKED FOR THIS MONTH */
   const DEFAULT_HEDASH = "2026-03-20";
   const DEFAULT_MONTH  = "4";
 
-  const SUNSET_HOUR = 19; // 7:00 PM local
+  const AUTO_SWITCH_DATE = "2026-04-18";
+  const AUTO_SWITCH_MONTH = "5";
+  const AUTO_SWITCH_HOUR = 19;
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_04_18";
+
+  const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
 
   function applySunsetDividers(){
@@ -800,7 +794,7 @@
       boxes.forEach((box, idx)=>{
         const on = idx !== 0;
         box.classList.toggle("sunset-divider", on);
-        if(on) box.setAttribute("data-sunset-tip", SUNSET_TIP);
+        if (on) box.setAttribute("data-sunset-tip", SUNSET_TIP);
         else box.removeAttribute("data-sunset-tip");
       });
     });
@@ -854,12 +848,22 @@
     sanitizeBadgeText();
   }
 
-  function ensureDefaults(){
-    hedashInput.value = DEFAULT_HEDASH;
-    monthSelect.value = DEFAULT_MONTH;
-    localStorage.setItem("hedashDate", DEFAULT_HEDASH);
-    localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
-    updateMonthBadge();
+  function getAutoSwitchTrigger(){
+    const d = new Date(AUTO_SWITCH_DATE + "T00:00:00");
+    return new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      AUTO_SWITCH_HOUR, 0, 0, 0
+    );
+  }
+
+  function hasAutoSwitched(){
+    return localStorage.getItem(AUTO_SWITCH_KEY) === "true";
+  }
+
+  function markAutoSwitched(){
+    localStorage.setItem(AUTO_SWITCH_KEY, "true");
   }
 
   function clearTodayHighlights(){
@@ -879,7 +883,67 @@
     if (box) box.classList.add("is-today");
   }
 
+  function setExpectedStatusText(){
+    if (!hedashStatusText) return;
+    hedashStatusText.textContent = "The Renewed Moon is expected to be spotted this evening, April 18, 2026. If confirmed, the 5th Month will begin at sunset according to the Path of Years.";
+  }
+
+  function setConfirmedStatusText(){
+    if (!hedashStatusText) return;
+    hedashStatusText.textContent = "The Renewed Moon has appeared at evening on April 18, 2026, beginning the 5th Month according to the Path of Years. This sets the Shabat pattern for the entire month.";
+  }
+
+  function maybeRunOneTimeAutoSwitch(){
+    if (hasAutoSwitched()) {
+      setConfirmedStatusText();
+      return;
+    }
+
+    const now = new Date();
+    const trigger = getAutoSwitchTrigger();
+
+    if (now >= trigger){
+      hedashInput.value = AUTO_SWITCH_DATE;
+      monthSelect.value = AUTO_SWITCH_MONTH;
+      localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
+      localStorage.setItem("kingdomMonthNumber", AUTO_SWITCH_MONTH);
+      markAutoSwitched();
+      setConfirmedStatusText();
+      updateMonthBadge();
+    } else {
+      setExpectedStatusText();
+    }
+  }
+
+  function ensureDefaults(){
+    maybeRunOneTimeAutoSwitch();
+
+    const savedHedash = localStorage.getItem("hedashDate");
+    const savedMonth = localStorage.getItem("kingdomMonthNumber");
+
+    if (savedHedash && savedMonth){
+      hedashInput.value = savedHedash;
+      monthSelect.value = savedMonth;
+    } else {
+      hedashInput.value = DEFAULT_HEDASH;
+      monthSelect.value = DEFAULT_MONTH;
+      localStorage.setItem("hedashDate", DEFAULT_HEDASH);
+      localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
+    }
+
+    if (hasAutoSwitched()){
+      hedashInput.value = AUTO_SWITCH_DATE;
+      monthSelect.value = AUTO_SWITCH_MONTH;
+      localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
+      localStorage.setItem("kingdomMonthNumber", AUTO_SWITCH_MONTH);
+      setConfirmedStatusText();
+    }
+
+    updateMonthBadge();
+  }
+
   function updateCalendar(){
+    maybeRunOneTimeAutoSwitch();
     syncMonthLengthUI();
 
     const hedashValue  = hedashInput.value;
@@ -893,7 +957,6 @@
       return;
     }
 
-    // Hedash begins at 7:00 PM
     const hedashDate = new Date(hedashValue + "T00:00:00");
     const hedashStart = new Date(
       hedashDate.getFullYear(),
@@ -907,7 +970,7 @@
     let diffMs = now - hedashStart;
     if (diffMs < 0) diffMs = 0;
 
-    const dayOffset  = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+    const dayOffset = Math.floor(diffMs / (24 * 60 * 60 * 1000));
     const dayOfMonth = dayOffset + 1;
 
     highlightToday(dayOfMonth);
@@ -920,14 +983,13 @@
 
     if (dayOfMonth === 1){
       todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-      todaySub.innerHTML    = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
+      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
       return;
     }
 
     if (dayOfMonth === 30){
       todayMain.textContent = "TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AND 🌒 HEDASH APPEARS AT EVENING WHEN CONFIRMED TO BEGIN THE NEXT MONTH OF YAHUAH.";
-      todaySub.innerHTML =
-        `<span class="pillHighlight">Day 30</span> &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span> &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
+      todaySub.innerHTML = `<span class="pillHighlight">Day 30</span> &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span> &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
       return;
     }
 
@@ -955,7 +1017,6 @@
   }
   window.sharePage = sharePage;
 
-  /* Mobile Hedash info toggle */
   if (hedashInfoBtn && hedashTooltip){
     hedashInfoBtn.addEventListener("click", ()=>{
       const open = hedashTooltip.classList.toggle("is-open");
