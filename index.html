@@ -7,6 +7,13 @@
 
   <link rel="icon" type="image/png" href="favicon.png">
 
+  <!-- PWA INSTALL APP SETTINGS -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kingdom Calendar">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="Kingdom Calendar – Path of Years">
   <meta property="og:description" content="Track the Renewed Moon, Work Days, and Shabats according to the Path of Years.">
@@ -33,6 +40,7 @@
       gap:8px;
       margin-bottom:2px;
     }
+
     .calendarSide{
       width:150px;
       font-size:10px;
@@ -41,6 +49,7 @@
       color:#9ca3af;
       white-space:nowrap;
     }
+
     .calendarRef{ text-align:left; }
 
     .calendarTitle{
@@ -73,8 +82,19 @@
       display:none !important;
     }
 
-    .calendarSub{ font-size:11px; color:#9ca3af; text-align:center; margin-bottom:2px; }
-    .calendarNote{ font-size:10px; color:#9ca3af; text-align:center; margin-bottom:6px; }
+    .calendarSub{
+      font-size:11px;
+      color:#9ca3af;
+      text-align:center;
+      margin-bottom:2px;
+    }
+
+    .calendarNote{
+      font-size:10px;
+      color:#9ca3af;
+      text-align:center;
+      margin-bottom:6px;
+    }
 
     .configBar{
       background:#020617;
@@ -88,7 +108,9 @@
       gap:6px;
       font-size:11px;
     }
+
     .configLabel{ color:#e5e7eb; }
+
     .configBar input[type="date"],
     .configBar select{
       background:#020617;
@@ -98,7 +120,11 @@
       color:#e5e7eb;
       font-size:11px;
     }
-    .configHint{ font-size:10px; color:#9ca3af; }
+
+    .configHint{
+      font-size:10px;
+      color:#9ca3af;
+    }
 
     .monthTools{
       max-width:700px;
@@ -107,6 +133,7 @@
       flex-direction:column;
       gap:6px;
     }
+
     .monthToggle{
       display:flex;
       align-items:center;
@@ -119,12 +146,14 @@
       padding:6px 10px;
       font-size:11px;
     }
+
     .monthToggleLabel{
       font-size:10px;
       text-transform:uppercase;
       letter-spacing:.16em;
       color:#9ca3af;
     }
+
     .monthRadio{
       display:flex;
       align-items:center;
@@ -136,7 +165,11 @@
       cursor:pointer;
       user-select:none;
     }
-    .monthRadio input{ cursor:pointer; accent-color:#facc15; }
+
+    .monthRadio input{
+      cursor:pointer;
+      accent-color:#facc15;
+    }
 
     .day30Banner{
       background:rgba(250,204,21,0.08);
@@ -159,8 +192,14 @@
       max-width:700px;
       text-align:center;
     }
+
     .todayBanner-main{ font-weight:600; }
-    .todayBanner-sub{ font-size:11px; color:#9ca3af; margin-top:2px; }
+
+    .todayBanner-sub{
+      font-size:11px;
+      color:#9ca3af;
+      margin-top:2px;
+    }
 
     .pillHighlight{
       display:inline-block;
@@ -184,8 +223,7 @@
       flex-wrap:wrap;
     }
 
-    .share-btn,
-    .download-btn{
+    .share-btn{
       border-radius:999px;
       border:1px solid rgba(250,204,21,0.7);
       background:rgba(250,204,21,0.08);
@@ -198,14 +236,33 @@
       gap:4px;
       white-space:nowrap;
     }
-    .share-btn span.icon,
-    .download-btn span.icon{ font-size:11px; }
 
-    .download-btn{
-      text-decoration:none;
+    .share-btn span.icon{
+      font-size:11px;
+    }
+
+    .install-btn{
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,0.85);
+      background:linear-gradient(135deg, rgba(250,204,21,0.22), rgba(255,145,0,0.14));
+      color:#fef9c3;
+      font-size:10px;
       font-weight:700;
-      background:rgba(250,204,21,0.16);
-      box-shadow:0 0 12px rgba(250,204,21,0.10);
+      padding:5px 10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      white-space:nowrap;
+      box-shadow:0 0 14px rgba(250,204,21,0.12);
+    }
+
+    .install-btn[hidden]{
+      display:none !important;
+    }
+
+    .install-btn span.icon{
+      font-size:11px;
     }
 
     .sunset-toggle-btn{
@@ -221,13 +278,15 @@
       gap:6px;
       white-space:nowrap;
     }
+
     .sunset-toggle-btn .dot{
-      width:7px;height:7px;border-radius:999px;
+      width:7px;
+      height:7px;
+      border-radius:999px;
       background:rgba(255,184,77,.95);
       box-shadow:0 0 10px rgba(255,184,77,.65);
     }
-
-    .hedashRow{
+        .hedashRow{
       background:rgba(255,145,0,.14);
       border-radius:8px;
       border:1px solid rgba(255,145,0,.75);
@@ -242,6 +301,7 @@
         0 0 18px rgba(255,145,0,.22);
       text-align:center;
     }
+
     .hedashIcon{
       font-size:24px;
       filter:drop-shadow(0 0 8px rgba(255,145,0,.45));
@@ -255,6 +315,7 @@
       align-items:center;
       text-align:center;
     }
+
     .hedashTopLine{
       display:flex;
       flex-direction:column;
@@ -264,6 +325,7 @@
       width:100%;
       text-align:center;
     }
+
     .hedashText-main{
       font-size:12px;
       font-weight:700;
@@ -271,6 +333,7 @@
       letter-spacing:.03em;
       text-align:center;
     }
+
     .hedashText-sub{
       font-size:10px;
       color:#ffd7a1;
@@ -299,12 +362,15 @@
       text-align:center;
       max-width:620px;
     }
-    .hedashInlineNote b{ color:#ffb347; }
+
+    .hedashInlineNote b{
+      color:#ffb347;
+    }
 
     .hedashTooltip{
       display:none;
       margin-top:8px;
-      background: rgba(2,6,23,.96);
+      background:rgba(2,6,23,.96);
       border:1px solid rgba(255,145,0,.45);
       border-radius:10px;
       padding:8px 10px;
@@ -315,23 +381,32 @@
       text-align:center;
       max-width:620px;
     }
-    .hedashTooltip b{ color:#ffb347; }
-    .hedashTooltip.is-open{ display:block; }
+
+    .hedashTooltip b{
+      color:#ffb347;
+    }
+
+    .hedashTooltip.is-open{
+      display:block;
+    }
 
     .is-today{
       border:1px solid rgba(255,145,0,.85) !important;
       box-shadow:0 0 0 1px rgba(255,145,0,.25) inset, 0 0 18px rgba(255,145,0,.18);
     }
+
     .dayBox.is-today{
-      background: rgba(255,145,0,.12) !important;
+      background:rgba(255,145,0,.12) !important;
     }
+
     .dayBox.is-today .dayLabel,
     .dayBox.is-today .daySub{
       color:#ffb347 !important;
       font-weight:800;
     }
+
     #hedashRow.is-today{
-      background: rgba(255,145,0,.20) !important;
+      background:rgba(255,145,0,.20) !important;
       border:1px solid rgba(255,145,0,.85) !important;
       box-shadow:
         0 0 0 1px rgba(255,145,0,.25) inset,
@@ -357,9 +432,19 @@
       color:#9ca3af;
       text-align:center;
     }
-    .phaseIcon{ width:26px; text-align:center; font-size:18px; }
 
-    .dayRow{ display:flex; flex:1; gap:3px; position:relative; }
+    .phaseIcon{
+      width:26px;
+      text-align:center;
+      font-size:18px;
+    }
+
+    .dayRow{
+      display:flex;
+      flex:1;
+      gap:3px;
+      position:relative;
+    }
 
     .dayBox{
       flex:1;
@@ -374,8 +459,16 @@
       gap:1px;
       position:relative;
     }
-    .dayLabel{ font-weight:500; font-size:10px; }
-    .daySub{ font-size:9px; color:#9ca3af; }
+
+    .dayLabel{
+      font-weight:500;
+      font-size:10px;
+    }
+
+    .daySub{
+      font-size:9px;
+      color:#9ca3af;
+    }
 
     .shabat{
       background:#111827;
@@ -383,15 +476,27 @@
       color:#e5e7eb;
       font-weight:600;
     }
-    .shabat .dayLabel{ font-weight:700; }
-    .shabat .daySub{ color:#e5e7eb; font-weight:700; letter-spacing:.08em; }
+
+    .shabat .dayLabel{
+      font-weight:700;
+    }
+
+    .shabat .daySub{
+      color:#e5e7eb;
+      font-weight:700;
+      letter-spacing:.08em;
+    }
 
     .day30{
       background:#111827;
       border:1px solid #1f2937;
     }
 
-    .legendDetails{ margin-top:8px; font-size:12px; }
+    .legendDetails{
+      margin-top:8px;
+      font-size:12px;
+    }
+
     .legendDetails summary{
       cursor:pointer;
       list-style:none;
@@ -404,8 +509,16 @@
       letter-spacing:.12em;
       color:#e5e7eb;
     }
-    .legendDetails summary::-webkit-details-marker{ display:none; }
-    .legend{ margin-top:8px; font-size:12px; text-align:center; }
+
+    .legendDetails summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .legend{
+      margin-top:8px;
+      font-size:12px;
+      text-align:center;
+    }
 
     .legendRow{
       display:inline-flex;
@@ -416,12 +529,19 @@
     }
 
     .legendColor{
-      width:10px;height:10px;
+      width:10px;
+      height:10px;
       border-radius:3px;
       border:1px solid #1f2937;
     }
-    .legendColor.work{ background:#111827; }
-    .legendColor.shabat{ background:#111827; }
+
+    .legendColor.work{
+      background:#111827;
+    }
+
+    .legendColor.shabat{
+      background:#111827;
+    }
 
     .phaseLegendTitle{
       font-size:10px;
@@ -431,17 +551,37 @@
       margin-bottom:3px;
       margin-top:3px;
     }
-    .phaseLegendRow{ display:flex; justify-content:space-between; gap:4px; }
-    .phaseItem{ flex:1; text-align:center; }
-    .phaseItemIcon{ font-size:20px; }
-    .phaseItemText{ font-size:10px; color:#9ca3af; }
 
-    .calendarNoteBottom{ margin-top:6px; font-size:10px; color:#9ca3af; }
+    .phaseLegendRow{
+      display:flex;
+      justify-content:space-between;
+      gap:4px;
+    }
+
+    .phaseItem{
+      flex:1;
+      text-align:center;
+    }
+
+    .phaseItemIcon{
+      font-size:20px;
+    }
+
+    .phaseItemText{
+      font-size:10px;
+      color:#9ca3af;
+    }
+
+    .calendarNoteBottom{
+      margin-top:6px;
+      font-size:10px;
+      color:#9ca3af;
+    }
 
     :root{
-      --sunsetGlow: rgba(255, 184, 77, .55);
-      --sunsetLine: rgba(255, 184, 77, .28);
-      --sunsetText: #ffd18a;
+      --sunsetGlow:rgba(255,184,77,.55);
+      --sunsetLine:rgba(255,184,77,.28);
+      --sunsetText:#ffd18a;
     }
 
     .dayBox.sunset-divider::before{
@@ -451,7 +591,7 @@
       top:6px;
       bottom:6px;
       width:1px;
-      background: linear-gradient(to bottom,
+      background:linear-gradient(to bottom,
         transparent,
         var(--sunsetLine),
         var(--sunsetGlow),
@@ -463,36 +603,41 @@
       pointer-events:none;
       transition:opacity .18s ease, box-shadow .18s ease;
     }
+
     .dayBox.sunset-divider:hover::before{
       opacity:1;
       box-shadow:0 0 16px rgba(255,184,77,.75);
     }
 
     .dayBox.sunset-divider::after{
-      content: attr(data-sunset-tip);
+      content:attr(data-sunset-tip);
       position:absolute;
       left:-4px;
       top:-34px;
-      transform: translateX(-100%);
-      background: rgba(2,6,23,.94);
-      border: 1px solid rgba(255,184,77,.35);
-      color: var(--sunsetText);
-      padding: 6px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      letter-spacing: .4px;
-      white-space: nowrap;
-      opacity: 0;
+      transform:translateX(-100%);
+      background:rgba(2,6,23,.94);
+      border:1px solid rgba(255,184,77,.35);
+      color:var(--sunsetText);
+      padding:6px 10px;
+      border-radius:10px;
+      font-size:12px;
+      letter-spacing:.4px;
+      white-space:nowrap;
+      opacity:0;
       pointer-events:none;
       box-shadow:0 10px 25px rgba(0,0,0,.35);
       transition:opacity .18s ease, transform .18s ease;
     }
+
     .dayBox.sunset-divider:hover::after{
       opacity:1;
-      transform: translateX(-100%) translateY(-4px);
+      transform:translateX(-100%) translateY(-4px);
     }
+
     @media (hover:none){
-      .dayBox.sunset-divider::after{ display:none; }
+      .dayBox.sunset-divider::after{
+        display:none;
+      }
     }
 
     body.hide-sunset-boundaries .dayBox.sunset-divider::before,
@@ -501,17 +646,51 @@
     }
 
     @media (max-width:640px){
-      .calendarHeader{ flex-direction:column; align-items:center; text-align:center; }
-      .calendarSide{ width:auto; white-space:normal; }
-      .weekRow{ padding:4px 3px; gap:3px; }
-      .weekLabel{ width:52px; font-size:9px; }
-      .dayBox{ font-size:9px; padding:4px 1px; }
-      .dayLabel{ font-size:9px; }
-      .daySub{ font-size:8px; }
-      .phaseItemText{ font-size:9px; }
+      .calendarHeader{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+      }
 
-      .hedashInfoBtn{ display:inline-flex; }
-      .hedashInlineNote{ display:none; }
+      .calendarSide{
+        width:auto;
+        white-space:normal;
+      }
+
+      .weekRow{
+        padding:4px 3px;
+        gap:3px;
+      }
+
+      .weekLabel{
+        width:52px;
+        font-size:9px;
+      }
+
+      .dayBox{
+        font-size:9px;
+        padding:4px 1px;
+      }
+
+      .dayLabel{
+        font-size:9px;
+      }
+
+      .daySub{
+        font-size:8px;
+      }
+
+      .phaseItemText{
+        font-size:9px;
+      }
+
+      .hedashInfoBtn{
+        display:inline-flex;
+      }
+
+      .hedashInlineNote{
+        display:none;
+      }
     }
   </style>
 </head>
@@ -527,6 +706,7 @@
   </div>
 
   <div class="calendarSub">Work Days &amp; Shabats According to the Path of Years</div>
+
   <div class="calendarNote">
     Shabats always fall on Days 8, 15, 22, and 29. Months may complete in 29 or 30 days; the cycle runs from Day 1 (HEDASH) through the last Shabat.
   </div>
@@ -534,6 +714,7 @@
   <div class="configBar">
     <span class="configLabel">Confirmed HEDASH Date (Gregorian):</span>
     <input type="date" id="hedash-input" />
+
     <span class="configLabel">Month:</span>
     <select id="month-select">
       <option value="1">1st – Abayab</option>
@@ -549,16 +730,19 @@
       <option value="11">11th Month</option>
       <option value="12">12th Month</option>
     </select>
+
     <span class="configHint">(Set the Renewed Moon sighting date and which month this is.)</span>
   </div>
 
   <div class="monthTools">
     <div class="monthToggle">
       <span class="monthToggleLabel">Month Length:</span>
+
       <label class="monthRadio">
         <input type="radio" name="monthLength" value="29">
         <span>29 Days</span>
       </label>
+
       <label class="monthRadio">
         <input type="radio" name="monthLength" value="30">
         <span>30 Days</span>
@@ -599,6 +783,7 @@
     <div class="todayBanner-main" id="today-main">
       Set the HEDASH date above to activate the Kingdom Calendar.
     </div>
+
     <div class="todayBanner-sub" id="today-sub">
       The tool will announce the current week, work day or Shabat, and day of YAHUAH’S month according to the Path of Years.
     </div>
@@ -609,16 +794,15 @@
       <span class="icon">🔗</span> Share This Page
     </button>
 
-    <button type="button" class="download-btn" onclick="downloadCalendar()">
-      <span class="icon">⬇️</span> Download Calendar
+    <button type="button" class="install-btn" id="installAppBtn" onclick="installCalendarApp()" hidden>
+      <span class="icon">📲</span> Install Calendar App
     </button>
 
     <button type="button" class="sunset-toggle-btn" onclick="toggleSunsetBoundaries()" title="Toggle Sunset Boundary Dividers">
       <span class="dot"></span> Sunset Boundaries
     </button>
   </div>
-
-  <div style="
+    <div style="
     text-align:center;
     font-size:10px;
     color:#facc15;
@@ -635,107 +819,235 @@
   <div class="weekRow" data-week="1">
     <div class="weekLabel">1st Week</div>
     <div class="phaseIcon">🌒</div>
+
     <div class="dayRow">
-      <div class="dayBox" data-day="2"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 2</div></div>
-      <div class="dayBox" data-day="3"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 3</div></div>
-      <div class="dayBox" data-day="4"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 4</div></div>
-      <div class="dayBox" data-day="5"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 5</div></div>
-      <div class="dayBox" data-day="6"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 6</div></div>
-      <div class="dayBox" data-day="7"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 7</div></div>
+      <div class="dayBox" data-day="2">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 2</div>
+      </div>
+
+      <div class="dayBox" data-day="3">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 3</div>
+      </div>
+
+      <div class="dayBox" data-day="4">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 4</div>
+      </div>
+
+      <div class="dayBox" data-day="5">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 5</div>
+      </div>
+
+      <div class="dayBox" data-day="6">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 6</div>
+      </div>
+
+      <div class="dayBox" data-day="7">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 7</div>
+      </div>
 
       <div class="dayBox shabat" data-day="8">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 8</div>
       </div>
     </div>
+
     <div class="phaseIcon">🌓</div>
   </div>
 
   <div class="weekRow" data-week="2">
     <div class="weekLabel">2nd Week</div>
     <div class="phaseIcon">🌓</div>
+
     <div class="dayRow">
-      <div class="dayBox" data-day="9"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 9</div></div>
-      <div class="dayBox" data-day="10"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 10</div></div>
-      <div class="dayBox" data-day="11"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 11</div></div>
-      <div class="dayBox" data-day="12"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 12</div></div>
-      <div class="dayBox" data-day="13"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 13</div></div>
-      <div class="dayBox" data-day="14"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 14</div></div>
+      <div class="dayBox" data-day="9">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 9</div>
+      </div>
+
+      <div class="dayBox" data-day="10">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 10</div>
+      </div>
+
+      <div class="dayBox" data-day="11">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 11</div>
+      </div>
+
+      <div class="dayBox" data-day="12">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 12</div>
+      </div>
+
+      <div class="dayBox" data-day="13">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 13</div>
+      </div>
+
+      <div class="dayBox" data-day="14">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 14</div>
+      </div>
 
       <div class="dayBox shabat" data-day="15">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 15</div>
       </div>
     </div>
+
     <div class="phaseIcon">🌕</div>
   </div>
 
   <div class="weekRow" data-week="3">
     <div class="weekLabel">3rd Week</div>
     <div class="phaseIcon">🌕</div>
+
     <div class="dayRow">
-      <div class="dayBox" data-day="16"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 16</div></div>
-      <div class="dayBox" data-day="17"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 17</div></div>
-      <div class="dayBox" data-day="18"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 18</div></div>
-      <div class="dayBox" data-day="19"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 19</div></div>
-      <div class="dayBox" data-day="20"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 20</div></div>
-      <div class="dayBox" data-day="21"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 21</div></div>
+      <div class="dayBox" data-day="16">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 16</div>
+      </div>
+
+      <div class="dayBox" data-day="17">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 17</div>
+      </div>
+
+      <div class="dayBox" data-day="18">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 18</div>
+      </div>
+
+      <div class="dayBox" data-day="19">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 19</div>
+      </div>
+
+      <div class="dayBox" data-day="20">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 20</div>
+      </div>
+
+      <div class="dayBox" data-day="21">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 21</div>
+      </div>
 
       <div class="dayBox shabat" data-day="22">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 22</div>
       </div>
     </div>
+
     <div class="phaseIcon">🌗</div>
   </div>
 
   <div class="weekRow" data-week="4">
     <div class="weekLabel">4th Week</div>
     <div class="phaseIcon">🌗</div>
+
     <div class="dayRow">
-      <div class="dayBox" data-day="23"><div class="dayLabel">Work Day 1</div><div class="daySub">Day 23</div></div>
-      <div class="dayBox" data-day="24"><div class="dayLabel">Work Day 2</div><div class="daySub">Day 24</div></div>
-      <div class="dayBox" data-day="25"><div class="dayLabel">Work Day 3</div><div class="daySub">Day 25</div></div>
-      <div class="dayBox" data-day="26"><div class="dayLabel">Work Day 4</div><div class="daySub">Day 26</div></div>
-      <div class="dayBox" data-day="27"><div class="dayLabel">Work Day 5</div><div class="daySub">Day 27</div></div>
-      <div class="dayBox" data-day="28"><div class="dayLabel">Work Day 6</div><div class="daySub">Day 28</div></div>
+      <div class="dayBox" data-day="23">
+        <div class="dayLabel">Work Day 1</div>
+        <div class="daySub">Day 23</div>
+      </div>
+
+      <div class="dayBox" data-day="24">
+        <div class="dayLabel">Work Day 2</div>
+        <div class="daySub">Day 24</div>
+      </div>
+
+      <div class="dayBox" data-day="25">
+        <div class="dayLabel">Work Day 3</div>
+        <div class="daySub">Day 25</div>
+      </div>
+
+      <div class="dayBox" data-day="26">
+        <div class="dayLabel">Work Day 4</div>
+        <div class="daySub">Day 26</div>
+      </div>
+
+      <div class="dayBox" data-day="27">
+        <div class="dayLabel">Work Day 5</div>
+        <div class="daySub">Day 27</div>
+      </div>
+
+      <div class="dayBox" data-day="28">
+        <div class="dayLabel">Work Day 6</div>
+        <div class="daySub">Day 28</div>
+      </div>
 
       <div class="dayBox shabat" data-day="29">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 29</div>
       </div>
     </div>
+
     <div class="phaseIcon">🌑</div>
   </div>
 
   <div class="weekRow" id="day30Row" style="display:none;">
     <div class="weekLabel">Day 30</div>
+
     <div class="phaseIcon">🌑</div>
+
     <div class="dayRow">
       <div class="dayBox day30" data-day="30" style="flex:1;">
         <div class="dayLabel">Waiting Day</div>
         <div class="daySub">Day 30 — Dark Moon concealed • 🌒 HEDASH appears at evening</div>
       </div>
     </div>
+
     <div class="phaseIcon">🌒</div>
   </div>
 
   <details class="legendDetails">
     <summary>Legend &amp; Notes</summary>
+
     <div class="legend">
       <div class="legendRow">
-        <div class="legendColor work"></div><span>Work Day</span>
-        <div class="legendColor shabat"></div><span>Shabat (shown as a normal day)</span>
+        <div class="legendColor work"></div>
+        <span>Work Day</span>
+
+        <div class="legendColor shabat"></div>
+        <span>Shabat (shown as a normal day)</span>
+
         <span>🌅 Sunset Boundary — day changes at evening (~7:00 PM)</span>
       </div>
 
       <div class="phaseLegendTitle">Moon Phases &amp; Weeks</div>
+
       <div class="phaseLegendRow">
-        <div class="phaseItem"><div class="phaseItemIcon">🌒</div><div class="phaseItemText">HEDASH – Day 1</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌓</div><div class="phaseItemText">Half Moon Waxing – 1st Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌕</div><div class="phaseItemText">Full Moon – 2nd Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌗</div><div class="phaseItemText">Half Moon Waning – 3rd Week</div></div>
-        <div class="phaseItem"><div class="phaseItemIcon">🌘</div><div class="phaseItemText">Waning Crescent – 4th Week</div></div>
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌒</div>
+          <div class="phaseItemText">HEDASH – Day 1</div>
+        </div>
+
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌓</div>
+          <div class="phaseItemText">Half Moon Waxing – 1st Week</div>
+        </div>
+
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌕</div>
+          <div class="phaseItemText">Full Moon – 2nd Week</div>
+        </div>
+
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌗</div>
+          <div class="phaseItemText">Half Moon Waning – 3rd Week</div>
+        </div>
+
+        <div class="phaseItem">
+          <div class="phaseItemIcon">🌘</div>
+          <div class="phaseItemText">Waning Crescent – 4th Week</div>
+        </div>
       </div>
 
       <div class="calendarNoteBottom">
@@ -746,7 +1058,7 @@
 </div>
 
 <script>
-  const monthNameDisplay = {
+    const monthNameDisplay = {
     1: "YAHUAH’S FIRST MONTH — ABAYAB",
     2: "YAHUAH’S SECOND MONTH",
     3: "YAHUAH’S THIRD MONTH",
@@ -786,6 +1098,7 @@
   const hedashInfoBtn = document.getElementById("hedashInfoBtn");
   const hedashTooltip = document.getElementById("hedashTooltip");
   const hedashStatusText = document.getElementById("hedash-status-text");
+  const installAppBtn = document.getElementById("installAppBtn");
 
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
@@ -800,6 +1113,39 @@
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
+
+  let deferredInstallPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", (event)=>{
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    if (installAppBtn) installAppBtn.hidden = false;
+  });
+
+  window.addEventListener("appinstalled", ()=>{
+    deferredInstallPrompt = null;
+    if (installAppBtn) installAppBtn.hidden = true;
+  });
+
+  async function installCalendarApp(){
+    if (deferredInstallPrompt){
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice.catch(()=>{});
+      deferredInstallPrompt = null;
+      if (installAppBtn) installAppBtn.hidden = true;
+      return;
+    }
+
+    alert("To install this calendar: on Android or Chrome, tap the browser menu and choose Install App or Add to Home Screen. On iPhone or Safari, tap Share, then Add to Home Screen.");
+  }
+
+  window.installCalendarApp = installCalendarApp;
+
+  if ("serviceWorker" in navigator){
+    window.addEventListener("load", ()=>{
+      navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+    });
+  }
 
   function applySunsetDividers(){
     document.querySelectorAll(".dayRow").forEach(row=>{
@@ -816,6 +1162,7 @@
   function toggleSunsetBoundaries(){
     document.body.classList.toggle("hide-sunset-boundaries");
   }
+
   window.toggleSunsetBoundaries = toggleSunsetBoundaries;
 
   function sanitizeBadgeText(){
@@ -867,7 +1214,10 @@
       d.getFullYear(),
       d.getMonth(),
       d.getDate(),
-      AUTO_SWITCH_HOUR, 0, 0, 0
+      AUTO_SWITCH_HOUR,
+      0,
+      0,
+      0
     );
   }
 
@@ -880,7 +1230,9 @@
   }
 
   function clearTodayHighlights(){
-    document.querySelectorAll(".is-today").forEach(el => el.classList.remove("is-today"));
+    document.querySelectorAll(".is-today").forEach(el=>{
+      el.classList.remove("is-today");
+    });
   }
 
   function highlightToday(dayOfMonth){
@@ -907,7 +1259,7 @@
   }
 
   function maybeRunOneTimeAutoSwitch(){
-    if (hasAutoSwitched()) {
+    if (hasAutoSwitched()){
       setConfirmedStatusText();
       return;
     }
@@ -975,7 +1327,10 @@
       hedashDate.getFullYear(),
       hedashDate.getMonth(),
       hedashDate.getDate(),
-      SUNSET_HOUR, 0, 0, 0
+      SUNSET_HOUR,
+      0,
+      0,
+      0
     );
 
     const now = new Date();
@@ -1007,6 +1362,7 @@
     }
 
     const shabatDays = [8, 15, 22, 29];
+
     if (shabatDays.includes(dayOfMonth)){
       todayMain.textContent = `TODAY IS SHABAT — DAY ${dayOfMonth} OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
       todaySub.innerHTML = `<span class="pillHighlight">SHABAT</span> • Set-apart day in YAHUAH’S monthly order.`;
@@ -1025,24 +1381,13 @@
         url:"https://kingdomcalendartool.com/"
       }).catch(()=>{});
     } else {
-      alert("Sharing is not supported on this browser.");
+      navigator.clipboard.writeText("https://kingdomcalendartool.com/")
+        .then(()=>alert("Calendar link copied."))
+        .catch(()=>alert("Sharing is not supported on this browser."));
     }
   }
-  window.sharePage = sharePage;
 
-  function downloadCalendar(){
-    const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-    const blob = new Blob([htmlContent], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "kingdom-calendar-path-of-years-6th-month.html";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }
-  window.downloadCalendar = downloadCalendar;
+  window.sharePage = sharePage;
 
   if (hedashInfoBtn && hedashTooltip){
     hedashInfoBtn.addEventListener("click", ()=>{
@@ -1052,8 +1397,12 @@
   }
 
   hedashInput.addEventListener("change", ()=>{
-    if (hedashInput.value) localStorage.setItem("hedashDate", hedashInput.value);
-    else localStorage.removeItem("hedashDate");
+    if (hedashInput.value){
+      localStorage.setItem("hedashDate", hedashInput.value);
+    } else {
+      localStorage.removeItem("hedashDate");
+    }
+
     updateCalendar();
   });
 
@@ -1069,6 +1418,7 @@
   syncMonthLengthUI();
   bindMonthLengthToggle();
   updateCalendar();
+
   setInterval(updateCalendar, 60 * 1000);
 
   document.addEventListener("visibilitychange", ()=>{
