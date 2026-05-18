@@ -1,16 +1,23 @@
 {
   "name": "Kingdom Calendar – Path of Years",
   "short_name": "Kingdom Calendar",
-  "start_url": "./",
+  "description": "Track the Renewed Moon, Work Days, and Shabats according to the Path of Years.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#020617",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "favicon.png",
-      "sizes": "64x64",
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-
