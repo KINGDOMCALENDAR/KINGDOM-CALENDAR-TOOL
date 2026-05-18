@@ -794,7 +794,7 @@
       <span class="icon">🔗</span> Share This Page
     </button>
 
-    <button type="button" class="install-btn" id="installAppBtn" onclick="installCalendarApp()" hidden>
+    <button type="button" class="install-btn" id="installAppBtn" onclick="installCalendarApp()">
       <span class="icon">📲</span> Install Calendar App
     </button>
 
@@ -1124,7 +1124,7 @@
 
   window.addEventListener("appinstalled", ()=>{
     deferredInstallPrompt = null;
-    if (installAppBtn) installAppBtn.hidden = true;
+    if (installAppBtn) installAppBtn.hidden = false;
   });
 
   async function installCalendarApp(){
@@ -1132,7 +1132,7 @@
       deferredInstallPrompt.prompt();
       await deferredInstallPrompt.userChoice.catch(()=>{});
       deferredInstallPrompt = null;
-      if (installAppBtn) installAppBtn.hidden = true;
+      if (installAppBtn) installAppBtn.hidden = false;
       return;
     }
 
