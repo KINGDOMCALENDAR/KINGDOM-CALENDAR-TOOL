@@ -184,7 +184,8 @@
       flex-wrap:wrap;
     }
 
-    .share-btn{
+    .share-btn,
+    .download-btn{
       border-radius:999px;
       border:1px solid rgba(250,204,21,0.7);
       background:rgba(250,204,21,0.08);
@@ -197,7 +198,15 @@
       gap:4px;
       white-space:nowrap;
     }
-    .share-btn span.icon{ font-size:11px; }
+    .share-btn span.icon,
+    .download-btn span.icon{ font-size:11px; }
+
+    .download-btn{
+      text-decoration:none;
+      font-weight:700;
+      background:rgba(250,204,21,0.16);
+      box-shadow:0 0 12px rgba(250,204,21,0.10);
+    }
 
     .sunset-toggle-btn{
       border-radius:999px;
@@ -598,6 +607,10 @@
   <div class="voiceRow">
     <button type="button" class="share-btn" onclick="sharePage()">
       <span class="icon">🔗</span> Share This Page
+    </button>
+
+    <button type="button" class="download-btn" onclick="downloadCalendar()">
+      <span class="icon">⬇️</span> Download Calendar
     </button>
 
     <button type="button" class="sunset-toggle-btn" onclick="toggleSunsetBoundaries()" title="Toggle Sunset Boundary Dividers">
@@ -1016,6 +1029,20 @@
     }
   }
   window.sharePage = sharePage;
+
+  function downloadCalendar(){
+    const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "kingdom-calendar-path-of-years-6th-month.html";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+  window.downloadCalendar = downloadCalendar;
 
   if (hedashInfoBtn && hedashTooltip){
     hedashInfoBtn.addEventListener("click", ()=>{
