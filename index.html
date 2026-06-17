@@ -470,6 +470,39 @@
       color:#9ca3af;
     }
 
+
+    .feastNote{
+      margin-top:2px;
+      font-size:8px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      line-height:1.15;
+    }
+
+    .feastTrumpets{
+      color:#7dd3fc;
+      text-shadow:0 0 6px rgba(56,189,248,.95), 0 0 12px rgba(56,189,248,.65);
+    }
+
+    .feastAtonement{
+      color:#ff1f1f;
+      text-shadow:0 0 6px rgba(255,31,31,.95), 0 0 12px rgba(255,31,31,.65);
+    }
+
+    .feastTabernacles{
+      color:#bae6fd;
+      text-shadow:0 0 6px rgba(186,230,253,.85), 0 0 12px rgba(125,211,252,.60);
+    }
+
+    .hedashFeastNote{
+      margin-top:6px;
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
     .shabat{
       background:#111827;
       border:1px solid #1f2937;
@@ -767,6 +800,8 @@
         The Renewed Moon was spotted on the evening of June 16, 2026, confirming June 17, 2026 as Day 1 of the 7th Month according to the Path of Years.
       </div>
 
+      <div class="hedashFeastNote feastTrumpets">Feast of Trumpets</div>
+
       <div class="hedashInlineNote">
         <b>Hedash is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
         <b>Shabat counting begins after Hedash.</b>
@@ -873,6 +908,7 @@
       <div class="dayBox" data-day="10">
         <div class="dayLabel">Work Day 2</div>
         <div class="daySub">Day 10</div>
+        <div class="feastNote feastAtonement">Day of Atonement</div>
       </div>
 
       <div class="dayBox" data-day="11">
@@ -898,6 +934,7 @@
       <div class="dayBox shabat" data-day="15">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 15</div>
+        <div class="feastNote feastTabernacles">Feast of Tabernacles</div>
       </div>
     </div>
 
@@ -1286,9 +1323,7 @@
     const savedHedash = localStorage.getItem("hedashDate");
     const savedMonth = localStorage.getItem("kingdomMonthNumber");
 
-    const isOldSixthMonthDefault = (savedHedash === "2026-05-17" && savedMonth === "6");
-
-    if (savedHedash && savedMonth && !isOldSixthMonthDefault){
+    if (savedHedash && savedMonth){
       hedashInput.value = savedHedash;
       monthSelect.value = savedMonth;
     } else {
@@ -1353,13 +1388,26 @@
 
     if (dayOfMonth === 1){
       todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
+      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
       return;
     }
 
     if (dayOfMonth === 30){
       todayMain.textContent = "TODAY IS DAY 30 — A WAITING DAY — DARK MOON CONCEALED — AND 🌒 HEDASH APPEARS AT EVENING WHEN CONFIRMED TO BEGIN THE NEXT MONTH OF YAHUAH.";
       todaySub.innerHTML = `<span class="pillHighlight">Day 30</span> &nbsp;•&nbsp; <span class="pillHighlight">Waiting Day</span> &nbsp;•&nbsp; <span class="pillHighlight">HEDASH at Evening</span>`;
+      return;
+    }
+
+
+    if (dayOfMonth === 10 && currentMonth === 7){
+      todayMain.textContent = `TODAY IS DAY 10 OF ${monthName} — DAY OF ATONEMENT, ACCORDING TO THE PATH OF YEARS.`;
+      todaySub.innerHTML = `<span class="pillHighlight feastAtonement">DAY OF ATONEMENT</span>`;
+      return;
+    }
+
+    if (dayOfMonth === 15 && currentMonth === 7){
+      todayMain.textContent = `TODAY IS SHABAT — DAY 15 OF ${monthName} — FEAST OF TABERNACLES, ACCORDING TO THE PATH OF YEARS.`;
+      todaySub.innerHTML = `<span class="pillHighlight">SHABAT</span> • <span class="pillHighlight feastTabernacles">FEAST OF TABERNACLES</span>`;
       return;
     }
 
