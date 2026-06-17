@@ -701,7 +701,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">6th Month</span>
+      <span class="monthBadge" id="month-badge">7th Month</span>
     </div>
   </div>
 
@@ -722,8 +722,8 @@
       <option value="3">3rd Month</option>
       <option value="4">4th Month</option>
       <option value="5">5th Month</option>
-      <option value="6" selected>6th Month</option>
-      <option value="7">7th Month</option>
+      <option value="6">6th Month</option>
+      <option value="7" selected>7th Month</option>
       <option value="8">8th Month</option>
       <option value="9">9th Month</option>
       <option value="10">10th Month</option>
@@ -764,7 +764,7 @@
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon is expected to be spotted this evening, May 17, 2026. If confirmed, the 6th Month will begin at sunset according to the Path of Years.
+        The Renewed Moon was spotted on the evening of June 16, 2026, confirming June 17, 2026 as Day 1 of the 7th Month according to the Path of Years.
       </div>
 
       <div class="hedashInlineNote">
@@ -1103,13 +1103,13 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-05-17";
-  const DEFAULT_MONTH  = "6";
+  const DEFAULT_HEDASH = "2026-06-17";
+  const DEFAULT_MONTH  = "7";
 
-  const AUTO_SWITCH_DATE = "2026-05-17";
-  const AUTO_SWITCH_MONTH = "6";
+  const AUTO_SWITCH_DATE = "2026-06-17";
+  const AUTO_SWITCH_MONTH = "7";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_05_17";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_06_17";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1250,12 +1250,12 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon is expected to be spotted this evening, May 17, 2026. If confirmed, the 6th Month will begin at sunset according to the Path of Years.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted on the evening of June 16, 2026, confirming June 17, 2026 as Day 1 of the 7th Month according to the Path of Years.";
   }
 
   function setConfirmedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon has appeared at evening on May 17, 2026, beginning the 6th Month according to the Path of Years. This sets the Shabat pattern for the entire month.";
+    hedashStatusText.textContent = "The Renewed Moon has appeared at evening on June 16, 2026, confirming June 17, 2026 as Day 1 of YAHUAH’S 7th Month according to the Path of Years. This sets the Shabat pattern for the entire month.";
   }
 
   function maybeRunOneTimeAutoSwitch(){
@@ -1286,7 +1286,9 @@
     const savedHedash = localStorage.getItem("hedashDate");
     const savedMonth = localStorage.getItem("kingdomMonthNumber");
 
-    if (savedHedash && savedMonth){
+    const isOldSixthMonthDefault = (savedHedash === "2026-05-17" && savedMonth === "6");
+
+    if (savedHedash && savedMonth && !isOldSixthMonthDefault){
       hedashInput.value = savedHedash;
       monthSelect.value = savedMonth;
     } else {
