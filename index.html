@@ -764,7 +764,7 @@
       <option value="12">12th Month</option>
     </select>
 
-    <span class="configHint">(Set the Renewed Moon sighting date and which month this is.)</span>
+    <span class="configHint">(Enter the confirmed Day 1 date. The count begins the previous evening at 7:00 PM.)</span>
   </div>
 
   <div class="monthTools">
@@ -1360,10 +1360,17 @@
     }
 
     const hedashDate = new Date(hedashValue + "T00:00:00");
+
+    /*
+      The date entered is the confirmed daylight date.
+      Example: HEDASH was spotted the evening of June 16, which makes
+      June 17 the confirmed Day 1 date. Since YAHUAH'S day begins at
+      evening, the actual count must begin the previous evening at 7 PM.
+    */
     const hedashStart = new Date(
       hedashDate.getFullYear(),
       hedashDate.getMonth(),
-      hedashDate.getDate(),
+      hedashDate.getDate() - 1,
       SUNSET_HOUR,
       0,
       0,
