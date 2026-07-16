@@ -734,7 +734,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">7th Month</span>
+      <span class="monthBadge" id="month-badge">8th Month</span>
     </div>
   </div>
 
@@ -756,8 +756,8 @@
       <option value="4">4th Month</option>
       <option value="5">5th Month</option>
       <option value="6">6th Month</option>
-      <option value="7" selected>7th Month</option>
-      <option value="8">8th Month</option>
+      <option value="7">7th Month</option>
+      <option value="8" selected>8th Month</option>
       <option value="9">9th Month</option>
       <option value="10">10th Month</option>
       <option value="11">11th Month</option>
@@ -797,10 +797,10 @@
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon was spotted on the evening of June 16, 2026, confirming June 17, 2026 as Day 1 of the 7th Month according to the Path of Years.
+        The Renewed Moon was spotted and confirmed on the evening of Wednesday, July 15, 2026, making Thursday, July 16, 2026 Day 1 of YAHUAH’S 8th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 8th Month.
       </div>
 
-      <div class="hedashFeastNote feastTrumpets">Feast of Trumpets</div>
+      <div class="hedashFeastNote" id="hedashFeastNote" hidden></div>
 
       <div class="hedashInlineNote">
         <b>Hedash is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
@@ -908,7 +908,7 @@
       <div class="dayBox" data-day="10">
         <div class="dayLabel">Work Day 2</div>
         <div class="daySub">Day 10</div>
-        <div class="feastNote feastAtonement">Day of Atonement</div>
+        <div class="feastNote feastAtonement" data-seventh-month-feast>Day of Atonement</div>
       </div>
 
       <div class="dayBox" data-day="11">
@@ -934,7 +934,7 @@
       <div class="dayBox shabat" data-day="15">
         <div class="dayLabel">Shabat</div>
         <div class="daySub">Day 15</div>
-        <div class="feastNote feastTabernacles">Feast of Tabernacles</div>
+        <div class="feastNote feastTabernacles" data-seventh-month-feast>Feast of Tabernacles</div>
       </div>
     </div>
 
@@ -1135,18 +1135,19 @@
   const hedashInfoBtn = document.getElementById("hedashInfoBtn");
   const hedashTooltip = document.getElementById("hedashTooltip");
   const hedashStatusText = document.getElementById("hedash-status-text");
+  const hedashFeastNote = document.getElementById("hedashFeastNote");
   const installAppBtn = document.getElementById("installAppBtn");
 
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-06-17";
-  const DEFAULT_MONTH  = "7";
+  const DEFAULT_HEDASH = "2026-07-16";
+  const DEFAULT_MONTH  = "8";
 
-  const AUTO_SWITCH_DATE = "2026-06-17";
-  const AUTO_SWITCH_MONTH = "7";
+  const AUTO_SWITCH_DATE = "2026-07-16";
+  const AUTO_SWITCH_MONTH = "8";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_06_17";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_07_16";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1287,7 +1288,7 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted on the evening of June 16, 2026, confirming June 17, 2026 as Day 1 of the 7th Month according to the Path of Years.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Wednesday, July 15, 2026, making Thursday, July 16, 2026 Day 1 of YAHUAH’S 8th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 8th Month.";
   }
 
   function setConfirmedStatusText(){
@@ -1344,9 +1345,24 @@
     updateMonthBadge();
   }
 
+  function updateSeventhMonthFeasts(){
+    const isSeventhMonth = getCurrentMonthNumber() === 7;
+
+    document.querySelectorAll("[data-seventh-month-feast]").forEach(el=>{
+      el.hidden = !isSeventhMonth;
+    });
+
+    if (hedashFeastNote){
+      hedashFeastNote.hidden = !isSeventhMonth;
+      hedashFeastNote.className = "hedashFeastNote feastTrumpets";
+      hedashFeastNote.textContent = isSeventhMonth ? "Feast of Trumpets" : "";
+    }
+  }
+
   function updateCalendar(){
     maybeRunOneTimeAutoSwitch();
     syncMonthLengthUI();
+    updateSeventhMonthFeasts();
 
     const hedashValue  = hedashInput.value;
     const currentMonth = getCurrentMonthNumber();
@@ -1395,7 +1411,9 @@
 
     if (dayOfMonth === 1){
       todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
-      todaySub.innerHTML = `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
+      todaySub.innerHTML = currentMonth === 7
+        ? `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`
+        : `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
       return;
     }
 
