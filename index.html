@@ -734,7 +734,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">8th Month</span>
+      <span class="monthBadge" id="month-badge">9th Month</span>
     </div>
   </div>
 
@@ -757,8 +757,8 @@
       <option value="5">5th Month</option>
       <option value="6">6th Month</option>
       <option value="7">7th Month</option>
-      <option value="8" selected>8th Month</option>
-      <option value="9">9th Month</option>
+      <option value="8">8th Month</option>
+      <option value="9" selected>9th Month</option>
       <option value="10">10th Month</option>
       <option value="11">11th Month</option>
       <option value="12">12th Month</option>
@@ -797,19 +797,19 @@
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon was spotted and confirmed on the evening of Wednesday, July 15, 2026, making Thursday, July 16, 2026 Day 1 of YAHUAH’S 8th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 8th Month.
+        The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.
       </div>
 
       <div class="hedashFeastNote" id="hedashFeastNote" hidden></div>
 
       <div class="hedashInlineNote">
-        <b>Hedash is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
-        <b>Shabat counting begins after Hedash.</b>
+        <b>Renewed Moon's day is not a Shabat.</b> It is a stand-alone appointed Day One, not a workday.
+        <b>Shabat counting begins after Renewed Moon's Day .</b>
       </div>
 
       <div class="hedashTooltip" id="hedashTooltip" role="note">
-        <b>Hedash is not a Shabat.</b> Stand-alone appointed Day One, not a workday.
-        <b>Shabat counting begins after Hedash.</b>
+        <b>Renewed Moon's day is not a Shabat.</b> Stand-alone appointed Day One, not a workday.
+        <b>Shabat counting begins after Renewed Moon's Day.</b>
       </div>
     </div>
   </div>
@@ -1141,13 +1141,13 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-07-16";
-  const DEFAULT_MONTH  = "8";
+  const DEFAULT_HEDASH = "2026-08-15";
+  const DEFAULT_MONTH  = "9";
 
-  const AUTO_SWITCH_DATE = "2026-07-16";
-  const AUTO_SWITCH_MONTH = "8";
+  const AUTO_SWITCH_DATE = "2026-08-15";
+  const AUTO_SWITCH_MONTH = "9";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_07_16";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_08_15";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1248,10 +1248,16 @@
 
   function getAutoSwitchTrigger(){
     const d = new Date(AUTO_SWITCH_DATE + "T00:00:00");
+
+    /*
+      AUTO_SWITCH_DATE is the confirmed daylight Day 1 date.
+      YAHUAH'S day begins the previous evening at 7:00 PM,
+      so the automatic switch must happen one Gregorian day earlier.
+    */
     return new Date(
       d.getFullYear(),
       d.getMonth(),
-      d.getDate(),
+      d.getDate() - 1,
       AUTO_SWITCH_HOUR,
       0,
       0,
@@ -1288,12 +1294,12 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Wednesday, July 15, 2026, making Thursday, July 16, 2026 Day 1 of YAHUAH’S 8th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 8th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.";
   }
 
   function setConfirmedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon has appeared at evening on June 16, 2026, confirming June 17, 2026 as Day 1 of YAHUAH’S 7th Month according to the Path of Years. This sets the Shabat pattern for the entire month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.";
   }
 
   function maybeRunOneTimeAutoSwitch(){
@@ -1320,6 +1326,23 @@
 
   function ensureDefaults(){
     maybeRunOneTimeAutoSwitch();
+
+    /*
+      Month 9 migration:
+      once the confirmed Month 9 HEDASH has begun, force any older
+      saved Month 7/8 browser state forward to the new confirmed month.
+    */
+    const now = new Date();
+    const month9Trigger = getAutoSwitchTrigger();
+
+    if (now >= month9Trigger){
+      hedashInput.value = AUTO_SWITCH_DATE;
+      monthSelect.value = AUTO_SWITCH_MONTH;
+      localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
+      localStorage.setItem("kingdomMonthNumber", AUTO_SWITCH_MONTH);
+      localStorage.setItem(AUTO_SWITCH_KEY, "true");
+      setConfirmedStatusText();
+    }
 
     const savedHedash = localStorage.getItem("hedashDate");
     const savedMonth = localStorage.getItem("kingdomMonthNumber");
