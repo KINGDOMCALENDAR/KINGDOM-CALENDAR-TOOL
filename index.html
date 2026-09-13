@@ -734,7 +734,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">9th Month</span>
+      <span class="monthBadge" id="month-badge">10th Month</span>
     </div>
   </div>
 
@@ -758,8 +758,8 @@
       <option value="6">6th Month</option>
       <option value="7">7th Month</option>
       <option value="8">8th Month</option>
-      <option value="9" selected>9th Month</option>
-      <option value="10">10th Month</option>
+      <option value="9">9th Month</option>
+      <option value="10" selected>10th Month</option>
       <option value="11">11th Month</option>
       <option value="12">12th Month</option>
     </select>
@@ -797,7 +797,7 @@
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.
+        The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.
       </div>
 
       <div class="hedashFeastNote" id="hedashFeastNote" hidden></div>
@@ -1141,13 +1141,13 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-08-15";
-  const DEFAULT_MONTH  = "9";
+  const DEFAULT_HEDASH = "2026-09-13";
+  const DEFAULT_MONTH  = "10";
 
-  const AUTO_SWITCH_DATE = "2026-08-15";
-  const AUTO_SWITCH_MONTH = "9";
+  const AUTO_SWITCH_DATE = "2026-09-13";
+  const AUTO_SWITCH_MONTH = "10";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_08_15";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_09_13";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1294,12 +1294,12 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.";
   }
 
   function setConfirmedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Friday, August 14, 2026, making Saturday, August 15, 2026 Day 1 of YAHUAH’S 9th Month according to the Path of Years. This establishes Saturdays as the Shabats for the 9th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.";
   }
 
   function maybeRunOneTimeAutoSwitch(){
@@ -1328,14 +1328,14 @@
     maybeRunOneTimeAutoSwitch();
 
     /*
-      Month 9 migration:
-      once the confirmed Month 9 HEDASH has begun, force any older
-      saved Month 7/8 browser state forward to the new confirmed month.
+      Month 10 migration:
+      once the confirmed Month 10 HEDASH has begun, force any older
+      saved Month 9/older browser state forward to the new confirmed month.
     */
     const now = new Date();
-    const month9Trigger = getAutoSwitchTrigger();
+    const month10Trigger = getAutoSwitchTrigger();
 
-    if (now >= month9Trigger){
+    if (now >= month10Trigger){
       hedashInput.value = AUTO_SWITCH_DATE;
       monthSelect.value = AUTO_SWITCH_MONTH;
       localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
