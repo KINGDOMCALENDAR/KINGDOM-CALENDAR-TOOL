@@ -734,7 +734,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">10th Month</span>
+      <span class="monthBadge" id="month-badge">11th Month</span>
     </div>
   </div>
 
@@ -759,8 +759,8 @@
       <option value="7">7th Month</option>
       <option value="8">8th Month</option>
       <option value="9">9th Month</option>
-      <option value="10" selected>10th Month</option>
-      <option value="11">11th Month</option>
+      <option value="10">10th Month</option>
+      <option value="11" selected>11th Month</option>
       <option value="12">12th Month</option>
     </select>
 
@@ -792,12 +792,12 @@
       <div class="hedashIcon">🌒</div>
 
       <div class="hedashTopLine">
-        <div class="hedashText-main">Day 1 — HEDASH (Renewed Moon) • First Day of YAHUAH’S Month</div>
+        <div class="hedashText-main">Day 1 — RENEWED MOON'S DAY (HEDASH) • First Day of YAHUAH’S Month</div>
         <button type="button" class="hedashInfoBtn" id="hedashInfoBtn" aria-label="Hedash info" aria-expanded="false">ⓘ</button>
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.
+        The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.
       </div>
 
       <div class="hedashFeastNote" id="hedashFeastNote" hidden></div>
@@ -1141,13 +1141,13 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-09-13";
-  const DEFAULT_MONTH  = "10";
+  const DEFAULT_HEDASH = "2026-10-13";
+  const DEFAULT_MONTH  = "11";
 
-  const AUTO_SWITCH_DATE = "2026-09-13";
-  const AUTO_SWITCH_MONTH = "10";
+  const AUTO_SWITCH_DATE = "2026-10-13";
+  const AUTO_SWITCH_MONTH = "11";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_09_13";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_10_13";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1294,12 +1294,12 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.";
   }
 
   function setConfirmedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Saturday, September 12, 2026, making Sunday, September 13, 2026 Day 1 of YAHUAH’S 10th Month according to the Path of Years. This establishes Sundays as the Shabats for the 10th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.";
   }
 
   function maybeRunOneTimeAutoSwitch(){
@@ -1328,14 +1328,14 @@
     maybeRunOneTimeAutoSwitch();
 
     /*
-      Month 10 migration:
-      once the confirmed Month 10 HEDASH has begun, force any older
-      saved Month 9/older browser state forward to the new confirmed month.
+      Month 11 migration:
+      once the confirmed Month 11 HEDASH has begun, force any older
+      saved Month 10/older browser state forward to the new confirmed month.
     */
     const now = new Date();
-    const month10Trigger = getAutoSwitchTrigger();
+    const month11Trigger = getAutoSwitchTrigger();
 
-    if (now >= month10Trigger){
+    if (now >= month11Trigger){
       hedashInput.value = AUTO_SWITCH_DATE;
       monthSelect.value = AUTO_SWITCH_MONTH;
       localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
@@ -1433,10 +1433,10 @@
     }
 
     if (dayOfMonth === 1){
-      todayMain.textContent = `TODAY IS HEDASH — THE RENEWED MOON — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
+      todayMain.textContent = `TODAY IS RENEWED MOON\'S DAY — HEDASH — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
       todaySub.innerHTML = currentMonth === 7
-        ? `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`
-        : `<span class="pillHighlight">HEDASH</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
+        ? `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`
+        : `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
       return;
     }
 
