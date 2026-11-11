@@ -734,7 +734,7 @@
     <div class="calendarSide calendarRef">YAHEZAQAL — EZEKIEL 46:1</div>
     <div class="calendarTitle">THE KINGDOM CALENDAR</div>
     <div class="calendarSide" style="text-align:right;">
-      <span class="monthBadge" id="month-badge">11th Month</span>
+      <span class="monthBadge" id="month-badge">12th Month</span>
     </div>
   </div>
 
@@ -760,8 +760,8 @@
       <option value="8">8th Month</option>
       <option value="9">9th Month</option>
       <option value="10">10th Month</option>
-      <option value="11" selected>11th Month</option>
-      <option value="12">12th Month</option>
+      <option value="11">11th Month</option>
+      <option value="12" selected>12th Month</option>
     </select>
 
     <span class="configHint">(Enter the confirmed Day 1 date. The count begins the previous evening at 7:00 PM.)</span>
@@ -797,7 +797,7 @@
       </div>
 
       <div class="hedashText-sub" id="hedash-status-text">
-        The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.
+        The Renewed Moon was spotted and confirmed on the evening of Wednesday, November 11, 2026, making Thursday, November 12, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 12th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 12th Month.
       </div>
 
       <div class="hedashFeastNote" id="hedashFeastNote" hidden></div>
@@ -1141,13 +1141,13 @@
   let monthLength = parseInt(localStorage.getItem("kc_monthLength") || "29", 10);
   if (monthLength !== 29 && monthLength !== 30) monthLength = 29;
 
-  const DEFAULT_HEDASH = "2026-10-13";
-  const DEFAULT_MONTH  = "11";
+  const DEFAULT_HEDASH = "2026-11-12";
+  const DEFAULT_MONTH  = "12";
 
-  const AUTO_SWITCH_DATE = "2026-10-13";
-  const AUTO_SWITCH_MONTH = "11";
+  const AUTO_SWITCH_DATE = "2026-11-12";
+  const AUTO_SWITCH_MONTH = "12";
   const AUTO_SWITCH_HOUR = 19;
-  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_10_13";
+  const AUTO_SWITCH_KEY = "kc_auto_switched_2026_11_12";
 
   const SUNSET_HOUR = 19;
   const SUNSET_TIP = "SUNSET BOUNDARY — Day changes at sunset (≈7:00 PM)";
@@ -1294,12 +1294,12 @@
 
   function setExpectedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Wednesday, November 11, 2026, making Thursday, November 12, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 12th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 12th Month.";
   }
 
   function setConfirmedStatusText(){
     if (!hedashStatusText) return;
-    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Monday, October 12, 2026, making Tuesday, October 13, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 11th Month according to the Path of Years. This establishes Tuesdays as the Shabats for the 11th Month.";
+    hedashStatusText.textContent = "The Renewed Moon was spotted and confirmed on the evening of Wednesday, November 11, 2026, making Thursday, November 12, 2026 RENEWED MOON'S DAY — Day 1 of YAHUAH’S 12th Month according to the Path of Years. This establishes Thursdays as the Shabats for the 12th Month.";
   }
 
   function maybeRunOneTimeAutoSwitch(){
@@ -1325,46 +1325,14 @@
   }
 
   function ensureDefaults(){
-    maybeRunOneTimeAutoSwitch();
-
-    /*
-      Month 11 migration:
-      once the confirmed Month 11 HEDASH has begun, force any older
-      saved Month 10/older browser state forward to the new confirmed month.
-    */
-    const now = new Date();
-    const month11Trigger = getAutoSwitchTrigger();
-
-    if (now >= month11Trigger){
-      hedashInput.value = AUTO_SWITCH_DATE;
-      monthSelect.value = AUTO_SWITCH_MONTH;
-      localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
-      localStorage.setItem("kingdomMonthNumber", AUTO_SWITCH_MONTH);
-      localStorage.setItem(AUTO_SWITCH_KEY, "true");
-      setConfirmedStatusText();
-    }
-
     const savedHedash = localStorage.getItem("hedashDate");
     const savedMonth = localStorage.getItem("kingdomMonthNumber");
-
-    if (savedHedash && savedMonth){
-      hedashInput.value = savedHedash;
-      monthSelect.value = savedMonth;
-    } else {
-      hedashInput.value = DEFAULT_HEDASH;
-      monthSelect.value = DEFAULT_MONTH;
-      localStorage.setItem("hedashDate", DEFAULT_HEDASH);
-      localStorage.setItem("kingdomMonthNumber", DEFAULT_MONTH);
-    }
-
-    if (hasAutoSwitched()){
-      hedashInput.value = AUTO_SWITCH_DATE;
-      monthSelect.value = AUTO_SWITCH_MONTH;
-      localStorage.setItem("hedashDate", AUTO_SWITCH_DATE);
-      localStorage.setItem("kingdomMonthNumber", AUTO_SWITCH_MONTH);
-      setConfirmedStatusText();
-    }
-
+    hedashInput.value = savedHedash || DEFAULT_HEDASH;
+    monthSelect.value = savedMonth || DEFAULT_MONTH;
+    // Migrate existing calendars once; preserve later manual selections on reload.
+    maybeRunOneTimeAutoSwitch();
+    localStorage.setItem("hedashDate", hedashInput.value);
+    localStorage.setItem("kingdomMonthNumber", monthSelect.value);
     updateMonthBadge();
   }
 
@@ -1418,11 +1386,18 @@
 
     const now = new Date();
 
-    let diffMs = now - hedashStart;
-    if (diffMs < 0) diffMs = 0;
+    if (now < hedashStart){
+      clearTodayHighlights();
+      todayMain.textContent = `THE SELECTED HEDASH HAS NOT YET BEGUN — ${monthName}.`;
+      todaySub.textContent = `Day 1 begins ${hedashStart.toLocaleDateString("en-US", {weekday:"long", month:"long", day:"numeric", year:"numeric"})} at 7:00 PM (local time).`;
+      return;
+    }
 
-    const dayOffset = Math.floor(diffMs / (24 * 60 * 60 * 1000));
-    const dayOfMonth = dayOffset + 1;
+    // Compare civil dates, so 23/25-hour daylight-saving days do not shift 7 PM.
+    const currentDay = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
+      + (now.getHours() >= SUNSET_HOUR ? 86400000 : 0);
+    const firstDay = Date.UTC(hedashDate.getFullYear(), hedashDate.getMonth(), hedashDate.getDate());
+    const dayOfMonth = Math.round((currentDay - firstDay) / 86400000) + 1;
 
     highlightToday(dayOfMonth);
 
@@ -1435,8 +1410,8 @@
     if (dayOfMonth === 1){
       todayMain.textContent = `TODAY IS RENEWED MOON\'S DAY — HEDASH — DAY 1 OF ${monthName}, ACCORDING TO THE PATH OF YEARS.`;
       todaySub.innerHTML = currentMonth === 7
-        ? `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`
-        : `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until tomorrow evening at <b>7:00 PM</b>.`;
+        ? `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • <span class="pillHighlight feastTrumpets">FEAST OF TRUMPETS</span> • First Day of YAHUAH’S month remains active until ${hedashDate.toLocaleDateString("en-US", {month:"long", day:"numeric"})} at <b>7:00 PM</b>.`
+        : `<span class="pillHighlight">RENEWED MOON\'S DAY</span> • <span class="pillHighlight">DAY 1</span> • First Day of YAHUAH’S month remains active until ${hedashDate.toLocaleDateString("en-US", {month:"long", day:"numeric"})} at <b>7:00 PM</b>.`;
       return;
     }
 
